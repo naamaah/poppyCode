@@ -1,0 +1,59 @@
+{
+	"configurations" : 
+	[
+		{
+			"directories" : 
+			[
+				{
+					"build" : ".",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "2.8"
+					},
+					"projectIndex" : 0,
+					"source" : ".",
+					"targetIndexes" : 
+					[
+						0
+					]
+				}
+			],
+			"name" : "Debug",
+			"projects" : 
+			[
+				{
+					"directoryIndexes" : 
+					[
+						0
+					],
+					"name" : "nuitrack_console_sample",
+					"targetIndexes" : 
+					[
+						0
+					]
+				}
+			],
+			"targets" : 
+			[
+				{
+					"directoryIndex" : 0,
+					"id" : "nuitrack_console_sample::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-nuitrack_console_sample-Debug-34f1856c1e972fded1ce.json",
+					"name" : "nuitrack_console_sample",
+					"projectIndex" : 0
+				}
+			]
+		}
+	],
+	"kind" : "codemodel",
+	"paths" : 
+	{
+		"build" : "C:/Users/TEMP.NAAMA/Documents/nuitrack-sdk-master/Examples/nuitrack_console_sample/out/build/x64-Debug",
+		"source" : "C:/Users/TEMP.NAAMA/Documents/nuitrack-sdk-master/Examples/nuitrack_console_sample"
+	},
+	"version" : 
+	{
+		"major" : 2,
+		"minor" : 2
+	}
+}
