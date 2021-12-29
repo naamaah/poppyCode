@@ -1,6 +1,0 @@
-C:/Users/TEMP.NAAMA/Documents/nuitrack-sdk-master/Examples/nuitrack_csharp_device_api_sample/out/build/x64-Debug/CMakeFiles/nuitrack_csharp_device_api_sample.dir
-C:/Users/TEMP.NAAMA/Documents/nuitrack-sdk-master/Examples/nuitrack_csharp_device_api_sample/out/build/x64-Debug/CMakeFiles/install/local.dir
-C:/Users/TEMP.NAAMA/Documents/nuitrack-sdk-master/Examples/nuitrack_csharp_device_api_sample/out/build/x64-Debug/CMakeFiles/install.dir
-C:/Users/TEMP.NAAMA/Documents/nuitrack-sdk-master/Examples/nuitrack_csharp_device_api_sample/out/build/x64-Debug/CMakeFiles/edit_cache.dir
-C:/Users/TEMP.NAAMA/Documents/nuitrack-sdk-master/Examples/nuitrack_csharp_device_api_sample/out/build/x64-Debug/CMakeFiles/rebuild_cache.dir
-C:/Users/TEMP.NAAMA/Documents/nuitrack-sdk-master/Examples/nuitrack_csharp_device_api_sample/out/build/x64-Debug/CMakeFiles/list_install_components.dir
