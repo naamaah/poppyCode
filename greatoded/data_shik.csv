@@ -3604,3 +3604,286 @@ physical training
 bye
 	good
 bye
+
+physical training
+	2021-12-15
+12:43:11
+<bound method Poppy.raise_arms_forward_separate of <Poppy(poppy, started 13004)>>
+0
+	2021-12-15
+12:43:18
+raise right arm forward
+0
+	2021-12-15
+12:43:37
+raise left arm forward
+0
+	2021-12-15
+12:43:58
+<bound method Poppy.raise_arms_forward of <Poppy(poppy, started 13004)>>
+0
+	2021-12-15
+12:43:58
+cognitive mission
+	cognitive mission 2 - success
+	cognitive mission 2 - success
+	cognitive mission 2 - success
+	good
+bye
+
+physical training
+	2021-12-15
+12:48:46
+<bound method Poppy.open_and_close_arms_90 of <Poppy(poppy, started 17160)>>
+0
+	2021-12-15
+12:49:06
+<bound method Poppy.raise_arms_horizontally_turn of <Poppy(poppy, started 17160)>>
+0
+	good
+bye
+
+physical training
+	2021-12-15
+12:52:23
+<bound method Poppy.raise_arms_horizontally_separate of <Poppy(poppy, started 17652)>>
+0
+	2021-12-15
+12:52:30
+raise right arm horizontally
+0
+	2021-12-15
+12:52:49
+raise left arm horizontally
+0
+	2021-12-15
+12:53:10
+<bound method Poppy.raise_arms_bend_elbows of <Poppy(poppy, started 17652)>>
+0
+	good
+bye
+
+physical training
+	2021-12-15
+12:57:56
+<bound method Poppy.raise_arms_bend_elbows of <Poppy(poppy, started 15104)>>
+0
+	2021-12-15
+12:58:14
+<bound method Poppy.raise_arms_horizontally of <Poppy(poppy, started 15104)>>
+0
+	2021-12-15
+12:58:14
+cognitive mission
+	cognative mission maths- success
+	cognative mission maths- success
+	cognative mission maths- Failure
+	good
+bye
+
+physical training
+	2021-12-15
+13:11:44
+<bound method Poppy.raise_arms_bend_elbows of <Poppy(poppy, started 13692)>>
+0
+	2021-12-15
+13:12:03
+<bound method Poppy.raise_arms_horizontally of <Poppy(poppy, started 13692)>>
+0
+	good
+bye
+
+physical training
+	2021-12-15
+14:20:03
+<bound method Poppy.raise_arms_horizontally_turn of <Poppy(poppy, started 7840)>>
+0
+	2021-12-15
+14:20:22
+<bound method Poppy.raise_arms_forward_turn of <Poppy(poppy, started 7840)>>
+0
+	good
+bye
+
+physical training
+	2021-12-15
+14:30:37
+<bound method Poppy.raise_arms_horizontally of <Poppy(poppy, started 1700)>>
+0
+	2021-12-15
+14:30:55
+<bound method Poppy.raise_arms_forward_turn of <Poppy(poppy, started 1700)>>
+0
+	2021-12-15
+14:30:55
+cognitive mission
+	cognative mission maths- success
+	cognative mission maths- success
+	cognative mission maths- success
+	good
+bye
+
+physical training
+	2021-12-15
+14:37:03
+<bound method Poppy.raise_arms_forward of <Poppy(poppy, started 6648)>>
+0
+	2021-12-15
+14:37:23
+<bound method Poppy.raise_arms_horizontally_turn of <Poppy(poppy, started 6648)>>
+0
+	good
+bye
+
+physical training
+	2021-12-15
+14:41:01
+<bound method Poppy.raise_arms_horizontally_separate of <Poppy(poppy, started 584)>>
+0
+	2021-12-15
+14:41:09
+raise right arm horizontally
+0
+	2021-12-15
+14:41:27
+raise left arm horizontally
+0
+	2021-12-15
+14:41:49
+<bound method Poppy.raise_arms_forward_turn of <Poppy(poppy, started 584)>>
+0
+	good
+bye
+
+physical training
+	2021-12-15
+14:53:29
+<bound method Poppy.raise_arms_horizontally_turn of <Poppy(poppy, started 1856)>>
+0
+	2021-12-15
+14:53:49
+<bound method Poppy.raise_arms_horizontally of <Poppy(poppy, started 1856)>>
+0
+	good
+bye
+
+physical training
+	2021-12-15
+14:58:05
+<bound method Poppy.open_and_close_arms_90 of <Poppy(poppy, started 12616)>>
+0
+	2021-12-15
+14:58:25
+<bound method Poppy.raise_arms_horizontally_turn of <Poppy(poppy, started 12616)>>
+0
+	good
+bye
+
+physical training
+	2021-12-20
+13:24:28
+<bound method Poppy.open_and_close_arms_90 of <Poppy(poppy, started 20060)>>
+0
+	2021-12-20
+13:24:48
+<bound method Poppy.bend_elbows of <Poppy(poppy, started 20060)>>
+0
+	2021-12-20
+13:24:48
+cognitive mission
+
+physical training
+	2021-12-24
+16:35:40
+<bound method Poppy.open_and_close_arms_90 of <Poppy(poppy, started 18244)>>
+0
+	2021-12-24
+16:36:00
+<bound method Poppy.raise_arms_horizontally_turn of <Poppy(poppy, started 18244)>>
+0
+	2021-12-24
+16:36:19
+<bound method Poppy.raise_arms_forward_separate of <Poppy(poppy, started 18244)>>
+0
+	2021-12-24
+16:36:26
+raise right arm forward
+0
+	2021-12-24
+16:36:45
+raise left arm forward
+0
+	2021-12-24
+16:37:06
+<bound method Poppy.raise_arms_horizontally of <Poppy(poppy, started 18244)>>
+0
+	2021-12-24
+16:37:06
+cognitive mission
+
+physical training
+	cognitive mission 5 - success
+	cognitive mission 5 - success
+	cognitive mission 5 - success
+	good
+bye
+
+physical training
+	good
+bye
+
+physical training
+
+physical training
+
+physical training
+
+physical training
+
+physical training
+
+physical training
+
+physical training
+	good
+bye
+
+physical training
+
+physical training
+
+physical training
+
+physical training
+
+physical training
+	good
+bye
+
+physical training
+	good
+bye
+
+physical training
+	good
+bye
+
+physical training
+
+physical training
+	good
+bye
+
+physical training
+
+physical training
+	good
+bye
+
+physical training
+
+2021-12-28
+12:25:32
+Relaxation mode
+	good
+bye

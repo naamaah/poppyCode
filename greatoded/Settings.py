@@ -3,6 +3,7 @@ def __init__():
     global camera
     global screen
     global isCamera
+    global isRobot
     global numberOfWorkout
 
     global audio_path

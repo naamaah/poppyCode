@@ -496,7 +496,6 @@ if __name__ == "__main__":
     s.pic_path = s.general_path +'Pictures/'
     s.screen = Screen()
     app = FullScreenApp(s.screen)
-    #s.screen.geometry("1024x600")
-    #s.screen.mainloop()
-    time.sleep(5)
+    s.screen.mainloop()
+
     s.screen.quit()

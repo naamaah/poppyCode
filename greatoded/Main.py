@@ -18,6 +18,7 @@ if __name__ == '__main__':
     gender = 'Female'
     s.female=False
     s.isCamera=False #False - No camera, True- there is camera
+    s.isRobot=False #False - simulator, True- real robot
     s.numberOfWorkout=0
 
     s.realsense_path = "C:\\Users\\TEMP.NAAMA\\Documents\\nuitrack-sdk-master\\Examples\\nuitrack_console_sample\\out\\build\\x64-Debug\\nuitrack_console_sample.exe"
@@ -31,12 +32,12 @@ if __name__ == '__main__':
     s.audio_path =s.general_path + 'audio files/' + '/' +language + '/' + gender + '/'
 
     s.clickrelax=False
-    s.exercies_amount=1
+    s.exercies_amount=4
     s.relax=None
     s.waved = False
     s.pickWeights = False
     s.finish_workout = False
-    s.rep = 2# Number of repetitions for exercises - the robot doing
+    s.rep = 4# Number of repetitions for exercises - the robot doing
     s.req_exercise = ""
     s.str_to_say = ""
     s.clickedTryAgain = False
@@ -55,9 +56,9 @@ if __name__ == '__main__':
     s.low_mul_second = 10 #level 1:2 level2:10 level3:10
     s.high_mul_second = 50 #level 1:6 level2:50 level3:50
 
-    s.cogGameCount=0
-    simulator.createSim()
-    time.sleep(5)
+    if (s.isRobot==False):
+        simulator.createSim()
+        time.sleep(10)
     excel.create_workbook()
 
     s.repeat_again=None
@@ -76,18 +77,10 @@ if __name__ == '__main__':
 
     s.tts.join()
     print(s.tts.is_alive())
-    s.robot.join()
+    #s.robot.join()
     print(s.robot.is_alive())
-    print("finished main loop")
-
     print(threading.enumerate())
-
-
-
-
-
-    #raise SystemExit
-    #sys.exit()
-    #exit()
-    #quit()
-    #os._exit()
+    #s.robot.join()
+    print("finished main loop")
+    #kill= "taskkill /F /PID " + str((os.getppid()))
+    #os.system(kill)
