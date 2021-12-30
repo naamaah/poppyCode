@@ -4,7 +4,11 @@
     <content url="file://$MODULE_DIR$">
       <excludeFolder url="file://$MODULE_DIR$/venv" />
     </content>
+<<<<<<< HEAD
     <orderEntry type="jdk" jdkName="Python 3.8 (poppyCode)" jdkType="Python SDK" />
+=======
+    <orderEntry type="jdk" jdkName="Python 3.9 (poppyCode)" jdkType="Python SDK" />
+>>>>>>> 70ba2902cfc347309fdd69d1bafb42a2ec17a351
     <orderEntry type="sourceFolder" forTests="false" />
     <orderEntry type="module" module-name="Thesis_NAO" />
     <orderEntry type="module" module-name="Thesis_NAO" />

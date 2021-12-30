@@ -16,6 +16,7 @@ class TTS(threading.Thread):
         while (not s.finish_workout):
             if (s.str_to_say!=""):
                 self.say_no_wait(s.str_to_say)
+                #self.say(s.str_to_say)
                 s.str_to_say = ""
         print ("tts done - (tts class)" +str(self.is_alive()))
         #sys.exit()
