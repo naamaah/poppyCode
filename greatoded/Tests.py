@@ -16,8 +16,43 @@ poppy.l_elbow_y.goto_position(90, 1, wait=True)
 poppy.head_y.goto_position(-20,1,wait=True)
 time.sleep(1)
 
+#open hands aside - function exist
+poppy.r_shoulder_x.goto_position(-90, 1, wait=False)
+poppy.l_shoulder_x.goto_position(90, 1, wait=False)
+poppy.r_elbow_y.goto_position(90, 1.5, wait=False)
+poppy.l_elbow_y.goto_position(90, 1.5, wait=True)
+
+for i in range(4):
+    #first move
+    l_hand_band = [poppy.l_shoulder_y.goto_position(-90, 2, wait=False),
+              poppy.l_arm_z.goto_position(-90, 2, wait=False),
+              poppy.l_shoulder_x.goto_position(50, 2, wait=False),
+              poppy.l_elbow_y.goto_position(-50, 2, wait=True)]
+    time.sleep(3)
+    poppy.l_elbow_y.goto_position(0, 2, wait=True)
+    time.sleep(3)
+    poppy.l_elbow_y.goto_position(90, 2, wait=True)
+    time.sleep(3)
+    poppy.l_shoulder_x.goto_position(90, 1, wait=False)
+    poppy.l_elbow_y.goto_position(0, 1.5, wait=True)
+    time.sleep(8)
+
+    # r_hand = [poppy.r_shoulder_y.goto_position(-90, 2, wait=False),
+    #           poppy.r_arm_z.goto_position(90, 2, wait=False),
+    #           poppy.r_shoulder_x.goto_position(-50, 2, wait=False),
+    #           poppy.r_elbow_y.goto_position(-50, 2, wait=True)]
+
+
+#init
+poppy.l_arm_z.goto_position(0, 1.5, wait=False)
+poppy.r_arm_z.goto_position(0, 1.5, wait=False)
+poppy.l_shoulder_y.goto_position(0, 1.5, wait=False)
+poppy.r_shoulder_y.goto_position(0, 1.5, wait=True)
+poppy.l_shoulder_x.goto_position(0, 1.5, wait=False)
+poppy.r_shoulder_x.goto_position(0, 1.5, wait=True)
+
 """
-#head - clock direction
+#head - clock direction WORKSSSSSS
 headZ_degree=[-100,-50,0,50,100]
 for num in range(4):
     # down
@@ -31,67 +66,9 @@ for num in range(4):
 
 poppy.head_y.goto_position(-20, 1, wait=False)
 poppy.head_z.goto_position(0, 1, wait=True)
-
-
-#shoulder
-good option - poppy.r_shoulder_x.goto_position(-120, 1, wait=False)
-poppy.r_elbow_y.goto_position(90, 1, wait=False)
-poppy.r_arm_z.goto_position(-90, 1, wait=True)
-
-shoulderY_degree=[-180,-155,-100,-50,0,50,80,150,180]
-shoulderX_degree=[-10,-10,-50,-50,-50,-50, -50, -50, -50]
-for num in range(4):
-    for i in range(len(shoulderY_degree)):
-        poppy.r_shoulder_x.goto_position(-100, 1, wait=False)
-        poppy.r_shoulder_y.goto_position(shoulderY_degree[i], 1, wait=True)
-    for i in range(len(shoulderY_degree)):
-        poppy.r_shoulder_x.goto_position(-100, 1, wait=False)
-        poppy.r_shoulder_y.goto_position(len(shoulderY_degree)-1-i, 1, wait=True)
-
-poppy.r_shoulder_y.goto_position(0, 1, wait=True)
-poppy.r_shoulder_x.goto_position(0, 1, wait=True)
-
 """
 
-#open hands aside - function exist
-poppy.r_shoulder_x.goto_position(-90, 1, wait=False)
-poppy.l_shoulder_x.goto_position(90, 1, wait=False)
-poppy.r_elbow_y.goto_position(90, 1.5, wait=False)
-poppy.l_elbow_y.goto_position(90, 1.5, wait=True)
 
-for i in range(4):
-    poppy.r_shoulder_x.goto_position(-70, 1, wait=False)
-    poppy.r_arm_z.goto_position(90, 1.5, wait=False)
-    poppy.r_elbow_y.goto_position(50, 1, wait=True)
-    print(3)
-    time.sleep(5)
-    poppy.r_shoulder_x.goto_position(-90, 1, wait=False)
-    poppy.r_arm_z.goto_position(90, 1.5, wait=False)
-    poppy.r_elbow_y.goto_position(0, 1, wait=True)
-    time.sleep(10)
-
-    #poppy.r_shoulder_x.goto_position(-60, 1, wait=False)
-    #poppy.r_arm_z.goto_position(0, 1, wait=False)
-    #poppy.r_elbow_y.goto_position(0, 1, wait=True)
-    print(1)
-    time.sleep(4)
-
-    print(2)
-    time.sleep(3)
-    # poppy.r_shoulder_x.goto_position(90, 1, wait=False)
-
-
-    poppy.r_shoulder_x.goto_position(-120, 1, wait=False)
-    poppy.r_arm_z.goto_position(90, 1.5, wait=False)
-    poppy.r_elbow_y.goto_position(0, 1, wait=True)
-    print(4)
-    time.sleep(3)
-
-    poppy.r_shoulder_x.goto_position(-120, 1, wait=False)
-    poppy.r_arm_z.goto_position(90, 1.5, wait=False)
-    poppy.r_elbow_y.goto_position(-40, 1, wait=True)
-    print(5)
-    time.sleep(3)
 
 
 """
@@ -108,7 +85,7 @@ for num in range(4):
     #for i in range(len(r_elbowY_degree)):
      #   poppy.r_elbow_y.goto_position(len(r_elbowY_degree)-1-i, 1, wait=True)
       #  poppy.r_arm_z.goto_position(len(r_armZ_degree) - 1 - i, 1, wait=True)
-"""
+
 
 poppy.r_elbow_y.goto_position(90, 1, wait=False)
 poppy.r_shoulder_x.goto_position(0, 1, wait=False)
@@ -119,7 +96,7 @@ poppy.r_arm_z.goto_position(0, 1, wait=True)
 
 
 
-"""
+
 for m in poppy.motors:
     print(m.name+" "+str(m.present_position))
 
@@ -274,18 +251,18 @@ poppy.r_shoulder_x.goto_position(0, 1.5, wait=False)
 
 
 
+
+
+
+
+
+
+
+
+
+
+
 """
-
-
-
-
-
-
-
-
-
-
-
 
 
 

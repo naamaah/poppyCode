@@ -791,17 +791,8 @@ class Poppy(threading.Thread):
         # wormUp
     @func_attributes(number=0, amount=1, instructions="")
     def wormUp(self):
-        #elboys
-        for i in range(10):
-            self.poppy.r_elbow_y.goto_position(i, 1, wait=True)
+        print("Try")
 
-
-        band = [self.poppy.r_arm[3].goto_position(-60, 1.5, wait=False),
-                self.poppy.l_arm[3].goto_position(-60, 1.5, wait=True)]
-        time.sleep(0.5)
-        down = [self.poppy.r_arm[3].goto_position(85, 1.5, wait=False),
-                self.poppy.l_arm[3].goto_position(85, 1.5, wait=True)]
-        time.sleep(0.5)
 
 
 
