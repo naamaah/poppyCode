@@ -6,22 +6,23 @@ from Poppy import Poppy
 from Camera import Camera
 from tts import TTS
 import Settings as s #Global settings variables
-from GUI2 import Screen, FullScreenApp
-import Excel as excel
 import simulator
 import threading
 import os
+from GUI2 import Screen, FullScreenApp
+import Excel as excel
 
 if __name__ == '__main__':
     # Settings for exercises
     language = 'Hebrew'
     gender = 'Female'
     s.female=False
-    s.isCamera=False #False - No camera, True- there is camera
-    s.isRobot=False #False - simulator, True- real robot
+    s.isCamera=True #False - No camera, True- there is camera
+    s.isRobot=True #False - simulator, True- real robot
     s.numberOfWorkout=0
 
-    s.realsense_path = "C:\\Users\\TEMP.NAAMA\\Documents\\nuitrack-sdk-master\\Examples\\nuitrack_console_sample\\out\\build\\x64-Debug\\nuitrack_console_sample.exe"
+    #s.realsense_path = "C:\\Users\\TEMP.NAAMA\\Documents\\nuitrack-sdk-master\\Examples\\nuitrack_console_sample\\out\\build\\x64-Debug\\nuitrack_console_sample.exe"
+    s.realsense_path="C:\\Users\\owner\\Documents\\nuitrack-sdk-master\\Examples\\nuitrack_console_sample\\out\\build\\x64-Debug\\nuitrack_console_sample.exe"
     #s.realsense_path = R'C:/PycharmProjects/greatoded/nuitrack/Examples/nuitrack_console_sample/out/build/x64-Debug/nuitrack_console_sample.exe'
     #s.excel_path = R'C:/PycharmProjects/greatoded/excel_folder/'
     #s.general_path = R'C:/PycharmProjects/greatoded/'

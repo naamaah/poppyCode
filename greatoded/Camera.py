@@ -39,7 +39,7 @@ class Camera(threading.Thread):
 
     # Client - read messages
     def getSkeletonData(self):
-        self.sock.settimeout(5.0) #for check naama change to 10 instad 1
+        self.sock.settimeout(10.0) #for check naama change to 10 instad 5
         try:
             #data, address = self.sock.recvfrom(4096)
             data= str(self.sock.recvfrom(4096))
@@ -793,6 +793,7 @@ class Camera(threading.Thread):
 
     def raise_left_arm_and_lean(self):
         up_time_counter = 0
+        print("try - raise_left_arm_and_lean")
         while (s.req_exercise == "raise_left_arm_and_lean"):
             last_time = time.time()
             joints = self.getSkeletonData()
@@ -807,6 +808,7 @@ class Camera(threading.Thread):
                 if (right_height > 300):
                     #up_time_counter = up_time_counter + (time.time() - last_time)
                     up_time_counter = self.counting_flag(up_time_counter)
+                    print("time -> last time-> number ")
                     print (time.time())
                     print (last_time)
                     print (up_time_counter)
@@ -869,27 +871,52 @@ class Camera(threading.Thread):
         print ("camera done - (Camera class)"+str(self.is_alive()))
 
 
-####################################################  TODO to delete #################################################
 #for tests
 if __name__ == '__main__':
     s.rep = 4
     language = 'Hebrew'
     gender = 'Female'
-    s.realsense_path = "C:\\Users\\TEMP.NAAMA\\Documents\\nuitrack-sdk-master\\Examples\\nuitrack_console_sample\\out\\build\\x64-Debug\\nuitrack_console_sample.exe"
-    s.excel_path = R'C:/Users/TEMP.NAAMA/Desktop/Naama_excel/'
-    s.general_path = R'C:/PycharmProjects/greatoded/'
+    s.realsense_path = "C:\\Users\\owner\\Documents\\nuitrack-sdk-master\\Examples\\nuitrack_console_sample\\out\\build\\x64-Debug\\nuitrack_console_sample.exe"
+    s.excel_path = R'C:/Git/poppyCode/greatoded/excel_folder/'
+    s.general_path = R'C:/Git/poppyCode/greatoded/'
+    s.pic_path = s.general_path + 'Pictures/'
     s.audio_path = s.general_path + 'audio files/' + '/' + language + '/' + gender + '/'
-    #s.audio_path = 'audio files/' + language + '/' + gender + '/'
     Excel.create_workbook()
     s.str_to_say = ""
-    s.tts = TTS()
+    s.tts = TTS("tts")
     s.relax = None
     s.waved = False
     s.finish_workout = False
     s.success_exercise = False
-    s.req_exercise = "raise_right_arm_and_lean"
+    # s.req_exercise = "raise_left_arm_horiz"
+    # s.req_exercise = "raise_right_arm_horiz"
+    # s.req_exercise = "raise_arms_horizontally"
+    # s.req_exercise = "bend_elbows"
+    s.req_exercise = "raise_arms_forward_static"
+    # s.req_exercise = "raise_right_arm_and_lean"
+    # s.req_exercise = "raise_left_arm_and_lean"
+
     #s.req_exercise = "hello_waving"
     s.tts.start()
     s.camera = Camera()
     s.camera.start()
 
+
+
+"""
+        1.	raise_hands_horizontally_separate
+2.	raise_arms_horizontally
+3.	bend_elbows
+4.	raise_arms_forward_static
+5.	raise_arms_bend_elbows
+6.	raise_arms_horizontally_turn_hands
+7.	raise_arms_forward
+8.	raise_arms_forward_separate
+9.	raise_arms_90_and_up
+10.	raise_arms_and_lean
+11.	open_arms_and_move_forward
+12.	raise_hands_and_fold_backward
+13.	open_hands_and_raise_up
+14.	open_and_close_arms_90
+15.	raise_arms_forward_turn_hands
+ """
