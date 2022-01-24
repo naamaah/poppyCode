@@ -17,8 +17,8 @@ if __name__ == '__main__':
     language = 'Hebrew'
     gender = 'Female'
     s.female=False
-    s.isCamera=True #False - No camera, True- there is camera
-    s.isRobot=True #False - simulator, True- real robot
+    s.isCamera=False #False - No camera, True- there is camera
+    s.isRobot=False #False - simulator, True- real robot
     s.numberOfWorkout=0
 
     #s.realsense_path = "C:\\Users\\TEMP.NAAMA\\Documents\\nuitrack-sdk-master\\Examples\\nuitrack_console_sample\\out\\build\\x64-Debug\\nuitrack_console_sample.exe"
@@ -34,7 +34,7 @@ if __name__ == '__main__':
 
     s.clickrelax=False
     s.exercies_amount=4
-    s.relax=None
+    s.relax=False #if i eant to be realx exrcise cahnge to None
     s.waved = False
     s.pickWeights = False
     s.finish_workout = False
@@ -68,16 +68,16 @@ if __name__ == '__main__':
         s.camera = Camera()
         s.camera.start()
     s.facemove=False
-    s.tts = TTS("tts")
+    #s.tts = TTS("tts")
 
-    s.tts.start()
+    #s.tts.start()
     s.robot.start()
     s.screen = Screen()
     app = FullScreenApp(s.screen)
     s.screen.mainloop()
 
-    s.tts.join()
-    print(s.tts.is_alive())
+    #s.tts.join()
+    #print(s.tts.is_alive())
     #s.robot.join()
     print(s.robot.is_alive())
     print(threading.enumerate())

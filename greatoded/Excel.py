@@ -68,6 +68,7 @@ def close_workbook():
     s.excel_workbook.close()
 
 if __name__ == "__main__":
+    s.excel_path=R'C:/Git/poppyCode/greatoded/excel_folder/'
     create_workbook()
     s.ex_list = [
         ['raise up', 8],
@@ -80,5 +81,5 @@ if __name__ == "__main__":
     # [12, 496.610, 91.162, 930.897]]
     # wf_joints("m",join)
 
-    wf_exercise()
+    wf_exercise("Naama")
     close_workbook()

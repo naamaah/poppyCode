@@ -59,8 +59,9 @@ class Poppy(threading.Thread):
         print("hello wave, introduction - (Poppy class)")
         self.run_exercise(self.hello_waving, "hello")
         time.sleep(3)
-        s.screen.switch_frame(begin_page)
-        s.str_to_say = 'Start_page'
+        #delete the page that choose which exercise to do - realx or physical
+        #s.screen.switch_frame(begin_page)
+        #s.str_to_say = 'Start_page'
         while (s.relax==None):
             continue
         if(s.relax==False):
@@ -125,33 +126,13 @@ class Poppy(threading.Thread):
         s.str_to_say='lets start'
         time.sleep(2)
         self.countexc=np.zeros([s.exercies_amount+1,1])
-        #all existing exercises
 
-        """
-        1.	raise_hands_horizontally_separate
-2.	raise_arms_horizontally
-3.	bend_elbows
-4.	raise_arms_forward_static
-5.	raise_arms_bend_elbows
-6.	raise_arms_horizontally_turn_hands
-7.	raise_arms_forward
-8.	raise_arms_forward_separate
-9.	raise_arms_90_and_up
-10.	raise_arms_and_lean
-11.	open_arms_and_move_forward
-12.	raise_hands_and_fold_backward
-13.	open_hands_and_raise_up
-14.	open_and_close_arms_90
-15.	raise_arms_forward_turn_hands
-
-        """
         exercise_names=[self.raise_arms_horizontally_separate,self.raise_arms_horizontally,self.bend_elbows,self.raise_arms_forward_static,
                         self.raise_arms_bend_elbows,self.raise_arms_horizontally_turn, self.raise_arms_forward, self.raise_arms_forward_separate,
                         self.raise_arms_90_and_up,self.raise_arms_and_lean, self.open_arms_and_forward, self.raise_hands_and_fold_backward,
                         self.open_hands_and_raise_up, self.open_and_close_arms_90,self.raise_arms_forward_turn]
 
-
-        chosen_exercises = exercise_names
+        chosen_exercises = exercise_names #onlt for testing all the exercise
 
         """
         #choose randomly the exercise for this practice
@@ -1139,8 +1120,8 @@ class Poppy(threading.Thread):
 
 
 if __name__ == '__main__':
-    #simulator.createSim()
-    #time.sleep(10)
+    simulator.createSim()
+    time.sleep(10)
     language = 'Hebrew'
     gender = 'Female'
     s.rep=4
