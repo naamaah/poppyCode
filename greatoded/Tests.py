@@ -10,22 +10,76 @@ poppy = PoppyTorso(simulator='vrep')
 print("Poppy class - init_robot function")
 for m in poppy.motors:
     m.goto_position(0, 1, wait=True)
-    m.speed=350
 poppy.r_elbow_y.goto_position(90, 1, wait=True)
 poppy.l_elbow_y.goto_position(90, 1, wait=True)
 time.sleep(1)
 
-#up to 90
-poppy.l_arm_z.goto_position(90, 1.5, wait=False)
-poppy.r_arm_z.goto_position(-90, 1.5, wait=True)
-poppy.r_shoulder_x.goto_position(-90, 1.5, wait=False)
-poppy.l_shoulder_x.goto_position(90, 1.5, wait=False)
-poppy.r_elbow_y.goto_position(0, 1.5, wait=False)
-poppy.l_elbow_y.goto_position(0, 1.5, wait=True)
-time.sleep(1)
+poppy.r_shoulder_x.goto_position(-90, 1, wait=False)
+poppy.l_shoulder_x.goto_position(90, 1, wait=False)
+poppy.r_elbow_y.goto_position(90, 1.5, wait=False)
+poppy.l_elbow_y.goto_position(90, 1.5, wait=True)
+for i in range(8):
+    l_hand = [poppy.l_shoulder_y.goto_position(-90, 2, wait=False),
+              poppy.l_arm_z.goto_position(-90, 2, wait=False),
+              poppy.l_shoulder_x.goto_position(50, 2, wait=False),
+              poppy.l_elbow_y.goto_position(-50, 2, wait=False)]
+    r_hand = [poppy.r_shoulder_y.goto_position(-90, 2, wait=False),
+              poppy.r_arm_z.goto_position(90, 2, wait=False),
+              poppy.r_shoulder_x.goto_position(-50, 2, wait=False),
+              poppy.r_elbow_y.goto_position(-50, 2, wait=False)]
+    time.sleep(2)
+    poppy.l_shoulder_y.goto_position(0, 2, wait=False)
+    poppy.r_shoulder_y.goto_position(0, 2, wait=False)
+    poppy.r_elbow_y.goto_position(0, 2, wait=False)
+    poppy.l_elbow_y.goto_position(0, 2, wait=True)
 
+
+
+
+        #init
 poppy.l_arm_z.goto_position(0, 1.5, wait=False)
-poppy.r_arm_z.goto_position(0, 1.5, wait=True)
+poppy.r_arm_z.goto_position(0, 1.5, wait=False)
+poppy.l_shoulder_y.goto_position(0, 1.5, wait=False)
+poppy.r_shoulder_y.goto_position(0, 1.5, wait=True)
+poppy.l_shoulder_x.goto_position(0, 1.5, wait=False)
+poppy.r_shoulder_x.goto_position(0, 1.5, wait=True)
+
+
+
+
+
+# #try to circle hands
+# #pos 1
+# poppy.l_arm_z.goto_position(-90, 1.5, wait=False)
+# poppy.r_arm_z.goto_position(90, 1.5, wait=False)
+# poppy.l_shoulder_x.goto_position(40, 1, wait=False)
+# poppy.r_shoulder_x.goto_position(-40, 1, wait=False)
+# poppy.l_shoulder_y.goto_position(-180, 1.5, wait=False)
+# poppy.r_shoulder_y.goto_position(-180, 1.5, wait=True)
+# time.sleep(2)
+# #pos 2
+# poppy.l_arm_z.goto_position(90, 1.5, wait=False)
+# poppy.r_arm_z.goto_position(-90, 1.5, wait=False)
+# poppy.l_shoulder_y.goto_position(180, 1.5, wait=False)
+# poppy.r_shoulder_y.goto_position(180, 1.5, wait=True)
+# #pos 3
+# poppy.l_arm_z.goto_position(-90, 1.5, wait=False)
+# poppy.r_arm_z.goto_position(90, 1.5, wait=False)
+# poppy.l_shoulder_y.goto_position(100, 1.5, wait=False)
+# poppy.r_shoulder_y.goto_position(100, 1.5, wait=True)
+# time.sleep(2)
+
+# #up to 90
+# poppy.l_arm_z.goto_position(90, 1.5, wait=False)
+# poppy.r_arm_z.goto_position(-90, 1.5, wait=True)
+# poppy.r_shoulder_x.goto_position(-90, 1.5, wait=False)
+# poppy.l_shoulder_x.goto_position(90, 1.5, wait=False)
+# poppy.r_elbow_y.goto_position(0, 1.5, wait=False)
+# poppy.l_elbow_y.goto_position(0, 1.5, wait=True)
+# time.sleep(1)
+#
+# poppy.l_arm_z.goto_position(0, 1.5, wait=False)
+# poppy.r_arm_z.goto_position(0, 1.5, wait=True)
 
 
 # #elboys -clock direction -  TODO change not good enough

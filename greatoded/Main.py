@@ -68,9 +68,9 @@ if __name__ == '__main__':
         s.camera = Camera()
         s.camera.start()
     s.facemove=False
-    #s.tts = TTS("tts")
+    s.tts = TTS("tts")
 
-    #s.tts.start()
+    s.tts.start()
     s.robot.start()
     s.screen = Screen()
     app = FullScreenApp(s.screen)

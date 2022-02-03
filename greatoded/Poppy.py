@@ -35,10 +35,9 @@ class Poppy(threading.Thread):
            self.poppy = PoppyTorso(simulator='vrep')  # for simulator
         else:
             self.poppy = PoppyTorso(camera='dummy')  # for real robot
-
         print("init robot - (Poppy class)")
         for m in self.poppy.motors:  # motors need to be initialized, False=stiff, True=loose
-            m.compliant = False #change to false
+            m.compliant = False
         self.init_robot()
         print("finished init")
 
@@ -132,7 +131,13 @@ class Poppy(threading.Thread):
                         self.raise_arms_90_and_up,self.raise_arms_and_lean, self.open_arms_and_forward, self.raise_hands_and_fold_backward,
                         self.open_hands_and_raise_up, self.open_and_close_arms_90,self.raise_arms_forward_turn]
 
-        chosen_exercises = exercise_names #onlt for testing all the exercise
+        # exercise_onlyTwoHandTogether = [self.raise_arms_horizontally, self.bend_elbows,
+        #                   self.raise_arms_bend_elbows, self.raise_arms_forward,
+        #                   self.raise_arms_90_and_up, self.open_arms_and_forward,
+        #                   self.raise_hands_and_fold_backward,
+        #                   self.open_hands_and_raise_up, self.open_and_close_arms_90]
+
+        chosen_exercises = exercise_name #only for testing all the exercise
 
         """
         #choose randomly the exercise for this practice
@@ -226,7 +231,7 @@ class Poppy(threading.Thread):
         s.str_to_say = exercise_name
         time.sleep(4.5)
         s.req_exercise = exercise.__name__
-        exercise()
+        exercise() #the function of the current exercise.
         if (exercise_name != "hello"):
             s.req_exercise = ""
             time.sleep(4)
@@ -529,6 +534,7 @@ class Poppy(threading.Thread):
         self.poppy.l_shoulder_x.goto_position(90, 1, wait=False)
         self.poppy.r_elbow_y.goto_position(90, 1.5, wait=False)
         self.poppy.l_elbow_y.goto_position(90, 1.5, wait=True)
+        time.sleep(1)
 
     # EX7 - Raise arms forward
     @func_attributes(number=7, amount=1, instructions="raise arms forward")
@@ -687,6 +693,14 @@ class Poppy(threading.Thread):
             time.sleep(1)
             if (s.success_exercise):
                 break
+
+        #         self.poppy.l_arm_z.goto_position(90, 1.5, wait=False)
+        #         self.poppy.r_arm_z.goto_position(-90, 1.5, wait=True)
+        # up = [self.poppy.r_shoulder_x.goto_position(-150, 1.5, wait=False),
+        #       self.poppy.l_shoulder_x.goto_position(150, 1.5, wait=False),
+        #       self.poppy.r_elbow_y.goto_position(60, 1.5, wait=False),
+        #       self.poppy.l_elbow_y.goto_position(60, 1.5, wait=True)]
+
         #init
         self.poppy.l_shoulder_y.goto_position(0, 1.5, wait=False)
         self.poppy.r_shoulder_y.goto_position(0, 1.5, wait=False)
@@ -774,8 +788,15 @@ class Poppy(threading.Thread):
         self.poppy.l_shoulder_y.goto_position(0, 2, wait=False)
         self.poppy.r_shoulder_y.goto_position(0, 2, wait=True)
 
-    @func_attributes(number=31, amount=1, instructions="")
-    def head_clockWise(self):
+    #warmUp exercise
+    @func_attributes(number=31, amount=2, instructions="")
+    def head_circle(self):
+        # mirror
+        self.run_exercise(self.head_clockWise, "")
+        self.run_exercise(self.head_anticlockwise, "")
+
+    @func_attributes(number='31L', amount=1, instructions="")
+    def head_anticlockwise(self):
         headZ_degree = [-100, -50, 0, 50, 100]
         for num in range(4):
             # down
@@ -791,8 +812,8 @@ class Poppy(threading.Thread):
         self.poppy.head_y.goto_position(-20, 1, wait=False)
         self.poppy.head_z.goto_position(0, 1, wait=True)
 
-    @func_attributes(number=32, amount=1, instructions="")
-    def head_anticlockwise(self):
+    @func_attributes(number='31R', amount=1, instructions="")
+    def head_clockWise(self):
         headZ_degree = [-100, -50, 0, 50, 100]
         for num in range(4):
             # down
@@ -809,7 +830,7 @@ class Poppy(threading.Thread):
         self.poppy.head_z.goto_position(0, 1, wait=True)
 
     @func_attributes(number=32, amount=1, istruction="")
-    def elbow_clockWise(self, direction):
+    def elbow_clockWise(self):
         # elboys -clockwise direction
         l_shoulderY = [-90, -90, -90, 30, 30]
         l_armZ = [-90, -90, -90, -5, -5]
@@ -823,33 +844,162 @@ class Poppy(threading.Thread):
 
         for num in range(10):
             for i in range(len(l_elbowY)):
-                poppy.l_shoulder_y.goto_position(l_shoulderY[i], 1, wait=False)
-                poppy.r_shoulder_y.goto_position(r_shoulderY[i], 1, wait=False)
-                poppy.l_arm_z.goto_position(l_armZ[i], 1, wait=False)
-                poppy.r_arm_z.goto_position(r_armZ[i], 1, wait=False)
-                poppy.l_shoulder_x.goto_position(l_shoulderX[i], 1, wait=False)
-                poppy.r_shoulder_x.goto_position(r_shoulderX[i], 1, wait=False)
-                poppy.l_elbow_y.goto_position(l_elbowY[i], 1, wait=False)
-                poppy.r_elbow_y.goto_position(r_elbowY[i], 1, wait=True)
+                self.poppy.l_shoulder_y.goto_position(l_shoulderY[i], 1, wait=False)
+                self.poppy.r_shoulder_y.goto_position(r_shoulderY[i], 1, wait=False)
+                self.poppy.l_arm_z.goto_position(l_armZ[i], 1, wait=False)
+                self.poppy.r_arm_z.goto_position(r_armZ[i], 1, wait=False)
+                self.poppy.l_shoulder_x.goto_position(l_shoulderX[i], 1, wait=False)
+                self.poppy.r_shoulder_x.goto_position(r_shoulderX[i], 1, wait=False)
+                self.poppy.l_elbow_y.goto_position(l_elbowY[i], 1, wait=False)
+                self.poppy.r_elbow_y.goto_position(r_elbowY[i], 1, wait=True)
 
         # init
-        poppy.l_shoulder_y.goto_position(0, 1, wait=False)
-        poppy.r_shoulder_y.goto_position(0, 1.5, wait=False)
-        poppy.l_arm_z.goto_position(0, 1, wait=False)
-        poppy.r_arm_z.goto_position(0, 1.5, wait=False)
-        poppy.l_shoulder_x.goto_position(0, 1, wait=False)
-        poppy.r_shoulder_x.goto_position(0, 1.5, wait=False)
-        poppy.l_elbow_y.goto_position(90, 1, wait=False)
-        poppy.r_elbow_y.goto_position(90, 1, wait=True)
+        self.poppy.l_shoulder_y.goto_position(0, 1, wait=False)
+        self.poppy.r_shoulder_y.goto_position(0, 1.5, wait=False)
+        self.poppy.l_arm_z.goto_position(0, 1, wait=False)
+        self.poppy.r_arm_z.goto_position(0, 1.5, wait=False)
+        self.poppy.l_shoulder_x.goto_position(0, 1, wait=False)
+        self.poppy.r_shoulder_x.goto_position(0, 1.5, wait=False)
+        self.poppy.l_elbow_y.goto_position(90, 1, wait=False)
+        self.poppy.r_elbow_y.goto_position(90, 1, wait=True)
 
+    # EX33 raise arms and lean and repeat
+    @func_attributes(number=33, amount=2, instructions="raise arms and lean")
+    def raise_arms_and_lean_repeat(self):
+        # mirror
+        self.run_exercise(self.raise_right_arm_and_lean_repeat, "raise right arm and lean")
+        self.run_exercise(self.raise_left_arm_and_lean_repeat, "raise left arm and lean")
+
+    @func_attributes(number='33L', instructions="raise left arm and lean")
+    def raise_left_arm_and_lean_repeat(self):
+        for num in range(7):
+            self.poppy.r_arm_z.goto_position(-90, 1.5, wait=False)
+            self.poppy.r_shoulder_x.goto_position(-150, 1.5, wait=False)
+            self.poppy.r_elbow_y.goto_position(30, 1.5, wait=True)
+            self.poppy.bust_x.goto_position(-20, 1.5, wait=False)
+            self.poppy.l_shoulder_x.goto_position(30, 1.5, wait=True)
+            # next move
+            self.poppy.l_shoulder_x.goto_position(0, 1.5, wait=False)
+            self.poppy.bust_x.goto_position(0, 1.5, wait=True)
+
+        time.sleep(10)
+        self.poppy.r_arm_z.goto_position(0, 1.5, wait=False)
+        self.poppy.r_shoulder_x.goto_position(0, 1.5, wait=False)
+        self.poppy.r_elbow_y.goto_position(90, 1.5, wait=False)
+        self.poppy.bust_x.goto_position(0, 1.5, wait=False)
+        self.poppy.bust_y.goto_position(0, 1.5, wait=False)
+        self.poppy.l_shoulder_x.goto_position(0, 1.5, wait=False)
+        self.poppy.l_elbow_y.goto_position(90, 1.5, wait=False)
+        time.sleep(1)
+
+    @func_attributes(number='33R', instructions="raise right arm and lean")
+    def raise_right_arm_and_lean_repeat(self):
+        for num in range(7):
+            self.poppy.l_arm_z.goto_position(90, 1.5, wait=False)
+            self.poppy.l_shoulder_x.goto_position(150, 1.5, wait=False)
+            self.poppy.l_elbow_y.goto_position(30, 1.5, wait=True)  # left hands in the position
+            self.poppy.bust_x.goto_position(20, 1.5, wait=False)
+            self.poppy.r_shoulder_x.goto_position(-30, 1.5, wait=True)
+            #next move
+            self.poppy.r_shoulder_x.goto_position(0, 1.5, wait=False)
+            self.poppy.bust_x.goto_position(0, 1.5, wait=True)
+
+        # init
+        self.poppy.l_arm_z.goto_position(00, 1.5, wait=False)
+        self.poppy.l_shoulder_x.goto_position(0, 1.5, wait=False)
+        self.poppy.l_elbow_y.goto_position(90, 1.5, wait=False)
+        self.poppy.bust_x.goto_position(0, 1.5, wait=False)
+        self.poppy.bust_y.goto_position(0, 1.5, wait=False)
+        self.poppy.r_shoulder_x.goto_position(0, 1.5, wait=False)
+        self.poppy.r_elbow_y.goto_position(90, 1.5, wait=True)
+        time.sleep(1)
+
+    @func_attributes(number=34, amount=1, instructions="")
+    def back_strech_Dynmic(self):
+        #open hand and 90
+        self.poppy.r_shoulder_x.goto_position(-90, 1, wait=False)
+        self.poppy.l_shoulder_x.goto_position(90, 1, wait=True)
+        self.poppy.r_elbow_y.goto_position(0, 1.5, wait=False)
+        self.poppy.l_elbow_y.goto_position(0, 1.5, wait=True)
+        time.sleep(1)
+        for i in range(5):
+            self.poppy.abs_z.goto_position(70,2, wait=True)
+            self.poppy.abs_z.goto_position(-70, 2, wait=True)
+
+        #init
+        self.poppy.abs_z.goto_position(0, 1, wait=True)
+        self.poppy.r_shoulder_x.goto_position(0, 1, wait=False)
+        self.poppy.l_shoulder_x.goto_position(0, 1, wait=False)
+        self.poppy.r_elbow_y.goto_position(90, 1.5, wait=False)
+        self.poppy.l_elbow_y.goto_position(90, 1.5, wait=True)
+        time.sleep(0.5)
+
+    # EX14 open and close arms 90
+    @func_attributes(number=35, amount=1, instructions="open and close arms 90")
+    def open_and_close_arms_90_dynamic(self):
+        self.poppy.l_arm_z.goto_position(90, 1.5, wait=False)
+        self.poppy.r_arm_z.goto_position(-90, 1.5, wait=True)
+        for i in range(5):
+            self.poppy.r_shoulder_x.goto_position(-90, 1, wait=False)
+            self.poppy.l_shoulder_x.goto_position(90, 1, wait=False)
+            self.poppy.r_elbow_y.goto_position(0, 1.5, wait=False)
+            self.poppy.l_elbow_y.goto_position(0, 1.5, wait=True)
+            time.sleep(0.5)
+            self.poppy.l_arm_z.goto_position(0, 1.5, wait=False)
+            self.poppy.r_arm_z.goto_position(0, 1.5, wait=False)
+            self.poppy.l_shoulder_x.goto_position(10, 1.5, wait=False)
+            self.poppy.r_shoulder_x.goto_position(-10, 1.5, wait=False)
+            self.poppy.l_shoulder_y.goto_position(-90, 1.5, wait=False)
+            self.poppy.r_shoulder_y.goto_position(-90, 1.5, wait=True)
+            time.sleep(1)
+            # if (s.success_exercise):
+            #     break
+        # init
+        self.poppy.l_arm_z.goto_position(0, 1.5, wait=False)
+        self.poppy.r_arm_z.goto_position(0, 1.5, wait=False)
+        self.poppy.l_shoulder_y.goto_position(0, 1.5, wait=False)
+        self.poppy.r_shoulder_y.goto_position(0, 1.5, wait=False)
+        self.poppy.l_shoulder_x.goto_position(0, 1.5, wait=False)
+        self.poppy.r_shoulder_x.goto_position(0, 1.5, wait=False)
+        self.poppy.r_elbow_y.goto_position(90, 1.5, wait=False)
+        self.poppy.l_elbow_y.goto_position(90, 1.5, wait=True)
+
+
+
+    @func_attributes(number=36, amount=1, instructions="open and close arms 90")
+    def open_and_down_arms_90_dynamic(self):
+        for i in range(5):
+            self.poppy.l_arm_z.goto_position(90, 1.5, wait=False)
+            self.poppy.r_arm_z.goto_position(-90, 1.5, wait=False)
+            self.poppy.r_shoulder_x.goto_position(-90, 1, wait=False)
+            self.poppy.l_shoulder_x.goto_position(90, 1, wait=False)
+            self.poppy.r_elbow_y.goto_position(0, 1.5, wait=False)
+            self.poppy.l_elbow_y.goto_position(0, 1.5, wait=True)
+            time.sleep(0.5)
+            self.poppy.l_arm_z.goto_position(0, 1.5, wait=False)
+            self.poppy.r_arm_z.goto_position(0, 1.5, wait=True)
+            time.sleep(1)
+            # if (s.success_exercise):
+            #     break
+        # init
+        self.poppy.l_arm_z.goto_position(0, 1.5, wait=False)
+        self.poppy.r_arm_z.goto_position(0, 1.5, wait=False)
+        self.poppy.l_shoulder_y.goto_position(0, 1.5, wait=False)
+        self.poppy.r_shoulder_y.goto_position(0, 1.5, wait=False)
+        self.poppy.l_shoulder_x.goto_position(0, 1.5, wait=False)
+        self.poppy.r_shoulder_x.goto_position(0, 1.5, wait=False)
+        self.poppy.r_elbow_y.goto_position(90, 1.5, wait=False)
+        self.poppy.l_elbow_y.goto_position(90, 1.5, wait=True)
 
     # wormUp
     @func_attributes(number=30, amount=1, instructions="")
-    def wormUp(self):
-        self.head_clockWise()
-        self.head_anticlockwise()
-
-        self.elbow_clockWise() #not dood enough
+    def warmUp(self):
+        self.head_circle()
+        #self.elbow_clockWise() #not dood enough
+        self.open_and_close_arms_90_dynamic()
+        self.open_and_down_arms_90_dynamic()
+        self.back_strech_Dynmic()
+        self.raise_arms_and_lean_repeat()
 
 
     #Ex17 Turn head left and right for five second
@@ -877,15 +1027,15 @@ class Poppy(threading.Thread):
         self.poppy.head_y.goto_position(20, 1.7, wait=True)
         time.sleep(6)
         self.poppy.head_y.goto_position(-20, 1, wait=True)
-        time.sleep(1)
+        time.sleep(2)
 
     def hands_up(self):
         self.poppy.l_shoulder_y.goto_position(-200, 1.5, wait=False)
         self.poppy.r_shoulder_y.goto_position(-200, 1.5, wait=False)
         self.poppy.l_shoulder_x.goto_position(-10, 1.5, wait=False)
         self.poppy.r_shoulder_x.goto_position(10, 1.5, wait=False)
-        self.poppy.head_y.goto_position(50,1,wait=True)
-        time.sleep(0.5)
+        self.poppy.head_y.goto_position(50,1.5,wait=True)
+        time.sleep(1)
 
     @func_attributes(number=44, amount=1, instructions="")
     def left_band(self):
@@ -902,13 +1052,14 @@ class Poppy(threading.Thread):
         self.poppy.r_shoulder_y.goto_position(0, 1.5, wait=False)
         self.poppy.l_shoulder_x.goto_position(0, 1.5, wait=False)
         self.poppy.r_shoulder_x.goto_position(0, 1.5, wait=False)
-        self.poppy.head_y.goto_position(-20, 1, wait=False)
+        self.poppy.head_y.goto_position(-20, 1, wait=True)
         #init exe
         self.poppy.l_arm_z.goto_position(0, 1.5, wait=False)
         self.poppy.r_arm_z.goto_position(0, 1.5, wait=False)
         self.poppy.l_elbow_y.goto_position(90, 1.5, wait=False)
         self.poppy.r_elbow_y.goto_position(90, 1.5, wait=True)
-        time.sleep(0.5)
+        self.init_robot()
+        time.sleep(2)
 
     @func_attributes(number=45, amount=1, instructions="")
     def right_band(self):
@@ -925,23 +1076,29 @@ class Poppy(threading.Thread):
         self.poppy.r_shoulder_y.goto_position(0, 1.5, wait=False)
         self.poppy.l_shoulder_x.goto_position(0, 1.5, wait=False)
         self.poppy.r_shoulder_x.goto_position(0, 1.5, wait=False)
-        self.poppy.head_y.goto_position(-20, 1, wait=False)
+        self.poppy.head_y.goto_position(-20, 1, wait=True)
         #init exercise
         self.poppy.l_arm_z.goto_position(0, 1.5, wait=False)
         self.poppy.r_arm_z.goto_position(0, 1.5, wait=False)
         self.poppy.l_elbow_y.goto_position(90, 1.5, wait=False)
         self.poppy.r_elbow_y.goto_position(90, 1.5, wait=True)
-        time.sleep(0.5)
+        self.init_robot()
+        time.sleep(2)
 
     @func_attributes(number=46, amount=1, instructions="")
     def left_strech(self):
-        self.open_hands_aside_move()
-        #left strech
-        self.poppy.abs_z.goto_position(-15, 1, wait=False)
-        self.poppy.head_z.goto_position(50,1,wait=False)
+        #open to 90
+        self.poppy.r_shoulder_x.goto_position(-90, 1, wait=False)
+        self.poppy.l_shoulder_x.goto_position(90, 1, wait=True)
+        self.poppy.r_elbow_y.goto_position(0, 1.5, wait=False)
+        self.poppy.l_elbow_y.goto_position(0, 1.5, wait=True)
+        time.sleep(1)
+
+        self.poppy.abs_z.goto_position(-15, 1.5, wait=False)
+        self.poppy.head_z.goto_position(50,1.5,wait=False)
         #left
-        self.poppy.l_shoulder_y.goto_position(-90, 1, wait=False)
-        self.poppy.l_shoulder_x.goto_position(-120, 1, wait=True)
+        self.poppy.l_shoulder_y.goto_position(-90, 1.5, wait=False)
+        self.poppy.l_shoulder_x.goto_position(-120, 1.5, wait=True)
         #right
         self.poppy.r_shoulder_y.goto_position(-50, 1.5, wait=False)
         self.poppy.r_arm_z.goto_position(30,1.5,wait=False)
@@ -950,21 +1107,17 @@ class Poppy(threading.Thread):
         time.sleep(7)
 
         #init
-        # self.poppy.r_shoulder_x.goto_position(-90, 1, wait=False)
-        # self.poppy.l_shoulder_x.goto_position(90, 1, wait=False)
-        # self.poppy.r_elbow_y.goto_position(90, 1.5, wait=False)
-        # self.poppy.l_elbow_y.goto_position(90, 1.5, wait=True)
-
-        self.poppy.abs_z.goto_position(0, 1, wait=False)
-        self.poppy.head_z.goto_position(0,1,wait=False)
-        self.poppy.l_shoulder_y.goto_position(0, 1, wait=False)
-        self.poppy.l_shoulder_x.goto_position(0, 1, wait=False)
+        self.poppy.abs_z.goto_position(0, 1.5, wait=False)
+        self.poppy.head_z.goto_position(0,1.5,wait=False)
+        self.poppy.l_shoulder_y.goto_position(0, 1.5, wait=False)
+        self.poppy.l_shoulder_x.goto_position(0, 1.5, wait=False)
         self.poppy.r_shoulder_y.goto_position(0, 1.5, wait=False)
         self.poppy.r_arm_z.goto_position(0,1.5,wait=False)
         self.poppy.r_shoulder_x.goto_position(0, 1.5, wait=False)
         self.poppy.l_elbow_y.goto_position(90, 1.5, wait=True)
         self.poppy.r_elbow_y.goto_position(90, 1.5, wait=True)
-        time.sleep(0.5)
+        self.init_robot()
+        time.sleep(1)
 
     @func_attributes(number=47, amount=1, instructions="")
     def right_strech(self):
@@ -992,10 +1145,11 @@ class Poppy(threading.Thread):
         self.poppy.l_shoulder_x.goto_position(0, 1.5, wait=False)
         self.poppy.l_elbow_y.goto_position(90, 1.5, wait=True)
         self.poppy.r_elbow_y.goto_position(90, 1.5, wait=True)
-        time.sleep(0.5)
+        self.init_robot()
+        time.sleep(2)
 
     @func_attributes(number=48, amount=1, instructions="")
-    def back_strech(self):
+    def back_strech_static(self):
         #open hand and 90
         self.poppy.r_shoulder_x.goto_position(-90, 1, wait=False)
         self.poppy.l_shoulder_x.goto_position(90, 1, wait=True)
@@ -1011,33 +1165,31 @@ class Poppy(threading.Thread):
         time.sleep(6)
 
         #init
-        self.poppy.abs_z.goto_position(0, 1, wait=True)
-        self.poppy.r_shoulder_x.goto_position(0, 1, wait=False)
-        self.poppy.l_shoulder_x.goto_position(0, 1, wait=False)
+        self.poppy.abs_z.goto_position(0, 1.5, wait=True)
+        self.poppy.r_shoulder_x.goto_position(0, 1.5, wait=False)
+        self.poppy.l_shoulder_x.goto_position(0, 1.5, wait=False)
         self.poppy.r_elbow_y.goto_position(90, 1.5, wait=False)
         self.poppy.l_elbow_y.goto_position(90, 1.5, wait=True)
-        time.sleep(0.5)
+        time.sleep(1)
 
 
     @func_attributes(number=40, amount=1, instructions="")
     def coolDown(self):
         #head
-        self.turn_head_left() #my left
-        self.turn_head_right() #my right
-        self.turn_head_down()
-
+        # self.turn_head_left() #my left
+        # self.turn_head_right() #my right
+        # self.turn_head_down()
+        #
+        #back
+        self.back_strech_static()
         #backhands+shoulder
         self.left_band() #my right
         self.right_band() #my left
-        self.init_robot()
-
+        #
+        #
         self.left_strech()
         self.right_strech()
-        self.init_robot()
-        time.sleep(1)
-
-        #back
-        self.back_strech()
+        # #self.init_robot()
 
 
 
@@ -1120,8 +1272,8 @@ class Poppy(threading.Thread):
 
 
 if __name__ == '__main__':
-    simulator.createSim()
-    time.sleep(10)
+    #simulator.createSim()
+    #time.sleep(10)
     language = 'Hebrew'
     gender = 'Female'
     s.rep=4
@@ -1142,6 +1294,7 @@ if __name__ == '__main__':
     #s.screen = Screen()
     time.sleep(10)
     Poppy.coolDown(s.robot)
+    #Poppy.warmUp(s.robot)
 
     #poppy.run_exercise(Poppy.raise_arms_horizontally, "raise arms horizontally")
     # Poppy.raise_arms_horizontally_separate(s.robot)
