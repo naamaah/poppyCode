@@ -1,23 +1,27 @@
-import sys
+# import sys
 import time
 import random
 import tkinter as tk
 from Poppy import Poppy
-from Camera import Camera
+#from Camera import Camera
+from CameraNew import Camera
+from mediaPipe import Detection
 from tts import TTS
 import Settings as s #Global settings variables
 import simulator
-import threading
-import os
+# import threading
+# import os
 from GUI2 import Screen, FullScreenApp
 import Excel as excel
+import pandas as pd
+import threading
 
 if __name__ == '__main__':
     # Settings for exercises
     language = 'Hebrew'
     gender = 'Female'
     s.female=False
-    s.isCamera=False #False - No camera, True- there is camera
+    s.isCamera=True #False - No camera, True- there is camera
     s.isRobot=False #False - simulator, True- real robot
     s.numberOfWorkout=0
 
@@ -30,7 +34,8 @@ if __name__ == '__main__':
     s.excel_path = R'C:/Git/poppyCode/greatoded/excel_folder/'
     s.general_path = R'C:/Git/poppyCode/greatoded/'
     s.pic_path = s.general_path + 'Pictures/'
-    s.audio_path =s.general_path + 'audio files/' + '/' +language + '/' + gender + '/'
+    #s.audio_path =s.general_path + 'audio files/' + '/' +language + '/' + gender + '/'
+    s.audio_path = s.general_path + 'audioFiles/' +language + '/' + gender + '/'
 
     s.clickrelax=False
     s.exercies_amount=4
@@ -38,7 +43,7 @@ if __name__ == '__main__':
     s.waved = False
     s.pickWeights = False
     s.finish_workout = False
-    s.rep = 4# Number of repetitions for exercises - the robot doing
+    s.rep = 8# Number of repetitions for exercises - the robot doing
     s.req_exercise = ""
     s.str_to_say = ""
     s.clickedTryAgain = False
@@ -56,6 +61,14 @@ if __name__ == '__main__':
     s.high_mul_first = 5 #level 1:5 level2:5 level3:9
     s.low_mul_second = 10 #level 1:2 level2:10 level3:10
     s.high_mul_second = 50 #level 1:6 level2:50 level3:50
+    if (s.isCamera==True):
+        s.current_joint_list = pd.DataFrame()
+        s.current_frame_from_joint_list = 0
+        s.prev_frame_from_joint_list = 0
+        detection = Detection()
+        detection.start()
+        s.camera = Camera()
+        s.camera.start()
 
     if (s.isRobot==False):
         simulator.createSim()
@@ -64,24 +77,24 @@ if __name__ == '__main__':
 
     s.repeat_again=None
     s.robot = Poppy("poppy")
-    if (s.isCamera==True):
-        s.camera = Camera()
-        s.camera.start()
+
     s.facemove=False
-    s.tts = TTS("tts")
+    s.tts = TTS()
 
     s.tts.start()
     s.robot.start()
     s.screen = Screen()
     app = FullScreenApp(s.screen)
     s.screen.mainloop()
-
-    #s.tts.join()
-    #print(s.tts.is_alive())
-    #s.robot.join()
-    print(s.robot.is_alive())
-    print(threading.enumerate())
-    #s.robot.join()
     print("finished main loop")
-    #kill= "taskkill /F /PID " + str((os.getppid()))
-    #os.system(kill)
+    print(threading.enumerate())
+
+    # #s.tts.join()
+    # #print(s.tts.is_alive())
+    # #s.robot.join()
+    # print(s.robot.is_alive())
+    # print(threading.enumerate())
+    # #s.robot.join()
+    # print("finished main loop")
+    # #kill= "taskkill /F /PID " + str((os.getppid()))
+    # #os.system(kill)

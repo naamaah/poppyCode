@@ -120,8 +120,6 @@ class gamemaths(tk.Frame):
             self.button2[i].configure(bg="yellow")
             self.after(6000,self.changeColor2,i)
             self.update()
-
-
             print("well done - (CogMath class)")
             s.str_to_say = "correct"
             time.sleep(1)
@@ -180,8 +178,6 @@ class gamemaths(tk.Frame):
         self.first = random.randint(s.low_mul_first, s.high_mul_first)
         self.second = random.randint(s.low_mul_second, s.high_mul_second)
         ans_right = self.first * self.second
-
-
         answer = [ans_right]
         i=0
         while (i < 3):

@@ -21,6 +21,9 @@ def __init__():
     global req_exercise
     global str_to_say
     global success_exercise
+    global current_joint_list
+    global current_frame_from_joint_list
+    global prev_frame_from_joint_list
 
     global exercies_amount
 

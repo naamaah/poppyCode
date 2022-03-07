@@ -7,9 +7,12 @@ class Realsense (threading.Thread) :
 
     def __init__(self):
         threading.Thread.__init__(self)
+
+
     def run(self):
         os.system(s.realsense_path)
         print("running")
+
     def stop(self):
         os.system("taskkill /f /im  nuitrack_console_sample.exe")
         print("stop realsense"+str(self.is_alive()))
