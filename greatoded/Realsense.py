@@ -18,6 +18,9 @@ class Realsense (threading.Thread) :
         print("stop realsense"+str(self.is_alive()))
 
 if __name__ == '__main__':
-    s.realsense_path = "C:\\Users\\TEMP.NAAMA\\Documents\\nuitrack-sdk-master\\Examples\\nuitrack_console_sample\\out\\build\\x64-Debug\\nuitrack_console_sample.exe"
+    #s.realsense_path = "C:\\Users\\TEMP.NAAMA\\Documents\\nuitrack-sdk-master\\Examples\\nuitrack_console_sample\\out\\build\\x64-Debug\\nuitrack_console_sample.exe"
+    s.realsense_path=R'C:\git\poppyCode\greatoded\nuitrack\Examples\nuitrack_console_sample\out\build\x64-Debug\nuitrack_console_sample.exe'
     r = Realsense()
     r.run()
+    time.sleep(5)
+    r.stop()

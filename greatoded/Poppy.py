@@ -72,43 +72,43 @@ class Poppy(threading.Thread):
         else:
             self.relaxrun()
 
-    def relaxrun(self):
-        print("Poppy class - relxrun function")
-        s.screen.switch_frame(StartPage_Relax)
-        s.str_to_say = 'intro_relax'
-        while (not s.clickrelax):  # wait for participant to wave
-            continue
-        time.sleep(1)
-        s.screen.switch_frame(BlankPage)
-        print("Let's start! - (Poppy class)")
-        chosenrelax=[self.bend_elbows_relax,self.turn_head_down,self.turn_head_right,self.turn_head_left]
-        for e in chosenrelax:
-            self.run_exercise_and_repeat(e,getattr(e, "instructions"))
-            print (e)
-        self.face_movement()
-        print ("finised with face")
-        s.relax = None
-        time.sleep(8)
-        s.str_to_say = "repeat workout"
-        print("stay or finished")
-        s.screen.switch_frame(lastquestion_relax)
-        while (s.relax == None):
-            continue
-        if(s.relax==True):
-            self.exercise_run()
-        elif(s.relax==False):
-            self.finish_workout()
-
-    def face_movement(self):
-        print("Poppy class - face_movement function")
-        s.screen.switch_frame(facemovement_Relax)
-        s.str_to_say='moving_from_face'
-        while (not s.facemove):  # wait for participant to wave
-            continue
-        s.screen.switch_frame(BlankPage)
-        chosenrelax = [self.teeth,self.eyes,self.eyebrows,self.smile]
-        for e in chosenrelax:
-            self.run_exercise_and_repeat(e, getattr(e, "instructions"))
+    # def relaxrun(self):
+    #     print("Poppy class - relxrun function")
+    #     s.screen.switch_frame(StartPage_Relax)
+    #     s.str_to_say = 'intro_relax'
+    #     while (not s.clickrelax):  # wait for participant to wave
+    #         continue
+    #     time.sleep(1)
+    #     s.screen.switch_frame(BlankPage)
+    #     print("Let's start! - (Poppy class)")
+    #     chosenrelax=[self.bend_elbows_relax,self.turn_head_down,self.turn_head_right,self.turn_head_left]
+    #     for e in chosenrelax:
+    #         self.run_exercise_and_repeat(e,getattr(e, "instructions"))
+    #         print (e)
+    #     self.face_movement()
+    #     print ("finised with face")
+    #     s.relax = None
+    #     time.sleep(8)
+    #     s.str_to_say = "repeat workout"
+    #     print("stay or finished")
+    #     s.screen.switch_frame(lastquestion_relax)
+    #     while (s.relax == None):
+    #         continue
+    #     if(s.relax==True):
+    #         self.exercise_run()
+    #     elif(s.relax==False):
+    #         self.finish_workout()
+    #
+    # def face_movement(self):
+    #     print("Poppy class - face_movement function")
+    #     s.screen.switch_frame(facemovement_Relax)
+    #     s.str_to_say='moving_from_face'
+    #     while (not s.facemove):  # wait for participant to wave
+    #         continue
+    #     s.screen.switch_frame(BlankPage)
+    #     chosenrelax = [self.teeth,self.eyes,self.eyebrows,self.smile]
+    #     for e in chosenrelax:
+    #         self.run_exercise_and_repeat(e, getattr(e, "instructions"))
 
     def exercise_run(self):
         print("Poppy class - exercise_run function")
@@ -135,13 +135,13 @@ class Poppy(threading.Thread):
                         self.raise_arms_90_and_up,self.raise_arms_and_lean, self.open_arms_and_forward, self.raise_hands_and_fold_backward,
                         self.open_hands_and_raise_up, self.open_and_close_arms_90,self.raise_arms_forward_turn]
 
-        # exercise_onlyTwoHandTogether = [self.raise_arms_horizontally, self.bend_elbows,
-        #                   self.raise_arms_bend_elbows, self.raise_arms_forward,
-        #                   self.raise_arms_90_and_up, self.open_arms_and_forward,
-        #                   self.raise_hands_and_fold_backward,
-        #                   self.open_hands_and_raise_up, self.open_and_close_arms_90]
+        exercise_onlyTwoHandTogether = [self.raise_arms_horizontally, self.bend_elbows,
+                          self.raise_arms_bend_elbows, self.raise_arms_forward,
+                          self.raise_arms_90_and_up, self.open_arms_and_forward,
+                          self.raise_hands_and_fold_backward,
+                          self.open_hands_and_raise_up, self.open_and_close_arms_90]
 
-        chosen_exercises = [self.raise_arms_forward, self.raise_arms_forward_separate]
+        chosen_exercises = exercise_onlyTwoHandTogether
         #only for testing all the exercise
 
         """
@@ -234,10 +234,6 @@ class Poppy(threading.Thread):
         print("Poppy class - run_exercise function "+str(exercise.number))
         s.success_exercise = False
         s.str_to_say = exercise_name
-        # filename = s.audio_path+exercise_name+'.wav'
-        # wave_obj = sa.WaveObject.from_wave_file(filename)
-        # play_obj = wave_obj.play()
-        # play_obj.wait_done()  # Wait until sound has finished playing
         s.req_exercise = exercise.__name__
         time.sleep(4.5)
         #exercise(exercise_name) #the function of the current exercise.

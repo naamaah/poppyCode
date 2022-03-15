@@ -38,7 +38,7 @@ class TTS(threading.Thread):
         '''
         #print("say_no_wait function - (tts class) " + str_to_say)
         mixer.init()
-        mixer.music.load(s.audio_path+str_to_say+'.wav')
+        mixer.music.load(s.audio_path+str_to_say+'.mp3')
         mixer.music.play()
         #time.sleep(10)
 
@@ -49,12 +49,12 @@ class TTS(threading.Thread):
         This function make the robot say whatever there is in the file - play the audio (paralelly)
         :return: audio
         '''
-        filename = s.audio_path+str_to_say+'.wav'
-        wave_obj = sa.WaveObject.from_wave_file(filename)
-        #wave_obj.play()
-        play_obj = wave_obj.play()
-        play_obj.wait_done()  # Wait until sound has finished playing
-        #time.sleep(1)
+        #option1:
+        # filename = s.audio_path+str_to_say+'.wav'
+        # wave_obj = sa.WaveObject.from_wave_file(filename)
+        # play_obj = wave_obj.play()
+        # play_obj.wait_done()  # Wait until sound has finished playing
+        #option2:
 
 
 if __name__ == '__main__':
@@ -62,8 +62,9 @@ if __name__ == '__main__':
     gender = 'Female'
     s.finish_workout=False
     s.str_to_say='2'
-    s.general_path = R'C:/PycharmProjects/greatoded/'
-    s.audio_path = s.general_path + 'audio files/' + language + '/' + gender + '/'
+    #s.general_path = R'C:/PycharmProjects/greatoded/'
+    s.general_path=R'C:/Git/poppyCode/greatoded/'
+    s.audio_path = s.general_path + 'audioFiles/' + language + '/' + gender + '/'
     #s.audio_path = 'audio files/' + language + '/' + gender + '/'
     tts = TTS()
     tts.start()

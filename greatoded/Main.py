@@ -2,9 +2,10 @@
 import time
 import random
 import tkinter as tk
-from Poppy import Poppy
-#from Camera import Camera
-from CameraNew import Camera
+from Poppy import Poppy #simulator
+from PoppyRobot import PoppyRobot #real robot
+from Camera import Camera #nuitrack+realsense
+from CameraNew import CameraNew #webcemara and mediaPipe
 from mediaPipe import Detection
 from tts import TTS
 import Settings as s #Global settings variables
@@ -22,24 +23,20 @@ if __name__ == '__main__':
     gender = 'Female'
     s.female=False
     s.isCamera=True #False - No camera, True- there is camera
+    s.isMediaPipe=False #false-Nuitrack(Camera), True-mediaPipe(CameraNew)
     s.isRobot=False #False - simulator, True- real robot
     s.numberOfWorkout=0
 
-    #s.realsense_path = "C:\\Users\\TEMP.NAAMA\\Documents\\nuitrack-sdk-master\\Examples\\nuitrack_console_sample\\out\\build\\x64-Debug\\nuitrack_console_sample.exe"
-    s.realsense_path="C:\\Users\\owner\\Documents\\nuitrack-sdk-master\\Examples\\nuitrack_console_sample\\out\\build\\x64-Debug\\nuitrack_console_sample.exe"
-    #s.realsense_path = R'C:/PycharmProjects/greatoded/nuitrack/Examples/nuitrack_console_sample/out/build/x64-Debug/nuitrack_console_sample.exe'
-    #s.excel_path = R'C:/PycharmProjects/greatoded/excel_folder/'
-    #s.general_path = R'C:/PycharmProjects/greatoded/'
-    #audiopath = s.general_path + 'audio files/'
+    #s.realsense_path="C:\\Users\\owner\\Documents\\nuitrack-sdk-master\\Examples\\nuitrack_console_sample\\out\\build\\x64-Debug\\nuitrack_console_sample.exe"
+    s.realsense_path = R'C:\git\poppyCode\greatoded\nuitrack\Examples\nuitrack_console_sample\out\build\x64-Debug\nuitrack_console_sample.exe'
     s.excel_path = R'C:/Git/poppyCode/greatoded/excel_folder/'
     s.general_path = R'C:/Git/poppyCode/greatoded/'
     s.pic_path = s.general_path + 'Pictures/'
-    #s.audio_path =s.general_path + 'audio files/' + '/' +language + '/' + gender + '/'
     s.audio_path = s.general_path + 'audioFiles/' +language + '/' + gender + '/'
 
     s.clickrelax=False
     s.exercies_amount=4
-    s.relax=False #if i eant to be realx exrcise cahnge to None
+    s.relax=False #if i want to use realx exrcise change to None
     s.waved = False
     s.pickWeights = False
     s.finish_workout = False
@@ -61,26 +58,32 @@ if __name__ == '__main__':
     s.high_mul_first = 5 #level 1:5 level2:5 level3:9
     s.low_mul_second = 10 #level 1:2 level2:10 level3:10
     s.high_mul_second = 50 #level 1:6 level2:50 level3:50
+
     if (s.isCamera==True):
-        s.current_joint_list = pd.DataFrame()
-        s.current_frame_from_joint_list = 0
-        s.prev_frame_from_joint_list = 0
-        detection = Detection()
-        detection.start()
-        s.camera = Camera()
-        s.camera.start()
+        if(s.isMediaPipe==True): #cameraNew
+            s.current_joint_list = pd.DataFrame()
+            s.current_frame_from_joint_list = 0
+            s.prev_frame_from_joint_list = 0
+            detection = Detection()
+            detection.start()
+            s.camera = CameraNew()
+            s.camera.start()
+        else: #camera
+            s.camera = Camera()
+            s.camera.start()
 
     if (s.isRobot==False):
         simulator.createSim()
         time.sleep(10)
+        s.robot = Poppy("poppy")
+    else:
+        s.robot = PoppyRobot("poppy")
+
     excel.create_workbook()
-
     s.repeat_again=None
-    s.robot = Poppy("poppy")
+    #s.facemove=False #not relevant
 
-    s.facemove=False
     s.tts = TTS()
-
     s.tts.start()
     s.robot.start()
     s.screen = Screen()
@@ -88,13 +91,3 @@ if __name__ == '__main__':
     s.screen.mainloop()
     print("finished main loop")
     print(threading.enumerate())
-
-    # #s.tts.join()
-    # #print(s.tts.is_alive())
-    # #s.robot.join()
-    # print(s.robot.is_alive())
-    # print(threading.enumerate())
-    # #s.robot.join()
-    # print("finished main loop")
-    # #kill= "taskkill /F /PID " + str((os.getppid()))
-    # #os.system(kill)

@@ -39,7 +39,7 @@ class Camera(threading.Thread):
 
     # Client - read messages
     def getSkeletonData(self):
-        self.sock.settimeout(10.0) #for check naama change to 10 instad 5
+        self.sock.settimeout(5.0) #for check naama change to 10 instad 5
         try:
             #data, address = self.sock.recvfrom(4096)
             data= str(self.sock.recvfrom(4096))
@@ -112,6 +112,7 @@ class Camera(threading.Thread):
 
     def run_exercise(self):
         self.playRealsense()
+        time.sleep(2)
         getattr(self, s.req_exercise)() # running the method of the requested exercise
         self.stopRealsense()
         if(s.success_exercise):
@@ -148,10 +149,12 @@ class Camera(threading.Thread):
         else:
             return "robotverygood"
     def random_encouragement(self):
-        rand = random.random()
+        #rand = random.random()
+        rand=0.1 #only for testing - delete after
         time.sleep(1)
+        print("encouragement")
         if rand < 0.2:
-            s.screen.switch_frame(WellDonePage)
+            #s.screen.switch_frame(WellDonePage) #only for testing - remove for note after
             return "well done"
         elif rand < 0.4:
             s.screen.switch_frame(VeryGoodPage)
@@ -169,17 +172,26 @@ class Camera(threading.Thread):
     ####### Exercises #######
 
     def hello_waving(self): # check if the participant waved
+        list_joints = [["12", "15"]]
         while (s.req_exercise == "hello_waving"):
             print ("try hello wave")
             joints = self.getSkeletonData()
+            #print(joints)
             JOINT_RIGHT_SHOULDER = self.findJointData(joints, "12")
             JOINT_RIGHT_HAND = self.findJointData(joints, "15")
             if (not JOINT_RIGHT_SHOULDER or not JOINT_RIGHT_HAND):
                 continue
+            new_entry = [JOINT_RIGHT_SHOULDER, JOINT_RIGHT_HAND]
             if (self.compareYbetweenJoints(JOINT_RIGHT_HAND, JOINT_RIGHT_SHOULDER)):
                 s.waved = True
                 print ("participant wave - (camera class")
+                new_entry.append("wave")
+                list_joints.append(new_entry)
                 s.req_exercise = ""
+                #s.str_to_say = "1"  # for check camera
+            list_joints.append(new_entry)
+            #Excel.wf_joints("hello_waving",list_joints)
+            if(s.waved):
                 return True
 
     def exercise_three_joints(self, exercise_name, joint_num1, joint_num2, joint_num3): #TODO add depth check
@@ -196,7 +208,7 @@ class Camera(threading.Thread):
             for i in range(0, len(joint1)):
                 angle = self.calc_angle(joint2[i], joint3[i], joint1[i])
                 new_entry = [joint1[i], joint2[i], joint3[i], angle]
-                print (angle)
+                print (str(angle)+"angle")
                 if ((100<angle<120) & (not flag)):
                     print("up")
                     counter = self.counting_flag(counter)
@@ -868,7 +880,11 @@ class Camera(threading.Thread):
             if (s.req_exercise != ""):
                 print ("camera starting: " + str(s.req_exercise) + "- (Camera class)")
                 self.run_exercise()
-        print ("camera done - (Camera class)"+str(self.is_alive()))
+                if (s.success_exercise):#only for testing cameraNew separete
+                    s.finish_workout=True
+                    break
+        Excel.close_workbook()  # only for camera check - delete after
+        print ("camera done - (Camera class)")
 
 
 #for tests
@@ -876,26 +892,33 @@ if __name__ == '__main__':
     s.rep = 4
     language = 'Hebrew'
     gender = 'Female'
-    s.realsense_path = "C:\\Users\\owner\\Documents\\nuitrack-sdk-master\\Examples\\nuitrack_console_sample\\out\\build\\x64-Debug\\nuitrack_console_sample.exe"
+    #for the robot path
+    #s.realsense_path = "C:\\Users\\owner\\Documents\\nuitrack-sdk-master\\Examples\\nuitrack_console_sample\\out\\build\\x64-Debug\\nuitrack_console_sample.exe"
+    #simulator Path
+    #s.realsense_path="C:\\Users\\TEMP.NAAMA\\Documents\\nuitrack-sdk-master\\Examples\\nuitrack_console_sample\\out\\build\\x64-Debug\\nuitrack_console_sample.exe"
+    s.realsense_path = R'C:\git\poppyCode\greatoded\nuitrack\Examples\nuitrack_console_sample\out\build\x64-Debug\nuitrack_console_sample.exe'
     s.excel_path = R'C:/Git/poppyCode/greatoded/excel_folder/'
     s.general_path = R'C:/Git/poppyCode/greatoded/'
     s.pic_path = s.general_path + 'Pictures/'
-    s.audio_path = s.general_path + 'audio files/' + '/' + language + '/' + gender + '/'
+    s.audio_path = s.general_path + 'audioFiles/' + '/' + language + '/' + gender + '/'
     Excel.create_workbook()
     s.str_to_say = ""
-    s.tts = TTS("tts")
-    s.relax = None
+    s.tts = TTS()
+    s.relax = False
     s.waved = False
     s.finish_workout = False
     s.success_exercise = False
-    # s.req_exercise = "raise_left_arm_horiz"
-    # s.req_exercise = "raise_right_arm_horiz"
+    #testing:
+    #s.req_exercise = "hello_waving"
+    #s.req_exercise = "raise_left_arm_horiz"
+    s.req_exercise = "raise_right_arm_horiz"
+
+
     # s.req_exercise = "raise_arms_horizontally"
     # s.req_exercise = "bend_elbows"
-    s.req_exercise = "raise_arms_forward_static"
+    #s.req_exercise = "raise_arms_forward_static"
     # s.req_exercise = "raise_right_arm_and_lean"
     # s.req_exercise = "raise_left_arm_and_lean"
-
     #s.req_exercise = "hello_waving"
     s.tts.start()
     s.camera = Camera()

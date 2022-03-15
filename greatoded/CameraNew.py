@@ -17,7 +17,7 @@ import pandas as pd
 import datetime
 import Settings as s #Global settings variables
 
-class Camera(threading.Thread):
+class CameraNew(threading.Thread):
     #cap = cv.VideoCapture(0)
 
     def __init__(self):
@@ -35,10 +35,10 @@ class Camera(threading.Thread):
                     break
         print("finish while")
         print ("camera done - (Camera class)")
-        s.finish_workout=True#only for testing cameraNew separete
-        Excel.close_workbook()  # only for camera check - delete after
-        time.sleep(4)#only for testing cameraNew separete
-        print(threading.enumerate())#only for testing cameraNew separete
+        #s.finish_workout=True#only for testing cameraNew separete
+        #Excel.close_workbook()  # only for camera check - delete after
+        #time.sleep(4)#only for testing cameraNew separete
+        #print(threading.enumerate())#only for testing cameraNew separete
 
 
     # def getSkeletonData(self):
