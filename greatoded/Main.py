@@ -22,7 +22,7 @@ if __name__ == '__main__':
     language = 'Hebrew'
     gender = 'Female'
     s.female=False
-    s.isCamera=True #False - No camera, True- there is camera
+    s.isCamera=False #False - No camera, True- there is camera
     s.isMediaPipe=False #false-Nuitrack(Camera), True-mediaPipe(CameraNew)
     s.isRobot=False #False - simulator, True- real robot
     s.numberOfWorkout=0
@@ -40,7 +40,7 @@ if __name__ == '__main__':
     s.waved = False
     s.pickWeights = False
     s.finish_workout = False
-    s.rep = 8# Number of repetitions for exercises - the robot doing
+    s.rep =4# Number of repetitions for exercises - the robot doing
     s.req_exercise = ""
     s.str_to_say = ""
     s.clickedTryAgain = False

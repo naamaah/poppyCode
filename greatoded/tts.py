@@ -38,7 +38,7 @@ class TTS(threading.Thread):
         '''
         #print("say_no_wait function - (tts class) " + str_to_say)
         mixer.init()
-        mixer.music.load(s.audio_path+str_to_say+'.mp3')
+        mixer.music.load(s.audio_path+str_to_say+'.wav')
         mixer.music.play()
         #time.sleep(10)
 
