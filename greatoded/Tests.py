@@ -14,35 +14,52 @@ poppy.r_elbow_y.goto_position(90, 1, wait=True)
 poppy.l_elbow_y.goto_position(90, 1, wait=True)
 time.sleep(1)
 
-poppy.r_shoulder_x.goto_position(-90, 1, wait=False)
-poppy.l_shoulder_x.goto_position(90, 1, wait=False)
-poppy.r_elbow_y.goto_position(90, 1.5, wait=False)
-poppy.l_elbow_y.goto_position(90, 1.5, wait=True)
-for i in range(8):
-    l_hand = [poppy.l_shoulder_y.goto_position(-90, 2, wait=False),
-              poppy.l_arm_z.goto_position(-90, 2, wait=False),
-              poppy.l_shoulder_x.goto_position(50, 2, wait=False),
-              poppy.l_elbow_y.goto_position(-50, 2, wait=False)]
-    r_hand = [poppy.r_shoulder_y.goto_position(-90, 2, wait=False),
-              poppy.r_arm_z.goto_position(90, 2, wait=False),
-              poppy.r_shoulder_x.goto_position(-50, 2, wait=False),
-              poppy.r_elbow_y.goto_position(-50, 2, wait=False)]
-    time.sleep(2)
-    poppy.l_shoulder_y.goto_position(0, 2, wait=False)
-    poppy.r_shoulder_y.goto_position(0, 2, wait=False)
-    poppy.r_elbow_y.goto_position(0, 2, wait=False)
-    poppy.l_elbow_y.goto_position(0, 2, wait=True)
+flag=False
+#base position
+poppy.r_shoulder_y.goto_position(0, 1.5, wait=False)
+poppy.l_shoulder_y.goto_position(0, 1.5, wait=False)
+poppy.r_elbow_y.goto_position(-50, 1, wait=False)
+poppy.l_elbow_y.goto_position(-50, 1, wait=False)
+poppy.l_arm_z.goto_position(-20, 1.5, wait=False)
+poppy.r_arm_z.goto_position(20, 1.5, wait=False)
+poppy.l_shoulder_x.goto_position(10, 1.5, wait=False)
+poppy.r_shoulder_x.goto_position(-10, 1.5, wait=True)
+for num in range(7):
+    poppy.r_shoulder_y.goto_position(0, 1.5, wait=False)
+    poppy.l_shoulder_y.goto_position(0, 1.5, wait=False)
+    poppy.r_elbow_y.goto_position(-50, 1, wait=False)
+    poppy.l_elbow_y.goto_position(-50, 1, wait=False)
+    poppy.l_arm_z.goto_position(-20, 1.5, wait=False)
+    poppy.r_arm_z.goto_position(20, 1.5, wait=False)
+    poppy.l_shoulder_x.goto_position(10, 1.5, wait=False)
+    poppy.r_shoulder_x.goto_position(-10, 1.5, wait=True)
+    print("-10 "+str(poppy.r_shoulder_x.present_position))
+    print("10 " + str(poppy.l_shoulder_x.present_position))
+    if (not flag):# right hand
+        poppy.r_shoulder_x.goto_position(90, 1.5, wait=False)
+        poppy.r_elbow_y.goto_position(90, 1.5, wait=False)
+        poppy.r_shoulder_y.goto_position(-90, 1.5, wait=True)
+        time.sleep(0.5)
+        flag=True
+    else: # left hand
+        poppy.l_shoulder_x.goto_position(-90, 1.5, wait=False)
+        poppy.l_elbow_y.goto_position(90, 1.5, wait=False)
+        poppy.l_shoulder_y.goto_position(-90, 1.5, wait=True)
+        time.sleep(0.5)
+        flag = False
 
 
-
-
-        #init
+poppy.r_shoulder_y.goto_position(0, 1.5, wait=False)
+poppy.l_shoulder_y.goto_position(0, 1.5, wait=False)
+poppy.r_elbow_y.goto_position(90, 1, wait=False)
+poppy.l_elbow_y.goto_position(90, 1, wait=False)
 poppy.l_arm_z.goto_position(0, 1.5, wait=False)
 poppy.r_arm_z.goto_position(0, 1.5, wait=False)
-poppy.l_shoulder_y.goto_position(0, 1.5, wait=False)
-poppy.r_shoulder_y.goto_position(0, 1.5, wait=True)
 poppy.l_shoulder_x.goto_position(0, 1.5, wait=False)
 poppy.r_shoulder_x.goto_position(0, 1.5, wait=True)
+time.sleep(1)
+
+
 
 
 

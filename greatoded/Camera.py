@@ -118,22 +118,23 @@ class Camera(threading.Thread):
         if(s.success_exercise):
             if (s.relax==False):
                 s.str_to_say = self.random_encouragement()
-            elif(s.relax==True):
-                if(s.relaxname=="bend_elbows_relax"):
-                    time.sleep(1)
-                    s.screen.switch_frame(feedback_elbow)
-                    s.str_to_say = self.relax_encouragement()
-                    time.sleep(1)
-                elif(s.relaxname=="turn_head_left"):
-                    time.sleep(1)
-                    s.screen.switch_frame(feedback_head)
-                    s.str_to_say = self.relax_encouragement()
-                    time.sleep(1)
-                elif(s.relaxname=="smile"):
-                    time.sleep(1)
-                    s.screen.switch_frame(feedback_relax)
-                    s.str_to_say ="feedback_relax"
-                    time.sleep(1)
+                s.tts.say_wait(s.str_to_say)
+            # elif(s.relax==True):
+            #     if(s.relaxname=="bend_elbows_relax"):
+            #         time.sleep(1)
+            #         s.screen.switch_frame(feedback_elbow)
+            #         s.str_to_say = self.relax_encouragement()
+            #         time.sleep(1)
+            #     elif(s.relaxname=="turn_head_left"):
+            #         time.sleep(1)
+            #         s.screen.switch_frame(feedback_head)
+            #         s.str_to_say = self.relax_encouragement()
+            #         time.sleep(1)
+            #     elif(s.relaxname=="smile"):
+            #         time.sleep(1)
+            #         s.screen.switch_frame(feedback_relax)
+            #         s.str_to_say ="feedback_relax"
+            #         time.sleep(1)
 
 
     def relax_encouragement(self):
@@ -151,7 +152,7 @@ class Camera(threading.Thread):
     def random_encouragement(self):
         #rand = random.random()
         rand=0.1 #only for testing - delete after
-        time.sleep(1)
+        #time.sleep(1)
         print("encouragement")
         if rand < 0.2:
             #s.screen.switch_frame(WellDonePage) #only for testing - remove for note after
@@ -867,7 +868,8 @@ class Camera(threading.Thread):
         print("try to say in function")
         counter = counter + 1
         s.str_to_say=str(counter)
-        time.sleep(1.5)
+        s.tts.say_wait(s.str_to_say)
+        #time.sleep(1.5)
         # if counter == 1:
         #     numberstr= "OnePage"
         # s.screen.switch_frame(numberstr)
@@ -908,38 +910,62 @@ if __name__ == '__main__':
     s.waved = False
     s.finish_workout = False
     s.success_exercise = False
-    #testing:
+    #testing - works:
     #s.req_exercise = "hello_waving"
-    #s.req_exercise = "raise_left_arm_horiz"
-    s.req_exercise = "raise_right_arm_horiz"
-
-
-    # s.req_exercise = "raise_arms_horizontally"
-    # s.req_exercise = "bend_elbows"
-    #s.req_exercise = "raise_arms_forward_static"
-    # s.req_exercise = "raise_right_arm_and_lean"
-    # s.req_exercise = "raise_left_arm_and_lean"
-    #s.req_exercise = "hello_waving"
-    s.tts.start()
+    #number 1:
+    # s.req_exercise="raise_arms_horizontally_separate"
+    # s.req_exercise = "raise_left_arm_horiz"
+    # s.req_exercise = "raise_right_arm_horiz"
+    #number 2:
+    # s.req_exercise="raise_arms_horizontally"
+    #number 3:
+    # s.req_exercise="bend_elbows"
+    #number 4- more checking!
+    #s.req_exercise="raise_arms_forward_static"
+    #number 5:
+    #s.req_exercise="raise_arms_bend_elbows"
+    #number 6 - more checking!
+    #s.req_exercise="raise_arms_horizontally_turn"
+    #number 7 - need more work:
+    #s.req_exercise="raise_arms_forward"
+    # number 8 - dosent work:
+    #s.req_exercise = "raise_arms_forward_separate"
+    # number 8 - dosent work:
+    #s.req_exercise = "raise_arms_forward_separate"
+    #s.req_exercise = "raise_right_arm_forward"
+    #s.req_exercise = "raise_left_arm_forward" - works
+    # number 9:
+    #s.req_exercise = "raise_arms_90_and_up"
+    # number 11:
+    #s.req_exercise = "open_arms_and_forward"
+    # number 13:
+    #s.req_exercise = "open_hands_and_raise_up"
+    # number 14:
+    #s.req_exercise = "open_and_close_arms_90"
+    # number 17:
+    #s.req_exercise = "raise_arms_forward_turn"
     s.camera = Camera()
     s.camera.start()
 
 
 
 """
-        1.	raise_hands_horizontally_separate
-2.	raise_arms_horizontally
-3.	bend_elbows
-4.	raise_arms_forward_static
-5.	raise_arms_bend_elbows
-6.	raise_arms_horizontally_turn_hands
-7.	raise_arms_forward
-8.	raise_arms_forward_separate
-9.	raise_arms_90_and_up
-10.	raise_arms_and_lean
-11.	open_arms_and_move_forward
-12.	raise_hands_and_fold_backward
-13.	open_hands_and_raise_up
-14.	open_and_close_arms_90
-15.	raise_arms_forward_turn_hands
- """
+self.raise_arms_horizontally_separate
+self.raise_arms_horizontally
+self.bend_elbows,
+self.raise_arms_forward_static,
+self.raise_arms_bend_elbows
+self.raise_arms_horizontally_turn
+self.raise_arms_forward,
+self.raise_arms_forward_separate,
+self.raise_arms_90_and_up
+self.raise_arms_and_lean_dynmic
+self.open_arms_and_forward,
+self.raise_hands_and_fold_backward,
+self.open_hands_and_raise_up
+self.open_and_close_arms_90
+self.open_and_close_arms_90,
+self.open_and_down_arms_90,
+self.to_90_and_down_arms
+self.raise_arms_forward_turn
+"""

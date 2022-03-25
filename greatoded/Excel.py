@@ -23,7 +23,7 @@ def wf_joints(ex_name, list_joints):
     :return:
     '''
     current_time = datetime.datetime.now()
-    name = ex_name + str(current_time.day)+str(current_time.hour)+str(current_time.minute) + str(current_time.second)
+    name = ex_name +"_"+ str(current_time.day)+str(current_time.month)+str(current_time.hour)+str(current_time.minute) + str(current_time.second)
     s.worksheet = s.excel_workbook.add_worksheet(name)
     frame_number = 1
 

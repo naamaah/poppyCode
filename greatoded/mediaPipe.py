@@ -47,18 +47,6 @@ class Detection (threading.Thread):
                 image.flags.writeable = False
                 results = pose.process(image)
 
-                # try:
-                #     landmarks = results.pose_landmarks.landmark
-                #     if nolist:
-                #         lndmark_list = []
-                #         for lndmark in mp_pose.PoseLandmark:
-                #             lndmark_list = lndmark_list.append(lndmark.value)
-                #         print(lndmark_list)
-                #         nolist = False
-                # except:
-                #     #print("pass")
-                #     pass
-
                 if not results.pose_landmarks:
                     continue #back to the beginning of the loop
 

@@ -5,7 +5,14 @@ def __init__():
     global isCamera
     global isMediaPipe
     global isRobot
+
+    #to understand
     global numberOfWorkout
+    global exercies_amount
+
+    #new for naama
+    global sessionNumber
+    global TBALevel
 
     global audio_path
     global pic_path
@@ -19,16 +26,18 @@ def __init__():
     global rep #Number of repetition for exercise
     global finish_workout #True if finished the workout
 
-    global req_exercise
+    global req_exercise # for camera
+    global exercise_num
     global str_to_say
     global success_exercise
+
+    #camera mediaPipe
     global current_joint_list
     global current_frame_from_joint_list
     global prev_frame_from_joint_list
 
-    global exercies_amount
 
-    global clickedTryAgain
+    # global clickedTryAgain
 
     #variables for cognitive game 1
     global cogGame #cogGame running or not

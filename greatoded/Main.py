@@ -84,7 +84,7 @@ if __name__ == '__main__':
     #s.facemove=False #not relevant
 
     s.tts = TTS()
-    s.tts.start()
+    #s.tts.say_no_wait()
     s.robot.start()
     s.screen = Screen()
     app = FullScreenApp(s.screen)

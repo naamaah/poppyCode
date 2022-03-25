@@ -90,7 +90,7 @@ class CameraNew(threading.Thread):
         if flag:
             return jointData
         else:
-            print(jointNumber+" isnt exist")
+            #print(jointNumber+" isnt exist")
             return False
 
     # # input - 2 joints lists; output - T if y(a)>y(b)
@@ -133,23 +133,24 @@ class CameraNew(threading.Thread):
         if(s.success_exercise):
             if (s.relax==False):
                 s.str_to_say = self.random_encouragement()
+                s.tts.say_wait(s.str_to_say)
                 print("finish"+s.str_to_say)
             elif(s.relax==True):
                 if(s.relaxname=="bend_elbows_relax"):
                     time.sleep(1)
                     s.screen.switch_frame(feedback_elbow)
                     s.str_to_say = self.relax_encouragement()
-                    time.sleep(1)
+                    s.tts.say_wait(s.str_to_say)
                 elif(s.relaxname=="turn_head_left"):
                     time.sleep(1)
                     s.screen.switch_frame(feedback_head)
                     s.str_to_say = self.relax_encouragement()
-                    time.sleep(1)
+                    s.tts.say_no_wait(s.str_to_say)
                 elif(s.relaxname=="smile"):
                     time.sleep(1)
                     s.screen.switch_frame(feedback_relax)
                     s.str_to_say ="feedback_relax"
-                    time.sleep(1)
+                    s.tts.say_no_wait(s.str_to_say)
 
 
     def relax_encouragement(self):
@@ -165,11 +166,11 @@ class CameraNew(threading.Thread):
         else:
             return "robotverygood"
     def random_encouragement(self):
-        #rand = random.random() #only for camera check
-        rand=0.1
-        time.sleep(1)
+        rand = random.random() #only for camera check
+        #rand=0.1
+        #time.sleep(1)
         if rand < 0.2:
-            #s.screen.switch_frame(WellDonePage) #only for camera check
+            s.screen.switch_frame(WellDonePage) #only for camera check
             return "well done"
         elif rand < 0.4:
             s.screen.switch_frame(VeryGoodPage)
@@ -205,7 +206,7 @@ class CameraNew(threading.Thread):
                 new_entry.append("wave")
                 list_joints.append(new_entry)
                 s.req_exercise = ""
-                s.str_to_say = "1" #for check camera
+                #s.str_to_say = "1" #for check camera
                 #return True
             list_joints.append(new_entry)
             Excel.wf_joints("hello_waving",list_joints)
@@ -905,7 +906,8 @@ class CameraNew(threading.Thread):
         print("try to say in function")
         counter = counter + 1
         s.str_to_say=str(counter)
-        time.sleep(1.5)
+        s.tts.say_wait(s.str_to_say)
+        #time.sleep(1.5)
         # if counter == 1:
         #     numberstr= "OnePage"
         # s.screen.switch_frame(numberstr)
