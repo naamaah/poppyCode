@@ -15,7 +15,6 @@ class Screen(tk.Tk):
         self._frame = None
         self.switch_frame(HelloPage)
         self["bg"]="#F3FCFB"
-        self.switch_frame(Q1_page)
 
     def switch_frame(self, frame_class):
         """Destroys current frame and replaces it with a new one."""
@@ -155,7 +154,7 @@ class Q1_page(tk.Frame):
     def __init__(self, master):
         tk.Frame.__init__(self, master)
         if(s.female==False):
-            image1 = Image.open(s.pic_path+'begin_page.jpg')
+            image1 = Image.open(s.pic_path+'Q1.jpg')
         else:
             image1 = Image.open(s.pic_path+'Q1_female.jpg')
         self.photo_image1 = ImageTk.PhotoImage(image1)
@@ -164,42 +163,190 @@ class Q1_page(tk.Frame):
 
         image_a = Image.open(s.pic_path+'Q1_a.jpg')
         self.photo_image_a = ImageTk.PhotoImage(image_a)
-        button_a= tk.Button(image=self.photo_image_a, command=self.on_click_right)
+        button_a= tk.Button(image=self.photo_image_a, command=self.on_click_a)
         button_a["border"] = 0
         button_a.pack()
-        button_a.place(height=260, width=460, x=663, y=180)
+        button_a.place(height=150, width=350, x=120, y=190)
 
-        image_b = Image.open(s.pic_path+'Q1_b.png')
+        image_b = Image.open(s.pic_path + 'Q1_b.jpg')
         self.photo_image_b = ImageTk.PhotoImage(image_b)
-        button_b= tk.Button(image=self.photo_image_b, command=self.on_click_left)
+        button_b = tk.Button(image=self.photo_image_b, command=self.on_click_b)
         button_b["border"] = 0
         button_b.pack()
-        button_b.place(height=260, width=460, x=62, y=180)
+        button_b.place(height=150, width=350, x=120, y=380)
+
+        image_c = Image.open(s.pic_path+'Q1_c.jpg')
+        self.photo_image_c = ImageTk.PhotoImage(image_c)
+        button_c= tk.Button(image=self.photo_image_c, command=self.on_click_c)
+        button_c["border"] = 0
+        button_c.pack()
+        button_c.place(height=150, width=350, x=520, y=190)
+
+        image_d = Image.open(s.pic_path + 'Q1_d.jpg')
+        self.photo_image_d = ImageTk.PhotoImage(image_d)
+        button_d = tk.Button(image=self.photo_image_d, command=self.on_click_d)
+        button_d["border"] = 0
+        button_d.pack()
+        button_d.place(height=150, width=350, x=520, y=380)
 
 
-    def on_click_right(self):
-        print("image clicked - (GUI class)")
-        s.relax = False
-        mylist = ['physical training']
+    def on_click_a(self):
+        print("q1-a - (GUI class)")
+        s.Q1_answer = 'a'
+        mylist = ['Q1-a']
         excel_path = s.general_path+'data_shik.csv'
         with open(excel_path, "ab") as f:
             f.write(b"\n")
             savetxt(f, mylist, fmt='%s')
         s.screen.switch_frame(BlankPage)
 
-    def on_click_left(self):
-        print("image clicked - (GUI class)")
-        s.relax=True
-        now = datetime.now()
-        dt_t = str(date.today())
-        td_t = str(now.strftime("%H:%M:%S"))
-        mylist = [dt_t,td_t,'Relaxation mode']
+    def on_click_b(self):
+        print("q1-b - (GUI class)")
+        s.Q1_answer = 'b'
+        mylist = ['Q1-b']
+        excel_path = s.general_path + 'data_shik.csv'
+        with open(excel_path, "ab") as f:
+            f.write(b"\n")
+            savetxt(f, mylist, fmt='%s')
+        s.screen.switch_frame(BlankPage)
+
+    def on_click_c(self):
+        print("q1-c - (GUI class)")
+        s.Q1_answer = 'c'
+        mylist = ['Q1-c']
+        excel_path = s.general_path + 'data_shik.csv'
+        with open(excel_path, "ab") as f:
+            f.write(b"\n")
+            savetxt(f, mylist, fmt='%s')
+        s.screen.switch_frame(BlankPage)
+
+    def on_click_d(self):
+        print("q1-d - (GUI class)")
+        s.Q1_answer = 'd'
+        mylist = ['Q1-d']
+        excel_path = s.general_path + 'data_shik.csv'
+        with open(excel_path, "ab") as f:
+            f.write(b"\n")
+            savetxt(f, mylist, fmt='%s')
+        s.screen.switch_frame(BlankPage)
+
+class Q2_page(tk.Frame):
+    def __init__(self, master):
+        tk.Frame.__init__(self, master)
+        image1 = Image.open(s.pic_path+'Q2.jpg')
+        self.photo_image1 = ImageTk.PhotoImage(image1)
+        self.background_label = tk.Label(image=self.photo_image1)
+        self.background_label.pack()
+
+        image_a = Image.open(s.pic_path+'Q2_a.jpg')
+        self.photo_image_a = ImageTk.PhotoImage(image_a)
+        button_a= tk.Button(image=self.photo_image_a, command=self.on_click_a)
+        button_a["border"] = 0
+        button_a.pack()
+        button_a.place(height=150, width=350, x=120, y=190)
+
+        image_b = Image.open(s.pic_path + 'Q2_b.jpg')
+        self.photo_image_b = ImageTk.PhotoImage(image_b)
+        button_b = tk.Button(image=self.photo_image_b, command=self.on_click_b)
+        button_b["border"] = 0
+        button_b.pack()
+        button_b.place(height=150, width=350, x=520, y=190)
+
+        image_c = Image.open(s.pic_path+'Q2_c.jpg')
+        self.photo_image_c = ImageTk.PhotoImage(image_c)
+        button_c= tk.Button(image=self.photo_image_c, command=self.on_click_c)
+        button_c["border"] = 0
+        button_c.pack()
+        button_c.place(height=150, width=350, x=320, y=380)
+
+    def on_click_a(self):
+        print("q2-a - (GUI class)")
+        s.Q2_answer = 'a'
+        mylist = ['Q2-a']
         excel_path = s.general_path+'data_shik.csv'
         with open(excel_path, "ab") as f:
             f.write(b"\n")
             savetxt(f, mylist, fmt='%s')
         s.screen.switch_frame(BlankPage)
 
+    def on_click_b(self):
+        print("q2-b - (GUI class)")
+        s.Q2_answer = 'b'
+        mylist = ['Q2-b']
+        excel_path = s.general_path + 'data_shik.csv'
+        with open(excel_path, "ab") as f:
+            f.write(b"\n")
+            savetxt(f, mylist, fmt='%s')
+        s.screen.switch_frame(BlankPage)
+
+    def on_click_c(self):
+        print("q2-c - (GUI class)")
+        s.Q2_answer = 'c'
+        mylist = ['Q2-c']
+        excel_path = s.general_path + 'data_shik.csv'
+        with open(excel_path, "ab") as f:
+            f.write(b"\n")
+            savetxt(f, mylist, fmt='%s')
+        s.screen.switch_frame(BlankPage)
+
+class Q3_page(tk.Frame):
+    def __init__(self, master):
+        tk.Frame.__init__(self, master)
+        image1 = Image.open(s.pic_path+'Q3.jpg')
+        self.photo_image1 = ImageTk.PhotoImage(image1)
+        self.background_label = tk.Label(image=self.photo_image1)
+        self.background_label.pack()
+
+        image_a = Image.open(s.pic_path+'Q3_a.jpg')
+        self.photo_image_a = ImageTk.PhotoImage(image_a)
+        button_a= tk.Button(image=self.photo_image_a, command=self.on_click_a)
+        button_a["border"] = 0
+        button_a.pack()
+        button_a.place(height=150, width=350, x=120, y=190)
+
+        image_b = Image.open(s.pic_path + 'Q3_b.jpg')
+        self.photo_image_b = ImageTk.PhotoImage(image_b)
+        button_b = tk.Button(image=self.photo_image_b, command=self.on_click_b)
+        button_b["border"] = 0
+        button_b.pack()
+        button_b.place(height=150, width=350, x=520, y=190)
+
+        image_c = Image.open(s.pic_path+'Q3_c.jpg')
+        self.photo_image_c = ImageTk.PhotoImage(image_c)
+        button_c= tk.Button(image=self.photo_image_c, command=self.on_click_c)
+        button_c["border"] = 0
+        button_c.pack()
+        button_c.place(height=150, width=350, x=320, y=380)
+
+    def on_click_a(self):
+        print("q3-a - (GUI class)")
+        s.Q3_answer = 'a'
+        mylist = ['Q3-a']
+        excel_path = s.general_path+'data_shik.csv'
+        with open(excel_path, "ab") as f:
+            f.write(b"\n")
+            savetxt(f, mylist, fmt='%s')
+        s.screen.switch_frame(BlankPage)
+
+    def on_click_b(self):
+        print("q3-b - (GUI class)")
+        s.Q3_answer = 'b'
+        mylist = ['Q3-b']
+        excel_path = s.general_path + 'data_shik.csv'
+        with open(excel_path, "ab") as f:
+            f.write(b"\n")
+            savetxt(f, mylist, fmt='%s')
+        s.screen.switch_frame(BlankPage)
+
+    def on_click_c(self):
+        print("q3-c - (GUI class)")
+        s.Q3_answer = 'c'
+        mylist = ['Q3-c']
+        excel_path = s.general_path + 'data_shik.csv'
+        with open(excel_path, "ab") as f:
+            f.write(b"\n")
+            savetxt(f, mylist, fmt='%s')
+        s.screen.switch_frame(BlankPage)
 
 
 class StartPage(tk.Frame):

@@ -7,7 +7,8 @@ import Settings as s
 import time
 import threading
 import random
-from GUI2 import StartPage, weightPage, TryAgainPage, BlankPage, GoodbyePage, ExercisePage, lastquestion, shutdown_win,Q1_page
+from GUI2 import StartPage, weightPage, TryAgainPage, BlankPage, GoodbyePage, ExercisePage, lastquestion, shutdown_win,\
+    Q1_page, Q2_page, Q3_page
 # \
 #  begin_page,   StartPage_Relax, Relax_Page_ber, lastquestion_relax, relax_thl, relax_thr, relax_thd, facemovement_Relax, teeth, \
 #     eyes, eyebrows, smile
@@ -46,34 +47,34 @@ class Poppy(threading.Thread):
     def run(self):
         print("Poppy class - run function")
         print("hello wave, introduction - (Poppy class)")
-        self.run_exercise(self.hello_waving, "hello") # the robot
-        #time.sleep(3)
-        #delete the page that choose which exercise to do - realx or physical
-        s.screen.switch_frame(Q1_page)
-        #s.str_to_say = 'Start_page'
-        # while (s.relax==None):
-        #     continue
-        # if(s.relax==False):
-        #     self.exercise_run()
-        #     print("done poppy")
-        # else:
-        #     self.relaxrun()
+        #For TBA levels
+        if (s.sessionNumber==1):
+            self.run_exercise(self.hello_waving, "hello")  # the robot wave
+            s.tts.say_wait("Answer to Question")
+            s.tts.say_no_wait("Q1")
+            s.screen.switch_frame(Q1_page)
+            while (s.Q1_answer==None):  # wait for participant to answer Q1
+                continue
+            s.tts.say_no_wait("Q2")
+            s.screen.switch_frame(Q2_page)
+            while (s.Q2_answer == None):  # wait for participant to answer Q2
+                continue
+            s.tts.say_no_wait("Q3")
+            s.screen.switch_frame(Q3_page)
+            while (s.Q3_answer == None):  # wait for participant to answer Q3
+                continue
+            s.tts.say_no_wait("Thanks for answer")
+        else:
+            self.run_exercise(self.hello_waving, "NoAudio")  # the robot wave
         self.exercise_run()
         print("done poppy")
 
     def exercise_run(self):
         print("Poppy class - exercise_run function")
-        # s.pickWeights = False
         s.waved = False
-        # s.str_to_say ="adding weights"
-        # s.tts.say_no_wait(s.str_to_say)
-        # s.screen.switch_frame(weightPage)
-        # while not s.pickWeights:
-        #     continue
         s.str_to_say = 'ready wave'
         s.tts.say_no_wait(s.str_to_say)
         s.screen.switch_frame(StartPage)
-        s.relax=False
         while (not s.waved): # wait for participant to wave or to clicked on the screen
            continue
         time.sleep(1)
@@ -81,14 +82,15 @@ class Poppy(threading.Thread):
         print("Let's start! - (Poppy class)")
         s.str_to_say='lets start'
         s.tts.say_wait(s.str_to_say)
-        #time.sleep(2)
-        self.countexc=np.zeros([s.exercies_amount+1,1])
-
-        exercise_names=[self.raise_arms_horizontally_separate,self.raise_arms_horizontally,self.bend_elbows,self.raise_arms_forward_static,
+        all_exercise_names=[self.raise_arms_horizontally_separate,self.raise_arms_horizontally,self.bend_elbows,self.raise_arms_forward_static,
                         self.raise_arms_bend_elbows,self.raise_arms_horizontally_turn, self.raise_arms_forward, self.raise_arms_forward_separate,
                         self.raise_arms_90_and_up,self.raise_arms_and_lean_dynmic, self.open_arms_and_forward, self.raise_hands_and_fold_backward,
                         self.open_hands_and_raise_up, self.open_and_close_arms_90, self.open_and_close_arms_90, self.open_and_down_arms_90,
                         self.to_90_and_down_arms, self.raise_arms_forward_turn]
+
+        right_exercise_names = [self.raise_right_arm_horiz,self.raise_right_arm_forward,self.raise_right_arm_and_lean_dynmic]
+
+        left_exercise_names = [self.raise_left_arm_horiz,self.raise_left_arm_forward,self.raise_left_arm_and_lean_dynmic]
 
         # exercise_onlyTwoHandTogether = [self.raise_arms_horizontally, self.bend_elbows,
         #                   self.raise_arms_bend_elbows, self.raise_arms_forward,
@@ -96,18 +98,76 @@ class Poppy(threading.Thread):
         #                   self.raise_hands_and_fold_backward,
         #                   self.open_hands_and_raise_up, self.open_and_close_arms_90]
 
-        chosen_exercises = [self.raise_arms_horizontally]
-        #only for testing all the exercise
+        if (s.sessionNumber==1):
+            #choose randomly the exercise for this session
+            chosen_exercises = []
+            while len(chosen_exercises) < s.exercies_amount:
+                ex = random.choice(all_exercise_names)
+                if ex.amount != 2:  # only two hands
+                    if ex not in chosen_exercises:
+                        chosen_exercises.append(ex)
+            print (chosen_exercises)
+            s.rep=random.randint(9,12)
+            print("number of repetition"+str(s.rep))
+        elif (s.sessionNumber==2):
+            #questions!
+            #question 3
+            if (s.Q3_answer=='a'):
+                s.whichExercise_Q3 = 'Weights'
+            elif (s.Q3_answer=='c'): #for now withput weights
+                #s.pickWeights=random.choice([True, False])
+                s.whichExercise_Q3 = 'No Weights'
+            # else: # s.Q3_answer=='b'
+            #     s.whichExercise='Static'
 
-        """
-        #choose randomly the exercise for this practice
-        chosen_exercises = []
-        while len(chosen_exercises) <= s.exercies_amount:
-            ex = random.choice(exercise_names)
-            if ex not in chosen_exercises:
-                chosen_exercises.append(ex)
-        print (chosen_exercises)
-        """
+            # question 2
+            if (s.Q2_answer == 'a'): #problem with left
+                s.whichExercise_Q2 = 'Right'
+            elif (s.Q2_answer == 'b'):
+                s.whichExercise_Q2 = 'Left'
+            else:
+                s.whichExercise_Q2 = 'All'
+
+            # question 1
+            if (s.Q1_answer == 'a'):
+                if (s.whichExercise_Q3 == 'Weights'):
+                    s.rep=random.randint(7,8)
+                else:
+                    s.rep = 9
+            elif (s.Q1_answer == 'b'):
+                if (s.whichExercise_Q3 == 'Weights'):
+                    s.rep = random.randint(8, 9)
+                else:
+                    s.rep = 10
+            elif (s.Q1_answer == 'c'):
+                if (s.whichExercise_Q3 == 'Weights'):
+                    s.rep = random.randint(9, 10)
+                else:
+                    s.rep = 11
+            else: # d
+                if (s.whichExercise_Q3 == 'Weights'):
+                    s.rep = random.randint(10, 11)
+                else:
+                    s.rep = 12
+
+            #exercise chosen:
+            chosen_exercises = []
+            while len(chosen_exercises) < s.exercies_amount:
+                if(s.whichExercise_Q2 == 'Right'):
+                  ex = random.choice(right_exercise_names)
+                  if ex not in chosen_exercises:
+                    chosen_exercises.append(ex)
+                elif(s.whichExercise_Q2 == 'Left'):
+                    ex = random.choice(left_exercise_names)
+                    if ex not in chosen_exercises:
+                        chosen_exercises.append(ex)
+                else: #no problem - need to fix that it wpnt be the sem exercise as pervious session
+                    ex = random.choice(all_exercise_names)
+                    if ex not in chosen_exercises:
+                        chosen_exercises.append(ex)
+            print(chosen_exercises)
+            print("number of repetition" + str(s.rep))
+        # else: # session 3
 
         #### RUN WORKOUT
         count = 0
@@ -116,12 +176,11 @@ class Poppy(threading.Thread):
         s.screen.switch_frame(ExercisePage)
         for e in chosen_exercises:
             count = count + 1
-            print(e)
+            print(exercise_name)
             if e.amount == 2: #for exercise with two separate hands
                 self.run_exercise(e, "")
             else:
                 exercise_name = getattr(e, "instructions")
-                print (exercise_name +"exercise!!!!!!")
                 self.run_exercise(e, exercise_name)
         self.finish_workout()
 
@@ -147,64 +206,6 @@ class Poppy(threading.Thread):
         if (exercise_name != "hello"):
             s.req_exercise = ""
             time.sleep(4)
-
-
-    # def repeat_exercise(self):
-    #     print("Poppy class - repeat_exercise function")
-    #     print("You need to do the exercise 8 times. if you want to try again please raise your right hand  - (Poppy class)")
-    #     # s.tts.say='feedback 8 times'
-    #     s.str_to_say='try again'
-    #     s.tts.say_no_wait(s.str_to_say)
-    #     s.waved = False
-    #     self.time1 = time.time()
-    #     self.time2 = 0
-    #     s.req_exercise = "hello_waving"
-    #     time.sleep(1)
-    #     s.screen.switch_frame(TryAgainPage)
-    #     time.sleep(5)
-    #     while not s.waved and (self.time2 - self.time1 < 30) and not s.clickedTryAgain:
-    #         self.time2 = time.time()
-    #         continue
-    #     s.req_exercise = ""
-    #     s.clickedTryAgain = False
-    #     time.sleep(1)
-    #     if s.waved:
-    #         s.screen.switch_frame(ExercisePage)
-    #         return True
-    #     else:
-    #         return False
-    #
-    # def run_exercise_and_repeat(self, exercise, exercise_name):
-    #     print("Poppy class - run_exercise_and_reapet function")
-    #     time.sleep(1)
-    #     if(exercise_name=="bend_elbows_relax"):
-    #         s.screen.switch_frame(Relax_Page_ber)
-    #         self.run_exercise(exercise, exercise_name)
-    #     elif(exercise_name=="turn_head_left"):
-    #         s.screen.switch_frame(relax_thl)
-    #         self.run_exercise(exercise, exercise_name)
-    #     elif(exercise_name=="turn_head_right"):
-    #         s.screen.switch_frame(relax_thr)
-    #         self.run_exercise(exercise, exercise_name)
-    #     elif(exercise_name=="turn_head_down"):
-    #         s.screen.switch_frame(relax_thd)
-    #         self.run_exercise(exercise, exercise_name)
-    #     elif(exercise_name=="teeth"):
-    #         s.screen.switch_frame(teeth)
-    #         self.run_exercise(exercise, exercise_name)
-    #     elif (exercise_name == "eyes"):
-    #         s.screen.switch_frame(eyes)
-    #         self.run_exercise(exercise, exercise_name)
-    #     elif (exercise_name == "eyebrows"):
-    #         s.screen.switch_frame(eyebrows)
-    #         self.run_exercise(exercise, exercise_name)
-    #     elif (exercise_name == "smile"):
-    #         s.screen.switch_frame(smile)
-    #         self.run_exercise(exercise, exercise_name)
-    #     else:
-    #         print("ExercisePage")
-    #         s.screen.switch_frame(ExercisePage)
-    #         self.run_exercise(exercise, exercise_name)
 
     def finish_workout(self):
         print("Poppy class - finish_workout function")
@@ -676,7 +677,7 @@ class Poppy(threading.Thread):
         self.poppy.r_elbow_y.goto_position(90, 1.5, wait=False)
         self.poppy.l_elbow_y.goto_position(90, 1.5, wait=True)
 
-    @func_attributes(number=15, amount=1, instructions="open and down arms 90")
+    @func_attributes(number=15, amount=1, instructions="NoAudio")
     def open_and_down_arms_90(self):
         for i in range(s.rep):
             self.poppy.l_arm_z.goto_position(90, 1.5, wait=False)

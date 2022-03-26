@@ -20,7 +20,7 @@ import threading
 if __name__ == '__main__':
     # Settings for exercises
     language = 'Hebrew'
-    gender = 'Female'
+    gender = 'Male'
     s.female=False
     s.isCamera=False #False - No camera, True- there is camera
     s.isMediaPipe=False #false-Nuitrack(Camera), True-mediaPipe(CameraNew)
@@ -34,30 +34,41 @@ if __name__ == '__main__':
     s.pic_path = s.general_path + 'Pictures/'
     s.audio_path = s.general_path + 'audioFiles/' +language + '/' + gender + '/'
 
+
     s.clickrelax=False
-    s.exercies_amount=4
-    s.relax=False #if i want to use realx exrcise change to None
+    s.exercies_amount=3
     s.waved = False
-    s.pickWeights = False
     s.finish_workout = False
-    s.rep =4# Number of repetitions for exercises - the robot doing
+    s.rep=0 # Number of repetitions for exercises - the robot doing and the user need to do
     s.req_exercise = ""
     s.str_to_say = ""
-    s.clickedTryAgain = False
-    s.cogGame = False
 
-#Level for cognitive game
-    s.words_number = 4 #game1
-    s.light_tiles_num = 7 #game2
-    s.shape_number = 2 #game 4
-    s.words_number_color = 4 #game5
-    #math game - game3
-    s.low_addsub = 10 #level 1:1 level2:10 level3:10
-    s.high_addsub = 50 #level 1:50 level2:50 level3:100
-    s.low_mul_first = 1 #level 1:1 level2:1 level3:1
-    s.high_mul_first = 5 #level 1:5 level2:5 level3:9
-    s.low_mul_second = 10 #level 1:2 level2:10 level3:10
-    s.high_mul_second = 50 #level 1:6 level2:50 level3:50
+    #TBA
+    s.sessionNumber = 1
+    # s.TBALevel
+    s.Q1_answer = None
+    s.Q2_answer = None
+    s.Q3_answer = None
+
+
+# #Level for cognitive game
+#     s.words_number = 4 #game1
+#     s.light_tiles_num = 7 #game2
+#     s.shape_number = 2 #game 4
+#     s.words_number_color = 4 #game5
+#     #math game - game3
+#     s.low_addsub = 10 #level 1:1 level2:10 level3:10
+#     s.high_addsub = 50 #level 1:50 level2:50 level3:100
+#     s.low_mul_first = 1 #level 1:1 level2:1 level3:1
+#     s.high_mul_first = 5 #level 1:5 level2:5 level3:9
+#     s.low_mul_second = 10 #level 1:2 level2:10 level3:10
+#     s.high_mul_second = 50 #level 1:6 level2:50 level3:50
+
+    #boolean not relevant
+    # s.relax=False #if i want to use realx exrcise change to None
+    # s.pickWeights = False
+    # s.clickedTryAgain = False
+    # s.cogGame = False
 
     if (s.isCamera==True):
         if(s.isMediaPipe==True): #cameraNew

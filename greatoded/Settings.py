@@ -10,22 +10,27 @@ def __init__():
     global numberOfWorkout
     global exercies_amount
 
-    #new for naama
-    global sessionNumber
-    global TBALevel
-
     global audio_path
     global pic_path
     global excel_path
     global realsense_path
 
-    global tts
+    # new for naama
+    global sessionNumber
+    global TBALevel
+    global Q1_answer
+    global Q2_answer
+    global Q3_answer
+    global pickWeights  # True - q3-q or maybe q3-c.
+    global whichExercise_Q1
+    global whichExercise_Q2
+    global whichExercise_Q3
 
     global waved #True if the participant waved for statring the workout
-    global pickWeights #True after finish the process of wieghts picking.
     global rep #Number of repetition for exercise
     global finish_workout #True if finished the workout
 
+    global tts
     global req_exercise # for camera
     global exercise_num
     global str_to_say
