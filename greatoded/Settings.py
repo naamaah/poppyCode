@@ -16,18 +16,29 @@ def __init__():
     global realsense_path
 
     # new for naama
+    global subjectNum
     global sessionNumber
     global TBALevel
     global Q1_answer
     global Q2_answer
     global Q3_answer
-    global pickWeights  # True - q3-q or maybe q3-c.
-    global whichExercise_Q1
+    # global pickWeights  # True - q3-q or maybe q3-c.
+    # global whichExercise_Q1
     global whichExercise_Q2
     global whichExercise_Q3
+    global exercises_session1
+    global exercises_session2
+    # global exercises_session3
+    global all_exercise_names
+    global right_exercise_names
+    global left_exercise_names
+    global Two_hands_exercise_names
+    global current_count
+
 
     global waved #True if the participant waved for statring the workout
     global rep #Number of repetition for exercise
+    global chance
     global finish_workout #True if finished the workout
 
     global tts

@@ -11,7 +11,10 @@ class Realsense (threading.Thread) :
 
     def run(self):
         os.system(s.realsense_path)
-        print("running")
+        # print("running")
+        # now = datetime.now()
+        # current_time = now.strftime("%H:%M:%S")
+        # print(current_time)
 
     def stop(self):
         os.system("taskkill /f /im  nuitrack_console_sample.exe")

@@ -44,6 +44,14 @@ class ExercisePage(tk.Frame):
         self.photo_image = ImageTk.PhotoImage(image) #self. - for keeping the photo in memory so it will be shown
         tk.Label(self, image = self.photo_image).pack()
 
+class ExamplePage(tk.Frame):
+    def __init__(self, master):
+        tk.Frame.__init__(self, master)
+        image = Image.open(s.pic_path+'example.jpg')
+        self.photo_image = ImageTk.PhotoImage(image) #self. - for keeping the photo in memory so it will be shown
+        tk.Label(self, image = self.photo_image).pack()
+
+
 # class Relax_Page_ber(tk.Frame):
 #     def __init__(self, master):
 #         tk.Frame.__init__(self, master)
@@ -262,6 +270,7 @@ class Q2_page(tk.Frame):
     def on_click_a(self):
         print("q2-a - (GUI class)")
         s.Q2_answer = 'a'
+        s.whichExercise_Q2 = 'Right'
         mylist = ['Q2-a']
         excel_path = s.general_path+'data_shik.csv'
         with open(excel_path, "ab") as f:
@@ -272,6 +281,7 @@ class Q2_page(tk.Frame):
     def on_click_b(self):
         print("q2-b - (GUI class)")
         s.Q2_answer = 'b'
+        s.whichExercise_Q2 = 'Left'
         mylist = ['Q2-b']
         excel_path = s.general_path + 'data_shik.csv'
         with open(excel_path, "ab") as f:
@@ -282,6 +292,7 @@ class Q2_page(tk.Frame):
     def on_click_c(self):
         print("q2-c - (GUI class)")
         s.Q2_answer = 'c'
+        s.whichExercise_Q2 = 'All'
         mylist = ['Q2-c']
         excel_path = s.general_path + 'data_shik.csv'
         with open(excel_path, "ab") as f:
@@ -304,12 +315,12 @@ class Q3_page(tk.Frame):
         button_a.pack()
         button_a.place(height=150, width=350, x=120, y=190)
 
-        image_b = Image.open(s.pic_path + 'Q3_b.jpg')
-        self.photo_image_b = ImageTk.PhotoImage(image_b)
-        button_b = tk.Button(image=self.photo_image_b, command=self.on_click_b)
-        button_b["border"] = 0
-        button_b.pack()
-        button_b.place(height=150, width=350, x=520, y=190)
+        # image_b = Image.open(s.pic_path + 'Q3_b.jpg')
+        # self.photo_image_b = ImageTk.PhotoImage(image_b)
+        # button_b = tk.Button(image=self.photo_image_b, command=self.on_click_b)
+        # button_b["border"] = 0
+        # button_b.pack()
+        # button_b.place(height=150, width=350, x=520, y=190)
 
         image_c = Image.open(s.pic_path+'Q3_c.jpg')
         self.photo_image_c = ImageTk.PhotoImage(image_c)
@@ -321,6 +332,7 @@ class Q3_page(tk.Frame):
     def on_click_a(self):
         print("q3-a - (GUI class)")
         s.Q3_answer = 'a'
+        s.whichExercise_Q3 = 'Weights'
         mylist = ['Q3-a']
         excel_path = s.general_path+'data_shik.csv'
         with open(excel_path, "ab") as f:
@@ -341,6 +353,7 @@ class Q3_page(tk.Frame):
     def on_click_c(self):
         print("q3-c - (GUI class)")
         s.Q3_answer = 'c'
+        s.whichExercise_Q3 = 'No Weights'
         mylist = ['Q3-c']
         excel_path = s.general_path + 'data_shik.csv'
         with open(excel_path, "ab") as f:

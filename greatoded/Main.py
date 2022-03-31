@@ -18,16 +18,23 @@ import pandas as pd
 import threading
 
 if __name__ == '__main__':
-    # Settings for exercises
+    # Settings for exercises - to change every run of the code!!!!
     language = 'Hebrew'
     gender = 'Male'
     s.female=False
-    s.isCamera=False #False - No camera, True- there is camera
+    s.isCamera=True #False - No camera, True- there is camera
     s.isMediaPipe=False #false-Nuitrack(Camera), True-mediaPipe(CameraNew)
     s.isRobot=False #False - simulator, True- real robot
-    s.numberOfWorkout=0
+    # TBA
+    s.subjectNum = 4
+    s.sessionNumber = 2
+    s.TBALevel=3
+    s.Q1_answer = None
+    s.Q2_answer = None
+    s.Q3_answer = None
+    s.exercies_amount=3
 
-    #s.realsense_path="C:\\Users\\owner\\Documents\\nuitrack-sdk-master\\Examples\\nuitrack_console_sample\\out\\build\\x64-Debug\\nuitrack_console_sample.exe"
+    #permenent - no need to change!
     s.realsense_path = R'C:\git\poppyCode\greatoded\nuitrack\Examples\nuitrack_console_sample\out\build\x64-Debug\nuitrack_console_sample.exe'
     s.excel_path = R'C:/Git/poppyCode/greatoded/excel_folder/'
     s.general_path = R'C:/Git/poppyCode/greatoded/'
@@ -36,19 +43,15 @@ if __name__ == '__main__':
 
 
     s.clickrelax=False
-    s.exercies_amount=3
     s.waved = False
     s.finish_workout = False
-    s.rep=0 # Number of repetitions for exercises - the robot doing and the user need to do
+    s.rep=0 # Number of repetitions for exercises - the robot doing and the user need to do - update in the code
     s.req_exercise = ""
     s.str_to_say = ""
-
-    #TBA
-    s.sessionNumber = 1
-    # s.TBALevel
-    s.Q1_answer = None
-    s.Q2_answer = None
-    s.Q3_answer = None
+    s.exercises_session1=[]
+    s.exercises_session2=[]
+    s.chance=False
+    s.current_count=0 #save the last repetition of the user.
 
 
 # #Level for cognitive game
@@ -69,6 +72,7 @@ if __name__ == '__main__':
     # s.pickWeights = False
     # s.clickedTryAgain = False
     # s.cogGame = False
+    # s.numberOfWorkout=0
 
     if (s.isCamera==True):
         if(s.isMediaPipe==True): #cameraNew
