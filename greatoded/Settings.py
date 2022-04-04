@@ -34,6 +34,9 @@ def __init__():
     global left_exercise_names
     global Two_hands_exercise_names
     global current_count
+    # global purposeTBA
+    # global processTBA
+    # global preformanceTBA
 
 
     global waved #True if the participant waved for statring the workout

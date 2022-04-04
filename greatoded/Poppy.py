@@ -1,6 +1,5 @@
 import sys
 from numpy.core._multiarray_umath import ndarray
-#from pypot.creatures import PoppyHumanoid
 from GUI2 import Screen, FullScreenApp
 from pypot.creatures import PoppyTorso
 import Settings as s
@@ -26,10 +25,6 @@ import Excel
 import simulator
 from tts import TTS
 from Camera import Camera
-# #from playsound import playsound
-# import winsound
-# import simpleaudio as sa
-# from pygame import mixer
 import math
 
 
@@ -92,7 +87,7 @@ class Poppy(threading.Thread):
             s.Q_answer.append([s.rep, s.whichExercise_Q2, s.whichExercise_Q3])
             Excel.wf_QA()
         else: #session 2 and 3
-            self.run_exercise(self.hello_waving, "NoAudio")  # the robot wave
+            self.run_exercise(self.hello_waving, "helloShort")  # the robot wave
         self.exercise_run()
         print("done poppy")
 
@@ -110,7 +105,7 @@ class Poppy(threading.Thread):
         s.str_to_say='lets start'
         s.tts.say_wait(s.str_to_say)
         s.all_exercise_names=[self.raise_arms_horizontally_separate,self.raise_arms_horizontally,self.bend_elbows,self.raise_arms_forward_static,
-                        self.raise_arms_bend_elbows,self.raise_arms_horizontally_turn, self.raise_arms_forward, self.raise_arms_forward_separate,
+                        self.open_arms_bend_elbows,self.raise_arms_horizontally_turn, self.raise_arms_forward, self.raise_arms_forward_separate,
                         self.raise_arms_90_and_up,self.raise_arms_and_lean_dynmic, self.open_arms_and_forward, self.raise_hands_and_fold_backward,
                         self.open_hands_and_raise_up, self.open_and_close_arms_90, self.open_and_close_arms_90, self.open_and_down_arms_90,
                         self.to_90_and_down_arms, self.raise_arms_forward_turn]
@@ -120,7 +115,7 @@ class Poppy(threading.Thread):
         s.left_exercise_names = [self.raise_left_arm_horiz,self.raise_left_arm_forward,self.raise_left_arm_and_lean_dynmic]
 
         s.Two_hands_exercise_names = [self.raise_arms_horizontally, self.bend_elbows,self.raise_arms_forward_static,
-                                self.raise_arms_bend_elbows, self.raise_arms_horizontally_turn, self.raise_arms_forward,
+                                self.open_arms_bend_elbows, self.raise_arms_horizontally_turn, self.raise_arms_forward,
                                 self.raise_arms_90_and_up,self.open_arms_and_forward, self.raise_hands_and_fold_backward,
                                 self.open_hands_and_raise_up, self.open_and_close_arms_90, self.open_and_close_arms_90,
                                 self.open_and_down_arms_90,self.to_90_and_down_arms, self.raise_arms_forward_turn]
@@ -129,15 +124,18 @@ class Poppy(threading.Thread):
             chosen_exercises=self.TBA1_exercise()
         elif (s.TBALevel == 2):
             chosen_exercises=self.TBA2And3_exercise()
+            s.tts.say_wait('reasonTBA2')
         else:  # TBALevel 3 - to change
             chosen_exercises=self.TBA2And3_exercise()
             # 1 rep of the robot to show the exercise.
             print("make an exmaple of each exercise")
             s.screen.switch_frame(ExamplePage)
+            s.tts.say_wait('ExplainTBAH3')
             tempRep=s.rep
             s.rep=1
             count=1
             for e in chosen_exercises:
+                s.tts.say_wait(str(count)+'EX')
                 if e.amount == 2:  # for exercise with two separate hands
                     self.run_exercise(e, "")
                 else:
@@ -145,7 +143,7 @@ class Poppy(threading.Thread):
                     self.run_exercise(e, exercise_name)
                 count=count+1
             s.rep=tempRep
-
+            s.tts.say_wait('reasonTBA3')
         #### RUN WORKOUT
         print("Exercises - (Poppy class)")
         print("ExercisePage")
@@ -183,21 +181,22 @@ class Poppy(threading.Thread):
         chosen_exercises = []
         while len(chosen_exercises) < s.exercies_amount:
             ex = random.choice(s.all_exercise_names)
-            print(ex.__name__)
+            # flag=False
             if ex.amount != 2:  # only two hands
                 if ex not in chosen_exercises:
                     if (s.sessionNumber==1):
                         chosen_exercises.append(ex)
+                        # flag = True
                     elif (s.sessionNumber==2):
                         if ex.__name__ not in s.exercises_session1:
                             chosen_exercises.append(ex)
-                        else:
-                            print("find new ex")
+                            # flag = True
                     else: #s.sessionNumber==3:
                         if ex.__name__ not in s.exercises_session1 and ex not in s.exercises_session2:
                             chosen_exercises.append(ex)
-                        else:
-                            print("find new ex")
+                            # flag = True
+            # if flag: #new exercise was add
+            #     s.
         print(chosen_exercises)
         s.rep = random.randint(9, 12)
         print("number of repetition" + str(s.rep))
@@ -206,7 +205,7 @@ class Poppy(threading.Thread):
     # TAB2 and TBA3 - chose exercise
     def TBA2And3_exercise(self):
         if (s.sessionNumber!=1):
-            Excel.readFromExcelQA()  # update the variable for the inforamtion from the user.
+            Excel.readFromExcelQA()  # update the variable for the information from the user.
             Excel.readFromExcelExercise()
         # exercise chosen:
         chosen_exercises = []
@@ -220,7 +219,7 @@ class Poppy(threading.Thread):
                 if ex not in chosen_exercises and ex.__name__ not in s.exercises_session1 and ex.__name__ not in s.exercises_session2:
                     chosen_exercises.append(ex)
             else:  # no problem - need to fix that it want be the sem exercise as pervious session
-                ex = random.choice(s.Two_hands_exercise_names)
+                ex = random.choice(s.all_exercise_names)
                 if ex not in chosen_exercises and ex.__name__ not in s.exercises_session1 and ex.__name__ not in s.exercises_session2:
                     chosen_exercises.append(ex)
         print(chosen_exercises)
@@ -229,26 +228,44 @@ class Poppy(threading.Thread):
 
     #run exercise
     def run_exercise(self, exercise, exercise_name):
+        if (s.sessionNumber!=1):
+            Excel.readFromExcelQA()  # update the variable for the information from the user.
         if (s.rep!=1):
             s.req_exercise=exercise.__name__
         print(s.rep)
         print("Poppy class - run_exercise function "+str(exercise.number)+str(exercise_name))
         s.success_exercise = False
         # time.sleep(2)
-        print(s.req_exercise+"whay")
-        s.str_to_say = exercise_name
-        s.tts.say_wait(s.str_to_say)
-        if (exercise_name != "hello"):
-            time.sleep(3) #for the camera
+        if (exercise_name != "hello" and exercise_name != "helloShort"):
+            # _____voice____:
+            purposeTBA = [exercise.why, exercise_name]
+            filePurpose = 'comb_purpose_' + str(s.subjectNum) + "_" + str(exercise.number)
+            s.tts.combainedAudio(purposeTBA, filePurpose)
+            if (exercise.count == 'rep'):
+                begin = 'beginExRep'
+            else:
+                begin = 'beginExFor'
+            if (s.whichExercise_Q3 == 'Weights'):
+                weights = 'withWeights'
+            else:
+                weights = ""
+            processTBA = [begin, str(s.rep) + exercise.count, weights]
+            fileProcess = 'comb_process_' + str(s.subjectNum) + "_" + str(exercise.number)
+            s.tts.combainedAudio(processTBA, fileProcess)
+            #time.sleep(3) #for the camera - TOCHECK
+        else:
+            s.tts.say_wait(exercise_name)
         exercise()  # the function of the current exercise.
-        if (exercise_name != "hello" and exercise_name !="NoAudio"):
+        if (exercise_name != "hello" and exercise_name !="helloShort"):
             s.req_exercise = ""
             if(s.rep == 1):
                 time.sleep(2)
             else:
-                time.sleep(4)
+                time.sleep(2)
                 # fix diffrent hands
-                if (s.TBALevel == 3):  # TBA 3 - change the rep of the user acording to successes
+                print("type for check TBA3 diffrent hands")
+                print(type(exercise.number))
+                if (s.TBALevel == 3 and type(exercise.number)!='str') :  # TBA 3 - change the rep of the user according to successes
                     if (s.success_exercise):
                         s.rep = s.rep + 2
                         print(str(s.rep) + "s.rep+2")
@@ -260,7 +277,7 @@ class Poppy(threading.Thread):
                         print(str(s.rep) + "round")
                     if (s.rep < 6):
                         s.rep = 6
-                    s.tts.say_wait(str(s.rep))
+                    #s.tts.say_wait(str(s.rep))
 
     def finish_workout(self):
         print("Poppy class - finish_workout function")
@@ -271,7 +288,7 @@ class Poppy(threading.Thread):
             s.str_to_say = 'goodbye'
             s.tts.say_wait(s.str_to_say)
         else:
-            s.str_to_say = 'NoAudio'
+            s.str_to_say = 'byeShort'
             s.tts.say_wait(s.str_to_say)
         Excel.wf_exercise()
         Excel.close_workbook()
@@ -281,7 +298,7 @@ class Poppy(threading.Thread):
         #time.sleep(5)
         for m in self.poppy.motors:  # need to be initialized for the real robot. False=stiff, True=loose
             m.compliant = True
-        print("finished robot - ")
+        print("finished robot-")
         s.finish_workout = True
         simulator.closeSim()
         s.screen.quit()
@@ -319,7 +336,7 @@ class Poppy(threading.Thread):
         self.run_exercise(self.raise_right_arm_horiz, "raise right arm horizontally")
         self.run_exercise(self.raise_left_arm_horiz, "raise left arm horizontally")
 
-    @func_attributes(number='1L' ,instructions="raise left arm horizontally")
+    @func_attributes(number='1L' ,instructions="raise left arm horizontally", why='ForShoulder', count='rep')
     def raise_left_arm_horiz(self):
         for i in range(s.rep):
             right_hand_up = [self.poppy.r_shoulder_x.goto_position(-90, 1.7, wait=False),
@@ -331,7 +348,7 @@ class Poppy(threading.Thread):
             if (s.success_exercise):
                 break
 
-    @func_attributes(number='1R',instructions="raise right arm horizontally")
+    @func_attributes(number='1R',instructions="raise right arm horizontally", why='ForShoulder', count='rep')
     def raise_right_arm_horiz(self):
         for i in range(s.rep):
             hands_up = [self.poppy.l_shoulder_x.goto_position(90, 1.7, wait=False),
@@ -344,7 +361,7 @@ class Poppy(threading.Thread):
                 break
 
     # EX2 - Two Arms Horizontally
-    @func_attributes(number=2, amount=1, instructions="raise arms horizontally")
+    @func_attributes(number=2, amount=1, instructions="raise arms horizontally",why='ForShoulder', count='rep')
     def raise_arms_horizontally(self):
         for i in range(s.rep):
             hands_up = [self.poppy.l_shoulder_x.goto_position(90, 1.5, wait=False),
@@ -361,7 +378,7 @@ class Poppy(threading.Thread):
                 break
 
     # EX3 - Bend Elbows
-    @func_attributes(number=3, amount=1, instructions="bend elbows")
+    @func_attributes(number=3, amount=1, instructions="bend elbows", why='ForBicep', count='rep')
     def bend_elbows(self):
         #s.str_to_say = exercise_name
         for i in range(s.rep):
@@ -374,7 +391,7 @@ class Poppy(threading.Thread):
 
 
     # EX4 - Static hands forward
-    @func_attributes(number=4, amount=1, instructions="raise arms forward static")
+    @func_attributes(number=4, amount=1, instructions="raise arms forward static", why='ForShoulder', count='sec')
     def raise_arms_forward_static(self):
         static=[self.poppy.l_shoulder_y.goto_position(-90, 1.5, wait=False),
                 self.poppy.r_shoulder_y.goto_position(-90, 1.5, wait=False),
@@ -388,8 +405,8 @@ class Poppy(threading.Thread):
                 self.poppy.r_shoulder_y.goto_position(0, 1.5, wait=True)]
 
     # EX5 - Raise Arms Bend Elbows
-    @func_attributes(number=5, amount=1, instructions="raise arms bend elbows")
-    def raise_arms_bend_elbows(self):
+    @func_attributes(number=5, amount=1, instructions="open arms bend elbows", why='ForShoulder', count='rep')
+    def open_arms_bend_elbows(self):
         self.open_hands_aside_move()
         for i in range(s.rep):
             l_hand = [self.poppy.l_shoulder_y.goto_position(-90, 2, wait=False),
@@ -416,10 +433,10 @@ class Poppy(threading.Thread):
 
 
     # EX6 - Raise Arms Horizontally Turn_Hands
-    @func_attributes(number=6, amount=1, instructions="raise arms horizontally turn hands")
+    @func_attributes(number=6, amount=1, instructions="raise arms horizontally turn hands", why='ForShoulder', count='sec')
     def raise_arms_horizontally_turn(self):
         self.open_hands_aside_move()
-        for i in range(4):
+        for i in range(s.rep):
             twisFirst = [self.poppy.l_arm_z.goto_position(-90, 1.5, wait=False),
                               self.poppy.r_arm_z.goto_position(90, 1.5, wait=True)]
             twisSecond=[self.poppy.l_arm_z.goto_position(90, 1.5, wait=False),
@@ -442,7 +459,7 @@ class Poppy(threading.Thread):
         time.sleep(1)
 
     # EX7 - Raise arms forward
-    @func_attributes(number=7, amount=1, instructions="raise arms forward")
+    @func_attributes(number=7, amount=1, instructions="raise arms forward", why='ForShoulder', count='rep')
     def raise_arms_forward(self):
         for i in range(s.rep):
             forwaed=[self.poppy.l_shoulder_y.goto_position(-90, 1.5, wait=False),
@@ -464,7 +481,7 @@ class Poppy(threading.Thread):
         self.run_exercise(self.raise_right_arm_forward, "raise right arm forward")
         self.run_exercise(self.raise_left_arm_forward, "raise left arm forward")
 
-    @func_attributes(number='8L', instructions="raise left and forward")
+    @func_attributes(number='8L', instructions="raise left and forward", why='ForShoulder', count='rep')
     def raise_left_arm_forward(self):
         for i in range(s.rep):
             self.poppy.r_shoulder_y.goto_position(-90, 1.5, wait=False)
@@ -476,7 +493,7 @@ class Poppy(threading.Thread):
             if (s.success_exercise):
                 break
 
-    @func_attributes(number='8R', instructions="raise right and forward")
+    @func_attributes(number='8R', instructions="raise right and forward", why='ForShoulder', count='rep')
     def raise_right_arm_forward(self):
         for i in range(s.rep):
             self.poppy.l_shoulder_y.goto_position(-90, 1.5, wait=False)
@@ -489,7 +506,7 @@ class Poppy(threading.Thread):
                 break
 
     # EX9 - Raise arms 90 and up
-    @func_attributes(number=9, amount=1, instructions="raise arms 90 and up")
+    @func_attributes(number=9, amount=1, instructions="raise arms 90 and up", why='ForShoulder', count='rep')
     def raise_arms_90_and_up(self):
         self.poppy.l_arm_z.goto_position(90, 1.5, wait=False)
         self.poppy.r_arm_z.goto_position(-90, 1.5, wait=True)
@@ -566,7 +583,7 @@ class Poppy(threading.Thread):
         self.run_exercise(self.raise_right_arm_and_lean_dynmic, "raise right arm and lean dynmic")
         self.run_exercise(self.raise_left_arm_and_lean_dynmic, "raise left arm and lean dynmic")
 
-    @func_attributes(number='10L', instructions="raise left arm and lean")
+    @func_attributes(number='10L', instructions="raise left arm and lean dynmic", why='ForSide', count='rep')
     def raise_left_arm_and_lean_dynmic(self):
         for num in range(s.rep):
             self.poppy.r_arm_z.goto_position(-120, 1.5, wait=False)
@@ -590,7 +607,7 @@ class Poppy(threading.Thread):
         self.poppy.l_elbow_y.goto_position(90, 1.5, wait=False)
         time.sleep(1)
 
-    @func_attributes(number='10R', instructions="raise right arm and lean")
+    @func_attributes(number='10R', instructions="raise right arm and lean dynmic", why='ForSide', count='rep')
     def raise_right_arm_and_lean_dynmic(self):
         for num in range(s.rep):
             self.poppy.l_arm_z.goto_position(140, 1.5, wait=False)
@@ -617,7 +634,7 @@ class Poppy(threading.Thread):
         time.sleep(1)
 
     # EX11 Raise hands, open horizontally and move forward
-    @func_attributes(number=11, amount=1, instructions="open arms and move forward")
+    @func_attributes(number=11, amount=1, instructions="open arms and move forward", why='ForShoulder', count='rep')
     def open_arms_and_forward(self):
         self.poppy.r_arm_z.goto_position(90, 1.5, wait=False)
         self.poppy.l_arm_z.goto_position(-90, 1.5, wait=True)
@@ -642,7 +659,7 @@ class Poppy(threading.Thread):
         self.poppy.l_elbow_y.goto_position(90, 1.5, wait=True)
 
     # EX12 Raise hands and fold backward
-    @func_attributes(number=12, amount=1, instructions="raise hands and fold backward")
+    @func_attributes(number=12, amount=1, instructions="raise hands and fold backward", why='ForTricep', count='rep')
     def raise_hands_and_fold_backward(self):
         self.poppy.l_shoulder_y.goto_position(-180, 1.5, wait=False)
         self.poppy.r_shoulder_y.goto_position(-180, 1.5, wait=False)
@@ -658,13 +675,6 @@ class Poppy(threading.Thread):
             if (s.success_exercise):
                 break
 
-        #         self.poppy.l_arm_z.goto_position(90, 1.5, wait=False)
-        #         self.poppy.r_arm_z.goto_position(-90, 1.5, wait=True)
-        # up = [self.poppy.r_shoulder_x.goto_position(-150, 1.5, wait=False),
-        #       self.poppy.l_shoulder_x.goto_position(150, 1.5, wait=False),
-        #       self.poppy.r_elbow_y.goto_position(60, 1.5, wait=False),
-        #       self.poppy.l_elbow_y.goto_position(60, 1.5, wait=True)]
-
         #init
         self.poppy.l_shoulder_y.goto_position(0, 1.5, wait=False)
         self.poppy.r_shoulder_y.goto_position(0, 1.5, wait=False)
@@ -674,7 +684,7 @@ class Poppy(threading.Thread):
         self.poppy.r_elbow_y.goto_position(90, 1.5, wait=True)
 
     # EX13 open hands and raise up
-    @func_attributes(number=13, amount=1, instructions="open hands and raise up")
+    @func_attributes(number=13, amount=1, instructions="open hands and raise up", why='ForShoulder', count='rep')
     def open_hands_and_raise_up(self):
         for i in range(s.rep):
             self.poppy.l_arm_z.goto_position(0, 1.5, wait=False)
@@ -702,7 +712,7 @@ class Poppy(threading.Thread):
         self.poppy.r_shoulder_y.goto_position(0, 1.5, wait=True)
 
     # EX14 open and close arms 90
-    @func_attributes(number=14, amount=1, instructions="open and close arms 90")
+    @func_attributes(number=14, amount=1, instructions="open and close arms 90", why='ForShoulder', count='rep')
     def open_and_close_arms_90(self):
         self.poppy.l_arm_z.goto_position(90, 1.5, wait=False)
         self.poppy.r_arm_z.goto_position(-90, 1.5, wait=True)
@@ -731,7 +741,7 @@ class Poppy(threading.Thread):
         self.poppy.r_elbow_y.goto_position(90, 1.5, wait=False)
         self.poppy.l_elbow_y.goto_position(90, 1.5, wait=True)
 
-    @func_attributes(number=15, amount=1, instructions="open and down arms 90")
+    @func_attributes(number=15, amount=1, instructions="open and down arms 90", why='ForShoulder', count='rep')
     def open_and_down_arms_90(self):
         for i in range(s.rep):
             self.poppy.l_arm_z.goto_position(90, 1.5, wait=False)
@@ -756,7 +766,7 @@ class Poppy(threading.Thread):
         self.poppy.r_elbow_y.goto_position(90, 1.5, wait=False)
         self.poppy.l_elbow_y.goto_position(90, 1.5, wait=True)
 
-    @func_attributes(number=16, amount=1, instructions="to 90 and down arms")
+    @func_attributes(number=16, amount=1, instructions="to 90 and down arms", why='ForShoulder', count='rep')
     def to_90_and_down_arms(self):
         for i in range(s.rep):
             self.poppy.l_arm_z.goto_position(0, 1.5, wait=False)
@@ -783,7 +793,7 @@ class Poppy(threading.Thread):
         self.poppy.l_elbow_y.goto_position(90, 1.5, wait=True)
 
     # EX17 raise_arms_forward_turn_hands
-    @func_attributes(number=17, amount=1, instructions="raise arms forward turn hands")
+    @func_attributes(number=17, amount=1, instructions="raise arms forward turn hands", why='ForShoulder', count='sec')
     def raise_arms_forward_turn(self):
         self.poppy.l_shoulder_y.goto_position(-90, 2, wait=False)
         self.poppy.r_shoulder_y.goto_position(-90, 2, wait=False)
@@ -803,47 +813,46 @@ class Poppy(threading.Thread):
         self.poppy.l_shoulder_y.goto_position(0, 2, wait=False)
         self.poppy.r_shoulder_y.goto_position(0, 2, wait=True)
 
-        # EX12 Raise hands and fold backward
-        @func_attributes(number=18, amount=2, instructions="raise hands and fold backward separate")
-        def raise_hands_and_fold_backward_separate(self):
-            self.run_exercise(self.raise_right_and_fold_backward, "raise right and fold backward")
-            self.run_exercise(self.raise_left_and_fold_backward, "raise left and fold backward")
 
-        @func_attributes(number='18R', amount=1, instructions="raise right and fold backward")
-        def raise_right_and_fold_backward(self):
-            #left robot
-            self.poppy.l_shoulder_y.goto_position(-180, 1.5, wait=False)
-            self.poppy.l_shoulder_x.goto_position(10, 1.5, wait=True)
+    @func_attributes(number=18, amount=2, instructions="raise hands and fold backward separate")
+    def raise_hands_and_fold_backward_separate(self):
+        self.run_exercise(self.raise_right_and_fold_backward, "raise right and fold backward")
+        self.run_exercise(self.raise_left_and_fold_backward, "raise left and fold backward")
 
-            for i in range(s.rep):
-                self.poppy.l_elbow_y.goto_position(90, 1.5, wait=True)
-                time.sleep(1)
-                self.poppy.l_elbow_y.goto_position(-20, 1.5, wait=True)
-                time.sleep(1)
-                if (s.success_exercise):
-                    break
-            # init
-            self.poppy.l_shoulder_y.goto_position(0, 1.5, wait=False)
-            self.poppy.l_shoulder_x.goto_position(0, 1.5, wait=False)
+    @func_attributes(number='18R', amount=1, instructions="raise right and fold backward", why='ForTricep', count='rep')
+    def raise_right_and_fold_backward(self):
+        # left robot
+        self.poppy.l_shoulder_y.goto_position(-180, 1.5, wait=False)
+        self.poppy.l_shoulder_x.goto_position(10, 1.5, wait=True)
+
+        for i in range(s.rep):
             self.poppy.l_elbow_y.goto_position(90, 1.5, wait=True)
+            time.sleep(1)
+            self.poppy.l_elbow_y.goto_position(-20, 1.5, wait=True)
+            time.sleep(1)
+            if (s.success_exercise):
+                break
+        # init
+        self.poppy.l_shoulder_y.goto_position(0, 1.5, wait=False)
+        self.poppy.l_shoulder_x.goto_position(0, 1.5, wait=False)
+        self.poppy.l_elbow_y.goto_position(90, 1.5, wait=True)
 
-
-        @func_attributes(number='18L', amount=1, instructions="raise left and fold backward")
-        def raise_left_and_fold_backward (self):
-            self.poppy.r_shoulder_y.goto_position(-180, 1.5, wait=False)
-            self.poppy.r_shoulder_x.goto_position(-10, 1.5, wait=True)
-            for i in range(s.rep):
-                self.poppy.r_elbow_y.goto_position(90, 1.5, wait=True)
-                time.sleep(1)
-                self.poppy.r_elbow_y.goto_position(-20, 1.5, wait=True)
-                time.sleep(1)
-                if (s.success_exercise):
-                    break
-
-            # init
-            self.poppy.r_shoulder_y.goto_position(0, 1.5, wait=False)
-            self.poppy.r_shoulder_x.goto_position(0, 1.5, wait=False)
+    @func_attributes(number='18L', amount=1, instructions="raise left and fold backward", why='ForTricep', count='rep')
+    def raise_left_and_fold_backward(self):
+        self.poppy.r_shoulder_y.goto_position(-180, 1.5, wait=False)
+        self.poppy.r_shoulder_x.goto_position(-10, 1.5, wait=True)
+        for i in range(s.rep):
             self.poppy.r_elbow_y.goto_position(90, 1.5, wait=True)
+            time.sleep(1)
+            self.poppy.r_elbow_y.goto_position(-20, 1.5, wait=True)
+            time.sleep(1)
+            if (s.success_exercise):
+                break
+
+        # init
+        self.poppy.r_shoulder_y.goto_position(0, 1.5, wait=False)
+        self.poppy.r_shoulder_x.goto_position(0, 1.5, wait=False)
+        self.poppy.r_elbow_y.goto_position(90, 1.5, wait=True)
 
         # EX19 - Bend Elbows separate
     @func_attributes(number=19, amount=2, instructions="bend elbows separate")
@@ -851,7 +860,7 @@ class Poppy(threading.Thread):
         self.run_exercise(self.bend_right_elbow, "bend right elbow")
         self.run_exercise(self.bend_left_elbow, "bend left elbow")
 
-    @func_attributes(number='19R', amount=1, instructions="bend right elbow")
+    @func_attributes(number='19R', amount=1, instructions="bend right elbow", why='ForBicep', count='rep')
     def bend_right_elbow(self):
         for i in range(s.rep):
             self.poppy.l_arm[3].goto_position(-60, 1.5, wait=True)
@@ -861,7 +870,7 @@ class Poppy(threading.Thread):
             if (s.success_exercise):
                 break
 
-    @func_attributes(number='19L', amount=1, instructions="bend left elbow")
+    @func_attributes(number='19L', amount=1, instructions="bend left elbow",  why='ForBicep', count='rep')
     def bend_left_elbow(self):
         for i in range(s.rep):
             self.poppy.r_arm[3].goto_position(-60, 1.5, wait=True)
@@ -877,8 +886,7 @@ class Poppy(threading.Thread):
         self.run_exercise(self.raise_right_90_and_up, "raise right 90 and up")
         self.run_exercise(self.raise_left_90_and_up, "raise left 90 and up")
 
-
-    @func_attributes(number='20R', amount=1, instructions="raise right 90 and up")
+    @func_attributes(number='20R', amount=1, instructions="raise right 90 and up",  why='ForShoulder', count='rep')
     def raise_right_90_and_up(self):
         self.poppy.l_arm_z.goto_position(90, 1.5, wait=True)
         for i in range(s.rep):
@@ -896,7 +904,7 @@ class Poppy(threading.Thread):
         self.poppy.l_shoulder_x.goto_position(0, 1, wait=False)
         self.poppy.l_elbow_y.goto_position(90, 1, wait=True)
 
-    @func_attributes(number='20L', amount=1, instructions="raise left 90 and up")
+    @func_attributes(number='20L', amount=1, instructions="raise left 90 and up", why='ForShoulder', count='rep')
     def raise_left_90_and_up(self):
         self.poppy.r_arm_z.goto_position(-90, 1.5, wait=True)
         for i in range(s.rep):
@@ -1398,15 +1406,18 @@ class Poppy(threading.Thread):
 
 
 if __name__ == '__main__':
-    #simulator.createSim()
-    #time.sleep(10)
+    # simulator.createSim()
+    # time.sleep(10)
+    print(type('1L'))
+
+    s.sessionNumber=2
     language = 'Hebrew'
-    gender = 'Female'
+    gender = 'Male'
     s.rep=4
     s.finish_workout=False
     s.isRobot = False
     #s.str_to_say=""
-    s.req_exercise = "open arms and move forward"
+    #s.req_exercise = "raise_hands_and_fold_backward_separate"
     s.excel_path = R'C:/Git/poppyCode/greatoded/excel_folder/'
     s.general_path = R'C:/Git/poppyCode/greatoded/'
     s.pic_path = s.general_path + 'Pictures/'
@@ -1419,8 +1430,9 @@ if __name__ == '__main__':
     #s.tts.start()
 
     #s.screen = Screen()
-    time.sleep(10)
-    Poppy.to_90_and_down_arms(s.robot)
+    #time.sleep(10)
+    Poppy.raise_hands_and_fold_backward_separate(s.robot)
+
     #Poppy.coolDown(s.robot)
     #Poppy.warmUp(s.robot)
 

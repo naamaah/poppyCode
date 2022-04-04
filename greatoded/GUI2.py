@@ -51,6 +51,36 @@ class ExamplePage(tk.Frame):
         self.photo_image = ImageTk.PhotoImage(image) #self. - for keeping the photo in memory so it will be shown
         tk.Label(self, image = self.photo_image).pack()
 
+class nextTime(tk.Frame):
+    def __init__(self, master):
+        tk.Frame.__init__(self, master)
+        if (s.female == False):
+            image = Image.open(s.pic_path + 'nextTime.jpg')
+        else:
+            image = Image.open(s.pic_path + 'nextTimeFemale.jpg')
+        self.photo_image = ImageTk.PhotoImage(image) #self. - for keeping the photo in memory so it will be shown
+        tk.Label(self, image = self.photo_image).pack()
+
+class TwoMoreToGO(tk.Frame):
+    def __init__(self, master):
+        tk.Frame.__init__(self, master)
+        image = Image.open(s.pic_path + '2More.jpg')
+        self.photo_image = ImageTk.PhotoImage(image) #self. - for keeping the photo in memory so it will be shown
+        tk.Label(self, image = self.photo_image).pack()
+
+class ThreeMoreToGO(tk.Frame):
+    def __init__(self, master):
+        tk.Frame.__init__(self, master)
+        image = Image.open(s.pic_path + '3More.jpg')
+        self.photo_image = ImageTk.PhotoImage(image) #self. - for keeping the photo in memory so it will be shown
+        tk.Label(self, image = self.photo_image).pack()
+
+class FourMoreToGO(tk.Frame):
+    def __init__(self, master):
+        tk.Frame.__init__(self, master)
+        image = Image.open(s.pic_path + '4More.jpg')
+        self.photo_image = ImageTk.PhotoImage(image) #self. - for keeping the photo in memory so it will be shown
+        tk.Label(self, image = self.photo_image).pack()
 
 # class Relax_Page_ber(tk.Frame):
 #     def __init__(self, master):

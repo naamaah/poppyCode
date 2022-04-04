@@ -33,7 +33,9 @@ def wf_joints(ex_name, list_joints):
     '''
     # current_time = datetime.datetime.now()
     # name = ex_name +"_"+ str(current_time.day)+str(current_time.month)+str(current_time.hour)+str(current_time.minute) + str(current_time.second)
-    name=ex_name
+    name=str(s.subjectNum)+ex_name
+    if len(name)>31:
+        name[0:32] #from the start until 31
     s.worksheet = s.excel_workbook.add_worksheet(name)
     frame_number = 1
 
