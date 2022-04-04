@@ -22,9 +22,9 @@ if __name__ == '__main__':
     language = 'Hebrew'
     gender = 'Male'
     s.female=False
-    s.isCamera=False #False - No camera, True- there is camera
+    s.isCamera=True #False - No camera, True- there is camera
     s.isMediaPipe=False #false-Nuitrack(Camera), True-mediaPipe(CameraNew)
-    s.isRobot=False #False - simulator, True- real robot
+    s.isRobot=True #False - simulator, True- real robot
     # TBA
     s.subjectNum = 10
     s.sessionNumber = 2

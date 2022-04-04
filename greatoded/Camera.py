@@ -90,6 +90,10 @@ class Camera(threading.Thread):
     def compareYbetweenJoints(self, jointA, jointB):
         for i in jointA:
             for j in jointB:
+                # print("_____")
+                # print(i.y)
+                # print(j.y)
+                # print("_____")
                 if (i.y>j.y):
                     print("compareYbetweenJoints - True - camera class")
                     return True
@@ -172,8 +176,9 @@ class Camera(threading.Thread):
                 s.req_exercise = ""
                 print(s.req_exercise +"try to und")
             list_joints.append(new_entry)
-            Excel.wf_joints("hello_waving",list_joints)
+            #Excel.wf_joints("hello_waving",list_joints)
             if(s.waved):
+                print("wave !!!_")
                 s.req_exercise = ""
                 return True
 
@@ -636,11 +641,15 @@ class Camera(threading.Thread):
             jointR1 = self.findJointData(joints, "12")
             jointR2 = self.findJointData(joints, "13")
             jointR3 = self.findJointData(joints, "15")
-            if not jointl1 or not jointl2 or not jointl3:
+            if not jointR1 or not jointR2 or not jointR3:
                 continue
             for i in range(0, len(jointR1)):
                 right_height = abs(jointR1[i].y - jointR3[i].y)
                 right_angle = self.calc_angle(jointR2[i], jointR1[i], jointR3[i])
+                print("____________________")
+                print(right_angle)
+                print(right_height)
+                print("____________________")
                 new_entry = [jointR1[i], jointR2[i], jointR3[i], right_height, right_angle]
                 if (left_height < 80.0) & (not flag):
                     print("side")
@@ -1014,7 +1023,7 @@ if __name__ == '__main__':
     language = 'Hebrew'
     gender = 'Female'
     s.subjectNum=2
-    s.sessionNumber=1
+    s.sessionNumber=2
     #for the robot path
     #s.realsense_path = "C:\\Users\\owner\\Documents\\nuitrack-sdk-master\\Examples\\nuitrack_console_sample\\out\\build\\x64-Debug\\nuitrack_console_sample.exe"
     #simulator Path
@@ -1032,13 +1041,13 @@ if __name__ == '__main__':
     s.finish_workout = False
     s.success_exercise = False
     #testing - works:
-    #s.req_exercise = "hello_waving"
+    s.req_exercise = "hello_waving"
     #number 1:
     # s.req_exercise="raise_arms_horizontally_separate"
     # s.req_exercise = "raise_left_arm_horiz"
     # s.req_exercise = "raise_right_arm_horiz"
     #number 2:
-    s.req_exercise="raise_arms_horizontally"
+    #s.req_exercise="raise_arms_horizontally"
     #number 3:
     # s.req_exercise="bend_elbows"
     #number 4- more checking!

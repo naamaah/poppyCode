@@ -89,6 +89,7 @@ class PoppyRobot(threading.Thread):
             s.Q_answer.append([s.rep, s.whichExercise_Q2, s.whichExercise_Q3])
             Excel.wf_QA()
         else:  # session 2 and 3
+            print("in else")
             self.run_exercise(self.hello_waving, "helloShort")  # the robot wave
         self.exercise_run()
         print("done poppy")
@@ -243,6 +244,7 @@ class PoppyRobot(threading.Thread):
 
     #run exercise
     def run_exercise(self, exercise, exercise_name):
+        print("in run function")
         if (s.sessionNumber != 1):
             Excel.readFromExcelQA()  # update the variable for the information from the user.
         if (s.rep != 1):
@@ -251,7 +253,7 @@ class PoppyRobot(threading.Thread):
         print("Poppy class - run_exercise function " + str(exercise.number) + str(exercise_name))
         s.success_exercise = False
         # time.sleep(2)
-        if (exercise_name != "hello" and exercise_name != "helloShort"):
+        if (exercise_name != "hello" and exercise_name != "helloShort" and exercise_name!=""):
             # _____voice____:
             purposeTBA = [exercise.why, exercise_name]
             filePurpose = 'comb_purpose_' + str(s.subjectNum) + "_" + str(exercise.number)
