@@ -42,6 +42,7 @@ def __init__():
     global waved #True if the participant waved for statring the workout
     global rep #Number of repetition for exercise
     global chance
+    global demo #for when the TBA3 finished the demonstration
     global finish_workout #True if finished the workout
 
     global tts

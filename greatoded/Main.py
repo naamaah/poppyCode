@@ -20,18 +20,20 @@ import threading
 if __name__ == '__main__':
     # Settings for exercises - to change every run of the code!!!!
     language = 'Hebrew'
-    gender = 'Male'
+    gender = 'Female'
     s.female=False
     s.isCamera=True #False - No camera, True- there is camera
     s.isMediaPipe=False #false-Nuitrack(Camera), True-mediaPipe(CameraNew)
     s.isRobot=True #False - simulator, True- real robot
     # TBA
-    s.subjectNum = 10
-    s.sessionNumber = 2
-    s.TBALevel=2
+    s.subjectNum = 13
+    s.sessionNumber = 3
+    s.TBALevel=3
     s.Q1_answer = None
     s.Q2_answer = None
     s.Q3_answer = None
+    s.whichExercise_Q2 = None
+    s.whichExercise_Q3 = None
     s.exercies_amount=3
 
     #permenent - no need to change!
@@ -52,6 +54,7 @@ if __name__ == '__main__':
     s.exercises_session2=[]
     s.chance=False
     s.current_count=0 #save the last repetition of the user.
+    s.demo=True #in the beggining is demonstration TBA3
 
 
 # #Level for cognitive game

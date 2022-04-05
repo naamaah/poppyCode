@@ -410,6 +410,7 @@ class StartPage(tk.Frame):
     def on_click(self):
         print("image clicked - (GUI class)")
         s.waved = True
+        s.req_exercise = "" #try
 
 class weightPage(tk.Frame):
     def __init__(self, master):

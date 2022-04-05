@@ -87,6 +87,9 @@ class Poppy(threading.Thread):
             s.Q_answer.append([s.rep, s.whichExercise_Q2, s.whichExercise_Q3])
             Excel.wf_QA()
         else: #session 2 and 3
+            s.req_exercise="hello_waving"
+            Excel.readFromExcelExercise()
+            Excel.readFromExcelQA()  # update the variable for the information from the user.
             self.run_exercise(self.hello_waving, "helloShort")  # the robot wave
         self.exercise_run()
         print("done poppy")
@@ -144,6 +147,8 @@ class Poppy(threading.Thread):
                 count=count+1
             s.rep=tempRep
             s.tts.say_wait('reasonTBA3')
+            s.demo=False
+
         #### RUN WORKOUT
         print("Exercises - (Poppy class)")
         print("ExercisePage")
@@ -154,9 +159,6 @@ class Poppy(threading.Thread):
             else:
                 exercise_name = getattr(e, "instructions")
                 self.run_exercise(e, exercise_name)
-            #TODO
-            # if (s.TBALevel == 3):
-            #befor move to the next exercise in TBA=3 we need to change the s.rep!
         self.finish_workout()
 
     def init_robot(self):
@@ -172,11 +174,11 @@ class Poppy(threading.Thread):
 
     #TAB1 - chose exercise
     def TBA1_exercise(self):
-        if (s.sessionNumber!=1):
-            Excel.readFromExcelExercise()
-            print("exercise Before")
-            print(s.exercises_session1)
-            print(s.exercises_session2)
+        # if (s.sessionNumber!=1):
+        #     Excel.readFromExcelExercise()
+        #     print("exercise Before")
+        #     print(s.exercises_session1)
+        #     print(s.exercises_session2)
         # choose randomly the exercise for this session
         chosen_exercises = []
         while len(chosen_exercises) < s.exercies_amount:
@@ -194,9 +196,6 @@ class Poppy(threading.Thread):
                     else: #s.sessionNumber==3:
                         if ex.__name__ not in s.exercises_session1 and ex not in s.exercises_session2:
                             chosen_exercises.append(ex)
-                            # flag = True
-            # if flag: #new exercise was add
-            #     s.
         print(chosen_exercises)
         s.rep = random.randint(9, 12)
         print("number of repetition" + str(s.rep))
@@ -204,9 +203,9 @@ class Poppy(threading.Thread):
 
     # TAB2 and TBA3 - chose exercise
     def TBA2And3_exercise(self):
-        if (s.sessionNumber!=1):
-            Excel.readFromExcelQA()  # update the variable for the information from the user.
-            Excel.readFromExcelExercise()
+        # if (s.sessionNumber!=1):
+        #     Excel.readFromExcelQA()  # update the variable for the information from the user.
+        #     Excel.readFromExcelExercise()
         # exercise chosen:
         chosen_exercises = []
         while len(chosen_exercises) < s.exercies_amount:
@@ -228,19 +227,20 @@ class Poppy(threading.Thread):
 
     #run exercise
     def run_exercise(self, exercise, exercise_name):
-        if (s.sessionNumber!=1):
-            Excel.readFromExcelQA()  # update the variable for the information from the user.
         if (s.rep!=1):
+            print("sent to camera")
             s.req_exercise=exercise.__name__
         print(s.rep)
         print("Poppy class - run_exercise function "+str(exercise.number)+str(exercise_name))
         s.success_exercise = False
         # time.sleep(2)
-        if (exercise_name != "hello" and exercise_name != "helloShort"):
+        if (exercise_name != "hello" and exercise_name != "helloShort" and exercise_name != "" and s.rep!=1):
             # _____voice____:
+            print("inside")
             purposeTBA = [exercise.why, exercise_name]
             filePurpose = 'comb_purpose_' + str(s.subjectNum) + "_" + str(exercise.number)
             s.tts.combainedAudio(purposeTBA, filePurpose)
+            print("after purpose")
             if (exercise.count == 'rep'):
                 begin = 'beginExRep'
             else:
@@ -252,6 +252,7 @@ class Poppy(threading.Thread):
             processTBA = [begin, str(s.rep) + exercise.count, weights]
             fileProcess = 'comb_process_' + str(s.subjectNum) + "_" + str(exercise.number)
             s.tts.combainedAudio(processTBA, fileProcess)
+            print("after Process")
             #time.sleep(3) #for the camera - TOCHECK
         else:
             s.tts.say_wait(exercise_name)
@@ -261,10 +262,7 @@ class Poppy(threading.Thread):
             if(s.rep == 1):
                 time.sleep(2)
             else:
-                time.sleep(2)
-                # fix diffrent hands
-                print("type for check TBA3 diffrent hands")
-                print(type(exercise.number))
+                time.sleep(4)
                 if (s.TBALevel == 3 and type(exercise.number)!='str') :  # TBA 3 - change the rep of the user according to successes
                     if (s.success_exercise):
                         s.rep = s.rep + 2
@@ -282,7 +280,7 @@ class Poppy(threading.Thread):
     def finish_workout(self):
         print("Poppy class - finish_workout function")
         # s.numberOfWorkout=s.numberOfWorkout+1
-        # time.sleep(1)
+        time.sleep(3) #for succees
         s.screen.switch_frame(GoodbyePage)
         if (s.sessionNumber==3):
             s.str_to_say = 'goodbye'
@@ -470,7 +468,7 @@ class Poppy(threading.Thread):
             down=[self.poppy.l_arm_z.goto_position(0, 1.5, wait=False),
                 self.poppy.r_arm_z.goto_position(0, 1.5, wait=False),
                 self.poppy.l_shoulder_y.goto_position(0, 1.5, wait=False),
-                self.poppy.r_shoulder_y.goto_position(0, 1.5, wait=False)]
+                self.poppy.r_shoulder_y.goto_position(0, 1.5, wait=True)]
             time.sleep(1)
             if (s.success_exercise):
                 break
@@ -478,8 +476,8 @@ class Poppy(threading.Thread):
     # EX8 - Raise arms forward speratally
     @func_attributes(number=8, amount=2, instructions="raise arms forward separate")
     def raise_arms_forward_separate(self):
-        self.run_exercise(self.raise_right_arm_forward, "raise right arm forward")
-        self.run_exercise(self.raise_left_arm_forward, "raise left arm forward")
+        self.run_exercise(self.raise_right_arm_forward, "raise right and forward")
+        self.run_exercise(self.raise_left_arm_forward, "raise left and forward")
 
     @func_attributes(number='8L', instructions="raise left and forward", why='ForShoulder', count='rep')
     def raise_left_arm_forward(self):
@@ -1473,6 +1471,5 @@ if __name__ == '__main__':
         # self.run_exercise(self.raise_arms_and_lean, "")
         # self.run_exercise_and_repeat(self.raise_hands_and_fold_backward, "")
 """
-
 
 

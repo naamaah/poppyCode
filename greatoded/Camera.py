@@ -128,9 +128,11 @@ class Camera(threading.Thread):
             s.tts.say_wait(s.str_to_say)
             s.screen.switch_frame(ExercisePage)
         else:
-            if (s.TBALevel==3):
+            print("____s.demo______")
+            if (s.TBALevel==3 and s.demo==False):
+                print("next")
                 s.screen.switch_frame(nextTime)
-                s.tts.say_wait(nextTimeSucc)
+                s.tts.say_wait('nextTimeSucc')
                 s.screen.switch_frame(ExercisePage)
 
 
@@ -200,6 +202,7 @@ class Camera(threading.Thread):
                 if ((lb_au<angle<ub_au) & (not flag)):
                     print("up")
                     counter = self.counting_flag(counter)
+                    s.current_count = counter
                     flag = True
                     new_entry.append("up")
                 if ((lb_al<angle<ub_al) & (flag)):
@@ -245,6 +248,7 @@ class Camera(threading.Thread):
                 if ((up_lb<right_angle<up_ub) & (up_lb<left_angle<up_ub) & (not flag)):
                     print("up")
                     counter = self.counting_flag(counter)
+                    s.current_count = counter
                     flag = True
                     new_entry.append("up")
                 if ((down_lb<right_angle<down_ub) & (down_lb<left_angle<down_ub) & (flag)):
@@ -321,6 +325,7 @@ class Camera(threading.Thread):
                     if(cntr<s.rep): #7
                         cntr=cntr+1
                         self.counting_flag(cntr)
+                        s.current_count = counter
                     print (time.time())
                     print (last_time)
                     print (up_time_counter)
@@ -371,6 +376,7 @@ class Camera(threading.Thread):
                 if ((100<left_armpit_angle<120 and 100<right_armpit_angle<120) and (0<left_elbow_angle<20 and 0<right_elbow_angle<20) and (not flag)):
                     print("close")
                     counter = self.counting_flag(counter)
+                    s.current_count = counter
                     flag = True
                     new_entry.append("close")
                 if ((100<left_armpit_angle<120 and 100<right_armpit_angle<120) and (140<left_elbow_angle<180 and 140<right_elbow_angle<180) and (flag)):
@@ -418,6 +424,7 @@ class Camera(threading.Thread):
                     if (cntr < s.rep): #7
                         cntr = cntr + 1
                         self.counting_flag(cntr)
+                        s.current_count = counter
                     last_time = time.time()
                 if (up_time_counter >= s.rep or s.rep>=7):
                     s.req_exercise = ""
@@ -431,7 +438,7 @@ class Camera(threading.Thread):
         if (s.success_exercise):
             return True
 
-    # number=7 - maybe without depth
+    # number=7 - move depth for now
     def raise_arms_forward(self):
         flag = False
         counter = 0
@@ -456,12 +463,15 @@ class Camera(threading.Thread):
                 right_depth = abs(jointr1[i].z - jointr3[i].z)
                 new_entry = [jointr1[i], jointr2[i], jointr3[i],jointl1[i], jointl2[i], jointl3[i], right_angle,
                              left_angle, right_height, left_height,right_depth,left_depth]
-                if (left_height < 80.0) & (right_height < 80.0) & (right_depth>300) & (left_depth>300) & (not flag):
+                #if (left_height < 80.0) & (right_height < 80.0) & (right_depth>300) & (left_depth>300) & (not flag):
+                if (left_height < 80.0) & (right_height < 80.0) & (not flag):
                     print ("up")
                     counter = self.counting_flag(counter)
+                    s.current_count = counter
                     flag = True
                     new_entry.append("up")
-                if (160 < left_angle < 190) & (150 < right_angle < 200) & (right_depth<100) & (left_depth<80) & (flag):
+                if (160 < left_angle < 190) & (150 < right_angle < 200)  & (flag):
+                #if (160 < left_angle < 190) & (150 < right_angle < 200) & (right_depth<100) & (left_depth<80) & (flag):
                     print ("down")
                     flag = False
                     new_entry.append("down")
@@ -506,13 +516,16 @@ class Camera(threading.Thread):
                 print (right_angle)
                 print (right_depth)
                 print (flag)
-                if (right_height < 80.0) &  (right_depth>300) & (not flag):
+                if (right_height < 80.0) (not flag):
+                #if (right_height < 80.0) &  (right_depth>300) & (not flag):
                     print ("up")
                     counter = self.counting_flag(counter)
+                    s.current_count = counter
                     print(counter)
                     flag = True
                     new_entry.append("up")
-                if (150 < right_angle <= 200) & (right_depth<100) & flag:
+                if (150 < right_angle <= 200) & (flag):
+                #if (150 < right_angle <= 200) & (right_depth<100) & flag:
                     print ("down")
                     flag = False
                     new_entry.append("down")
@@ -548,13 +561,16 @@ class Camera(threading.Thread):
                 left_angle = self.calc_angle(jointl2[i], jointl1[i], jointl3[i])
                 left_depth = abs(jointl1[i].z - jointl3[i].z)
                 new_entry = [jointl1[i], jointl2[i], jointl3[i], left_height, left_angle, left_depth]
-                if (left_height < 80.0) & (left_depth>300) & (not flag):
+                if (left_height < 80.0) & (not flag):
+                #if (left_height < 80.0) & (left_depth>300) & (not flag):
                     print ("up")
                     counter = self.counting_flag(counter)
+                    s.current_count = counter
                     print(counter)
                     flag = True
                     new_entry.append("up")
-                if (170 < left_angle < 180) & (left_depth<100) & flag:
+                if (170 < left_angle < 180) & flag:
+                #if (170 < left_angle < 180) & (left_depth<100) & flag:
                     print ("down")
                     flag = False
                     new_entry.append("down")
@@ -603,6 +619,7 @@ class Camera(threading.Thread):
                         100 < left_elbow_angle < 145 and 100 < right_elbow_angle < 145) and (not flag)):
                     print("close")
                     counter = self.counting_flag(counter)
+                    s.current_count = counter
                     flag = True
                     new_entry.append("close")
                 if ((95 < left_armpit_angle < 125 and 95 < right_armpit_angle < 125) and (
@@ -654,6 +671,7 @@ class Camera(threading.Thread):
                 if (left_height < 80.0) & (not flag):
                     print("side")
                     counter = self.counting_flag(counter)
+                    s.current_count = counter
                     print(counter)
                     flag = True
                     new_entry.append("side")
@@ -661,11 +679,6 @@ class Camera(threading.Thread):
                     print("back")
                     flag = False
                     new_entry.append("back")
-
-
-
-
-
                 right_height = abs(jointl1[i].y - jointl3[i].y)
                 print (right_height)
                 new_entry=[jointl1, jointl2,jointl3, right_height]
@@ -710,6 +723,7 @@ class Camera(threading.Thread):
                 if (right_height > 300):
                     #up_time_counter = up_time_counter + (time.time() - last_time)
                     up_time_counter = self.counting_flag(up_time_counter)
+                    s.current_count = counter
                     print("time -> last time-> number ")
                     print (time.time())
                     print (last_time)
@@ -765,6 +779,7 @@ class Camera(threading.Thread):
                 if (left_height < 70.0) & (right_height < 70.0) & (right_depth > 300) & (left_depth > 300) & (not flag):
                     print("close")
                     counter = self.counting_flag(counter)
+                    s.current_count = counter
                     flag = True
                     new_entry.append("close")
                 if (90 < left_angle < 120) & (90 < right_angle < 120) & (right_depth < 70) & (left_depth < 70) & (flag):
@@ -822,17 +837,10 @@ class Camera(threading.Thread):
                 new_entry = [joint_torso[i], jointr1[i], jointr2[i], jointr3[i],jointl1[i], jointl2[i], jointl3[i],
                              right_armpit_angle, left_armpit_angle,right_elbow_angle, left_elbow_angle,
                              right_height, left_height, right_depth, left_depth]
-                print (left_armpit_angle)
-                print (left_elbow_angle)
-                print (right_armpit_angle)
-                print (right_elbow_angle)
-                print (left_height)
-                print (left_depth)
-                print (right_height)
-                print (right_depth)
                 if (left_height <70) & (right_height <70)& (right_depth>200) & (left_depth>200) & (not flag):
                     print("close - try to say outside the function")
                     counter = self.counting_flag(counter)
+                    s.current_count = counter
                     flag = True
                     new_entry.append("close")
                 if ((90 < left_armpit_angle < 130 and 90 < right_armpit_angle < 130) and (60 < left_elbow_angle < 110 and 60 < right_elbow_angle < 110) and (right_depth<100) and (left_depth<100) and(flag)):
@@ -921,6 +929,7 @@ class Camera(threading.Thread):
                 if (130 < right_armpit_angle < 180) and (100 < right_elbow_angle < 145) and (not flag):
                     print("close")
                     counter = self.counting_flag(counter)
+                    s.current_count = counter
                     flag = True
                     new_entry.append("close")
                 if (95 < right_armpit_angle < 125) and (70 < right_elbow_angle < 95) and (flag):
@@ -964,6 +973,7 @@ class Camera(threading.Thread):
                 if (130 < left_armpit_angle < 180) and (100 < left_elbow_angle < 145) and (not flag):
                     print("close")
                     counter = self.counting_flag(counter)
+                    s.current_count = counter
                     flag = True
                     new_entry.append("close")
                 if (95 < left_armpit_angle < 125) and (70 < left_elbow_angle < 95) and (flag):
@@ -991,7 +1001,8 @@ class Camera(threading.Thread):
         s.str_to_say=str(counter)
         s.tts.say_wait(s.str_to_say)
         if (s.TBALevel==3): # half way
-            if (s.rep-s.current_count==4):
+            print("_____")
+            if (s.rep-s.curren_count==4):
                 s.screen.switch_frame(FourMoreToGO)
             elif(s.rep-s.current_count==3):
                 s.screen.switch_frame(ThreeMoreToGO)
@@ -1024,6 +1035,7 @@ if __name__ == '__main__':
     gender = 'Female'
     s.subjectNum=2
     s.sessionNumber=2
+    s.TBALevel=1
     #for the robot path
     #s.realsense_path = "C:\\Users\\owner\\Documents\\nuitrack-sdk-master\\Examples\\nuitrack_console_sample\\out\\build\\x64-Debug\\nuitrack_console_sample.exe"
     #simulator Path
@@ -1041,7 +1053,7 @@ if __name__ == '__main__':
     s.finish_workout = False
     s.success_exercise = False
     #testing - works:
-    s.req_exercise = "hello_waving"
+    #s.req_exercise = "hello_waving"
     #number 1:
     # s.req_exercise="raise_arms_horizontally_separate"
     # s.req_exercise = "raise_left_arm_horiz"
@@ -1063,11 +1075,11 @@ if __name__ == '__main__':
     # number 8 - dosent work:
     #s.req_exercise = "raise_arms_forward_separate"
     #s.req_exercise = "raise_right_arm_forward"
-    #s.req_exercise = "raise_left_arm_forward" - works
+    s.req_exercise = "raise_left_arm_forward"
     # number 9:
     #s.req_exercise = "raise_arms_90_and_up"
     # number=10
-    s.req_exercise='raise_left_arm_and_lean_dynmic'
+    #s.req_exercise='raise_left_arm_and_lean_dynmic'
     # number 11:
     #s.req_exercise = "open_arms_and_forward"
     # number 13:
