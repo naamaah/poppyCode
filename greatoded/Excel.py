@@ -38,8 +38,10 @@ def wf_joints(ex_name, list_joints):
     # current_time = datetime.datetime.now()
     # name = ex_name +"_"+ str(current_time.day)+str(current_time.month)+str(current_time.hour)+str(current_time.minute) + str(current_time.second)
     name = str(s.subjectNum) + ex_name
-    if len(name) > 31:
-        name[0:32]  # from the start until 31
+    print(name)
+    print(len(name))
+    if len(name) > 30:
+        name=name[0:31]  # from the start until 31
     s.worksheet = s.excel_workbook.add_worksheet(name)
     frame_number = 1
 
@@ -82,6 +84,8 @@ def wf_exercise():
     row = 1
     col = 0
     s.worksheet = s.excel_workbook.add_worksheet(name)
+    print("________")
+    print(s.ex_list)
     for ex in s.ex_list:
         s.worksheet.write(row, col, ex[0])  # name
         s.worksheet.write(row, col + 1, ex[1])  # the number of repetition of the subject
@@ -114,7 +118,7 @@ def readFromExcelQA():
     s.Q1_answer = data.iloc[1, 1]
     s.Q2_answer = data.iloc[1, 2]
     s.Q3_answer = data.iloc[1, 3]
-    s.rep = data.iloc[2, 1]
+    s.rep = int(data.iloc[2, 1])
     s.whichExercise_Q2 = data.iloc[2, 2]
     s.whichExercise_Q3 = data.iloc[2, 3]
     print(s.Q1_answer, s.Q2_answer, s.Q3_answer, s.rep, s.whichExercise_Q2, s.whichExercise_Q3)
@@ -140,8 +144,11 @@ def readFromExcelExercise():
 
 
 def exerciseFromSession(data):
-    exerciseList = [data.iloc[1, 0], data.iloc[2, 0], data.iloc[3, 0]]
-    # print(exerciseList)
+    exerciseList=[]
+    for i in range(1,data.shape[0]):
+        exerciseList.append(data.iloc[i,0])
+    #exerciseList = [data.iloc[1, 0], data.iloc[2, 0], data.iloc[3, 0]]
+    print(exerciseList)
     return exerciseList
 
 
@@ -151,13 +158,13 @@ def close_workbook():
 
 if __name__ == "__main__":
     s.excel_path = R'C:/Git/poppyCode/greatoded/excel_folder/'
-    s.subjectNum = 12
+    s.subjectNum = 20
     s.sessionNumber = 2
     # s.TBALevel=1
-    readFromExcelQA()
-    readFromExcelExercise()
-    print("done")
-    # create_workbook()
+    #readFromExcelQA()
+    #readFromExcelExercise()
+    #print("done")
+    create_workbook()
     # s.ex_list = [
     #     ['raise up', 8, 9],
     #     ['bend', 8, 10],
@@ -168,10 +175,10 @@ if __name__ == "__main__":
     #     ['a', 'b', 'c'],
     #     [8, 'Left', 'Weight'],
     # ]
-    # join = [[12, 496.793, 98.652, 927.991],
-    # [6, 457.266, 80.806, 757.736],
-    # [13, 496.610, 91.162, 930.897]]
-    # wf_joints("m",join)
+    join = [[12, 496.793, 98.652, 927.991],
+    [6, 457.266, 80.806, 757.736],
+    [13, 496.610, 91.162, 930.897]]
+    wf_joints("123456789123456789123456789123456789",join)
     # wf_QA()
     # wf_exercise()
     # close_workbook()

@@ -123,17 +123,17 @@ class Camera(threading.Thread):
         time.sleep(2) #2
         getattr(self, s.req_exercise)() # running the method of the requested exercise
         self.stopRealsense()
-        if(s.success_exercise):
-            s.str_to_say = self.random_encouragement()
-            s.tts.say_wait(s.str_to_say)
-            s.screen.switch_frame(ExercisePage)
-        else:
-            print("____s.demo______")
-            if (s.TBALevel==3 and s.demo==False):
-                print("next")
-                s.screen.switch_frame(nextTime)
-                s.tts.say_wait('nextTimeSucc')
-                s.screen.switch_frame(ExercisePage)
+        # if(s.success_exercise):
+        #     s.str_to_say = self.random_encouragement()
+        #     s.tts.say_wait(s.str_to_say)
+        #     #s.screen.switch_frame(ExercisePage)
+        # else:
+        #     print("__________")
+        #     if (s.TBALevel==3 and s.demo==False):
+        #         print("next")
+        #         s.screen.switch_frame(nextTime)
+        #         s.tts.say_wait('nextTimeSucc')
+        # s.success_exercise=False
 
 
 
@@ -153,7 +153,7 @@ class Camera(threading.Thread):
             return "excellent"
         elif rand <0.8:
             s.screen.switch_frame(Winnergreat)
-            return "winnergreat"
+            return "winnergreate"
         else:
             s.screen.switch_frame(robotverygood)
             return "robotverygood"
@@ -325,7 +325,7 @@ class Camera(threading.Thread):
                     if(cntr<s.rep): #7
                         cntr=cntr+1
                         self.counting_flag(cntr)
-                        s.current_count = counter
+                        s.current_count = cntr
                     print (time.time())
                     print (last_time)
                     print (up_time_counter)
@@ -350,7 +350,7 @@ class Camera(threading.Thread):
         counter = 0
         exercise_name = s.req_exercise
         list_joints = [[3, 12, 13, 15, 6, 7, 9]]
-        while (s.req_exercise == "raise_arms_bend_elbows"):
+        while (s.req_exercise == "open_arms_bend_elbows"):
             joints = self.getSkeletonData()
             joint_torso = self.findJointData(joints, "3")
             jointr1 = self.findJointData(joints, "12")
@@ -432,8 +432,8 @@ class Camera(threading.Thread):
                     list_joints.append(new_entry)
                     break
                 list_joints.append(new_entry)
-        Excel.wf_joints("raise_arms_horiz_turn", list_joints)
-        s.ex_list.append(["raise_arms_horiz_turn", cntr, s.rep])
+        Excel.wf_joints("raise_arms_horizontally_turn", list_joints)
+        s.ex_list.append(["raise_arms_horizontally_turn", cntr, s.rep])
         s.current_count = cntr
         if (s.success_exercise):
             return True
@@ -512,11 +512,13 @@ class Camera(threading.Thread):
                 right_angle = self.calc_angle(jointr2[i], jointr1[i], jointr3[i])
                 right_depth = abs(jointr1[i].z - jointr3[i].z)
                 new_entry = [jointr1[i], jointr2[i], jointr3[i], right_height, right_angle, right_depth]
+                print("ttttttttttttttttttttt")
                 print (right_height)
                 print (right_angle)
                 print (right_depth)
                 print (flag)
-                if (right_height < 80.0) (not flag):
+                print("tttttttttttt")
+                if (right_height < 80.0) & (not flag):
                 #if (right_height < 80.0) &  (right_depth>300) & (not flag):
                     print ("up")
                     counter = self.counting_flag(counter)
@@ -609,6 +611,7 @@ class Camera(threading.Thread):
                 left_elbow_angle = self.calc_angle(jointl2[i], jointl1[i], jointl3[i])
                 right_armpit_angle = self.calc_angle(jointr1[i], joint_torso[i], jointr2[i])
                 right_elbow_angle = self.calc_angle(jointr2[i], jointr1[i], jointr3[i])
+                print("dddddddddddddddd")
                 print (left_armpit_angle)
                 print (left_elbow_angle)
                 print (right_armpit_angle)
@@ -967,6 +970,7 @@ class Camera(threading.Thread):
             for i in range(0, len(jointr1)):
                 left_armpit_angle = self.calc_angle(jointl1[i], joint_torso[i], jointl2[i])
                 left_elbow_angle = self.calc_angle(jointl2[i], jointl1[i], jointl3[i])
+                print("dddddddddddddddd")
                 print(left_armpit_angle)
                 print(left_elbow_angle)
                 new_entry = [joint_torso[i], jointl1[i], jointl2[i], jointl3[i],left_armpit_angle, left_elbow_angle]
@@ -1002,16 +1006,12 @@ class Camera(threading.Thread):
         s.tts.say_wait(s.str_to_say)
         if (s.TBALevel==3): # half way
             print("_____")
-            if (s.rep-s.curren_count==4):
+            if (s.rep-s.current_count==4+1):
                 s.screen.switch_frame(FourMoreToGO)
-            elif(s.rep-s.current_count==3):
+            elif(s.rep-s.current_count==3+1):
                 s.screen.switch_frame(ThreeMoreToGO)
-            elif(s.rep-s.current_count==2):
+            elif(s.rep-s.current_count==2+1):
                 s.screen.switch_frame(TwoMoreToGO)
-        #time.sleep(1.5)
-        # if counter == 1:
-        #     numberstr= "OnePage"
-        # s.screen.switch_frame(numberstr)
         print ("say " + str(counter))
         return (counter)
 
@@ -1033,7 +1033,7 @@ if __name__ == '__main__':
     s.rep = 4
     language = 'Hebrew'
     gender = 'Female'
-    s.subjectNum=2
+    s.subjectNum=23
     s.sessionNumber=2
     s.TBALevel=1
     #for the robot path
@@ -1075,9 +1075,9 @@ if __name__ == '__main__':
     # number 8 - dosent work:
     #s.req_exercise = "raise_arms_forward_separate"
     #s.req_exercise = "raise_right_arm_forward"
-    s.req_exercise = "raise_left_arm_forward"
+    #s.req_exercise = "raise_left_arm_forward"
     # number 9:
-    #s.req_exercise = "raise_arms_90_and_up"
+    s.req_exercise = "raise_arms_90_and_up"
     # number=10
     #s.req_exercise='raise_left_arm_and_lean_dynmic'
     # number 11:

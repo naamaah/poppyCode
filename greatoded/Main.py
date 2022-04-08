@@ -21,13 +21,17 @@ if __name__ == '__main__':
     # Settings for exercises - to change every run of the code!!!!
     language = 'Hebrew'
     gender = 'Female'
-    s.female=False
+    #gender = 'Male'
+
+    #s.female=False
+    s.female = True
+
     s.isCamera=True #False - No camera, True- there is camera
     s.isMediaPipe=False #false-Nuitrack(Camera), True-mediaPipe(CameraNew)
     s.isRobot=True #False - simulator, True- real robot
     # TBA
-    s.subjectNum = 13
-    s.sessionNumber = 3
+    s.subjectNum = 101
+    s.sessionNumber = 2
     s.TBALevel=3
     s.Q1_answer = None
     s.Q2_answer = None

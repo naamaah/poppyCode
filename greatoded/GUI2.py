@@ -51,6 +51,13 @@ class ExamplePage(tk.Frame):
         self.photo_image = ImageTk.PhotoImage(image) #self. - for keeping the photo in memory so it will be shown
         tk.Label(self, image = self.photo_image).pack()
 
+class weightExPage(tk.Frame):
+    def __init__(self, master):
+        tk.Frame.__init__(self, master)
+        image = Image.open(s.pic_path+'exercisewights.jpg')
+        self.photo_image = ImageTk.PhotoImage(image) #self. - for keeping the photo in memory so it will be shown
+        tk.Label(self, image = self.photo_image).pack()
+
 class nextTime(tk.Frame):
     def __init__(self, master):
         tk.Frame.__init__(self, master)
@@ -343,7 +350,7 @@ class Q3_page(tk.Frame):
         button_a= tk.Button(image=self.photo_image_a, command=self.on_click_a)
         button_a["border"] = 0
         button_a.pack()
-        button_a.place(height=150, width=350, x=120, y=190)
+        button_a.place(height=150, width=350, x=320, y=190)
 
         # image_b = Image.open(s.pic_path + 'Q3_b.jpg')
         # self.photo_image_b = ImageTk.PhotoImage(image_b)

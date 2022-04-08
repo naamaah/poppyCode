@@ -27,7 +27,7 @@ class TTS():
         This function make the robot say whatever there is in the file - play the audio (paralelly)
         :return: audio
         '''
-        if (str_to_say!=""):
+        if (str_to_say!="" and str_to_say!='15'):
             print("say_wait function - (tts class) " + str_to_say)
             mixer.init()
             fileName=s.audio_path+str_to_say+'.wav'
@@ -43,7 +43,7 @@ class TTS():
         This function make the robot say whatever there is in the file - play the audio (paralelly)
         :return: audio
         '''
-        if (str_to_say!=""):
+        if (str_to_say!="" and str_to_say!='15'):
             print("say_wait function - (tts class) " + str_to_say)
             mixer.init()
             fileName=path
@@ -59,7 +59,7 @@ class TTS():
         This function make the robot say whatever there is in the file - play the audio (paralelly)
         :return: audio
         '''
-        if (str_to_say != ""):
+        if (str_to_say != ""  and str_to_say!='15'):
             print("say_no_wait function - (tts class) " + str_to_say)
             mixer.init()
             fileName=s.audio_path+str_to_say+'.wav'
@@ -99,12 +99,12 @@ if __name__ == '__main__':
     s.audio_path = s.general_path + 'audioFiles/' + language + '/' + gender + '/'
     tts = TTS()
     # tts.try2()
-    a1 = 'ForBicep'
-    a2='raise right and forward'
-    a3 =""
-    audioList=[a1,a2,a3]
-    tts.combainedAudio(audioList,"NaamaTry3")
-    # tts.say_wait('raise right and forward')
+    # a1 = 'ForBicep'
+    # a2='raise right and forward'
+    # a3 =""
+    # audioList=[a1,a2,a3]
+    # tts.combainedAudio(audioList,"NaamaTry3")
+    tts.say_wait('15')
     # tts.say_wait('ForIntensive')
     # tts.say_wait('beginExRep')
     # tts.say_wait('6')
