@@ -330,7 +330,7 @@ class Camera(threading.Thread):
                     print (last_time)
                     print (up_time_counter)
                     new_entry.append(cntr)
-                if (up_time_counter >= s.rep or cntr>=s.rep): #7
+                if (up_time_counter >= s.rep or cntr>=s.rep-1): #7
                     s.req_exercise = ""
                     s.success_exercise = True
                     list_joints.append(new_entry)
