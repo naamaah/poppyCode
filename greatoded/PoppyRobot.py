@@ -8,14 +8,6 @@ import threading
 import random
 from GUI2 import StartPage, weightExPage, TryAgainPage, BlankPage, GoodbyePage, ExercisePage, lastquestion, shutdown_win,\
     Q1_page, Q2_page, Q3_page, ExamplePage, WellDonePage, ExcellentPage, VeryGoodPage, Winnergreat, robotverygood, ExercisePage, nextTime, TwoMoreToGO, ThreeMoreToGO, FourMoreToGO
-# \
-#  begin_page,   StartPage_Relax, Relax_Page_ber, lastquestion_relax, relax_thl, relax_thr, relax_thd, facemovement_Relax, teeth, \
-#     eyes, eyebrows, smile
-from CognitiveGame1 import GameOneStart
-from CognitiveGame2 import GameTwoStart
-from CognitiveGame4 import GameFourStart
-from CognitiveGame5 import GameFiveStart
-from cognetivemission_math import introduction
 from datetime import date,datetime
 import numpy as np
 from numpy import savetxt
@@ -28,7 +20,7 @@ from Camera import Camera
 import math
 
 
-class PoppyRobot(threading.Thread):
+class PoppyRobotNew(threading.Thread):
     def __init__(self, name):
         print("Poppy class - init function")
         threading.Thread.__init__(self)

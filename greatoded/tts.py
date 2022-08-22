@@ -13,12 +13,13 @@ import os
 
 class TTS():
     def __init__(self):
+        print("TTS start")
         name=str(s.subjectNum)
         folder_path = s.audio_path + name
         print(folder_path)
-        if (s.sessionNumber == 1):
-            os.mkdir(folder_path)
-            print("create folder")
+        # if (s.sessionNumber == 1):
+        #     os.mkdir(folder_path)
+        #     print("create folder")
 
 
     def say_wait(self, str_to_say):

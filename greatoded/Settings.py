@@ -16,16 +16,19 @@ def __init__():
     global realsense_path
 
     # new for naama
+    global robotNumber
     global subjectNum
     global sessionNumber
     global TBALevel
     global Q1_answer
     global Q2_answer
+    global weight
+
     global Q3_answer
     # global pickWeights  # True - q3-q or maybe q3-c.
     # global whichExercise_Q1
     global whichExercise_Q2
-    global whichExercise_Q3
+
     global exercises_session1
     global exercises_session2
     # global exercises_session3
