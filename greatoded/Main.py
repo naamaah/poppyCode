@@ -20,7 +20,7 @@ import threading
 
 if __name__ == '__main__':
     # Settings for exercises - to change every run of the code!!!!
-    s.robotNumber = "1"
+    s.robotNumber = "3"
     language = 'Hebrew'
     gender = 'Female'
     # gender = 'Male'
@@ -33,8 +33,8 @@ if __name__ == '__main__':
     # TBA
     s.subjectNum = random.randint(0, 1200)
     s.sessionNumber = 1
-    s.TBALevel=1
-    s.exercies_amount=4
+    s.TBALevel=3 #1-Low, 2-Medium, 3-HighOriginal
+    s.exercies_amount=3
 
     #permenent - no need to change!
     s.realsense_path = R'C:\git\poppyCode\greatoded\nuitrack\Examples\nuitrack_console_sample\out\build\x64-Debug\nuitrack_console_sample.exe'
@@ -57,6 +57,9 @@ if __name__ == '__main__':
     s.demo=True #in the beggining is demonstration TBA3
     s.Q1_answer = None
     s.Q2_answer = None
+    s.Q3_answer = None
+    s.whichExercise_Q2 = None
+    s.whichExercise_Q3 = None
     s.weight=""
 
     if (s.isCamera==True):
@@ -101,7 +104,3 @@ if __name__ == '__main__':
     # s.cogGame = False
     # s.numberOfWorkout=0
 
-    # s.Q2_answer = None
-    # s.Q3_answer = None
-    # s.whichExercise_Q2 = None
-    # s.whichExercise_Q3 = None

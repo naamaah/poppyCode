@@ -45,18 +45,51 @@ class PoppyRobot(threading.Thread):
         print("done poppy")
 
     # talk after say hello and before begin the exercises
-    def say_before_exercises(self):
+    def say_before_exercises(self, chosen_exercises):
         print("say_before_exercises")
-        if (s.TBALevel == 2):
-            s.tts.say_wait("QuestionsExplainMedium")
+        s.tts.say_wait("exerciseExplain")
+        if (s.TBALevel == 3):# TBALevel 3
+            self.QuestionBegin()
+            self.demo_high(chosen_exercises)
 
-        if (s.TBALevel != 3):
-            s.tts.say_wait("exerciseExplain")
-        else:  # TBALevel 3
-            self.demo_high()
+    def QuestionBegin(self):
+        # QA part
+        s.tts.say_wait("Answer to Question")
+        s.tts.say_no_wait("Q1")
+        s.screen.switch_frame(Q1_page)
+        while (s.Q1_answer == None):  # wait for participant to answer Q1
+            continue
+        s.tts.say_no_wait("Q3")
+        s.screen.switch_frame(Q3_page)
+        while (s.Q3_answer == None):  # wait for participant to answer Q3
+            continue
+        s.tts.say_wait("Thanks for answer")
+        # QA information data
+        if (s.Q1_answer == 'a'):
+            if (s.weight == 'withWeights'):
+                s.rep = random.randint(6, 8)
+            else:
+                s.rep = 8
+        elif (s.Q1_answer == 'b'):
+            if (s.weight == 'withWeights'):
+                s.rep = random.randint(8, 10)
+            else:
+                s.rep = 10
+        elif (s.Q1_answer == 'c'):
+            if (s.weight == 'withWeights'):
+                s.rep = random.randint(10, 12)
+            else:
+                s.rep = 12
+        else:  # d
+            if (s.weight == 'withWeights'):
+                s.rep = random.randint(12, 14)
+            else:
+                s.rep = 14
+        s.Q_answer.append([s.Q1_answer, s.Q3_answer])
+        s.Q_answer.append([s.rep, s.whichExercise_Q3])
+        Excel.wf_QA()
 
-    def demo_high(self):
-        s.tts.say_wait("QuestionsExplainHigh")
+    def demo_high(self,chosen_exercises):
         print("make an exmaple of each exercise")
         s.screen.switch_frame(ExamplePage)
         s.tts.say_wait('ExplainTBAHigh')
@@ -75,14 +108,18 @@ class PoppyRobot(threading.Thread):
             count = count + 1
         s.rep = tempRep
         s.demo = False
-        s.tts.say_wait('exerciseExplainTBAHigh')
 
 
     def all_exercise_run(self):
         print("Poppy class - all_exercise_run function")
+        s.Two_hands_exercise_names = [self.raise_arms_horizontally, self.bend_elbows,
+                                self.raise_arms_forward_static,
+                                self.open_arms_bend_elbows, self.raise_arms_forward,
+                                self.open_arms_and_forward,
+                                self.open_hands_and_raise_up, self.open_and_close_arms_90, self.raise_arms_forward_turn]
+        chosen_exercises = self.fun_chosen_exercises()
         # say and demo for TBA 3
-        self.say_before_exercises()
-
+        self.say_before_exercises(chosen_exercises)
         s.waved = False
         s.str_to_say = 'ready wave'
         s.tts.say_no_wait(s.str_to_say)
@@ -94,16 +131,6 @@ class PoppyRobot(threading.Thread):
         print("Let's start! - (Poppy class)")
         s.str_to_say = 'lets start'
         s.tts.say_wait(s.str_to_say)
-
-        s.Two_hands_exercise_names = [self.raise_arms_horizontally, self.bend_elbows,
-                                self.raise_arms_forward_static,
-                                self.open_arms_bend_elbows, self.raise_arms_forward,
-                                self.open_arms_and_forward,
-                                self.open_hands_and_raise_up, self.open_and_close_arms_90, self.raise_arms_forward_turn]
-        chosen_exercises = self.fun_chosen_exercises()
-
-
-
 
         #### RUN WORKOUT - New
         print("Exercises - (Poppy class)")
@@ -121,25 +148,29 @@ class PoppyRobot(threading.Thread):
             self.run_exercise(e, exercise_name)
             countEx=countEx+1
             print("exercise number", countEx)
-            if s.TBALevel != 1 and countEx==3:
-                s.tts.say_wait("QuestionsDuringEx")
-                print("QuestionsDuringEx")
-                s.screen.switch_frame(Q1_New_page)
-                print("Q1_New_page")
-                s.tts.say_wait('QuestionsRep') #Q1_New
-                while (s.Q1_answer == None):  # wait for participant to answer Q1
-                    continue
-                s.screen.switch_frame(Q2_New_page)
-                print("Q2_New_page")
-                s.tts.say_wait('QuestionsWeight') #Q2_New
-                while (s.Q2_answer == None):  # wait for participant to answer Q2
-                    continue
-                s.tts.say_wait("ThankGoBack")
-                if (s.TBALevel == 2):
-                    self.changeRepTBA2()
-            if (s.TBALevel == 3 and countEx >= 3):
-                self.changeRepTBA3()
+            if (s.TBALevel==3):
+                self.changeRepTBA3Original()
         self.finish_workout()
+
+            # if s.TBALevel != 1 and countEx==3:
+            #     s.tts.say_wait("QuestionsDuringEx")
+            #     print("QuestionsDuringEx")
+            #     s.screen.switch_frame(Q1_New_page)
+            #     print("Q1_New_page")
+            #     s.tts.say_wait('QuestionsRep') #Q1_New
+            #     while (s.Q1_answer == None):  # wait for participant to answer Q1
+            #         continue
+            #     s.screen.switch_frame(Q2_New_page)
+            #     print("Q2_New_page")
+            #     s.tts.say_wait('QuestionsWeight') #Q2_New
+            #     while (s.Q2_answer == None):  # wait for participant to answer Q2
+            #         continue
+            #     s.tts.say_wait("ThankGoBack")
+            #     if (s.TBALevel == 2):
+            #         self.changeRepTBA2()
+            # if (s.TBALevel == 3 and countEx >= 3):
+            #     self.changeRepTBA3()
+
 
     # def changeRepTBA2(self):
     #     if s.Q2_answer=='b': #no weight
@@ -160,15 +191,15 @@ class PoppyRobot(threading.Thread):
     #         s.rep=6
     #     if (s.rep>14):
     #         s.rep=14
-    def changeRepTBA2(self):
-        if s.Q1_answer=='a':
-            s.rep=s.rep+1
-        elif s.Q1_answer=='b':
-            s.rep = s.rep-1
-        print("New rep", s.rep)
-        s.rep = min(14, s.rep)
-        s.rep = max(6, s.rep)
-        print("rep between 6-14", s.rep)
+    # def changeRepTBA2(self):
+    #     if s.Q1_answer=='a':
+    #         s.rep=s.rep+1
+    #     elif s.Q1_answer=='b':
+    #         s.rep = s.rep-1
+    #     print("New rep", s.rep)
+    #     s.rep = min(14, s.rep)
+    #     s.rep = max(6, s.rep)
+    #     print("rep between 6-14", s.rep)
 
     def changeRepTBA3(self):
         if (s.success_exercise):
@@ -192,19 +223,21 @@ class PoppyRobot(threading.Thread):
         s.rep = max(6, s.rep)
         print("rep between 6-14", s.rep)
 
-        # #old
-        # if (s.success_exercise):
-        #     s.rep = s.rep + 2
-        #     s.rep = min(14, s.rep)
-        #     print(str(s.rep) + "s.rep+2")
-        # elif (s.current_count == s.rep - 1 and s.chance == False):
-        #     s.chance = True  # dont change the rep, give the user one more try
-        #     print(str(s.rep) + "chance")
-        # else:
-        #     s.rep = s.rep - int(math.ceil(s.rep - s.current_count) / 2)
-        #     print(str(s.rep) + "round")
-        # if (s.rep < 6):
-        #     s.rep = 6
+    def changeRepTBA3Original(self):
+        if (s.success_exercise):
+            s.rep = s.rep + 2
+            s.rep = min(14, s.rep)
+            print(str(s.rep) + "s.rep+2")
+        elif (s.current_count == s.rep - 1 and s.chance == False):
+            s.chance = True  # dont change the rep, give the user one more try
+            print(str(s.rep) + "chance")
+        else:
+            s.rep = s.rep - int(math.ceil(s.rep - s.current_count) / 2)
+            print(str(s.rep) + "round")
+        if (s.rep < 6):
+            s.rep = 6
+
+
 
     def init_robot(self):
         print("Poppy class - init_robot function")
@@ -229,52 +262,6 @@ class PoppyRobot(threading.Thread):
         print("number of repetition" + str(s.rep))
         return chosen_exercises
 
-        # TAB1 - chose exercise
-    # def TBA1_exercise(self):
-    #     # choose randomly the exercise for this session
-    #     chosen_exercises = []
-    #     while len(chosen_exercises) < s.exercies_amount:
-    #         ex = random.choice(s.all_exercise_names)
-    #         # flag=False
-    #         if ex.amount != 2:  # only two hands
-    #             if ex not in chosen_exercises:
-    #                 if (s.sessionNumber == 1):
-    #                     chosen_exercises.append(ex)
-    #                 elif (s.sessionNumber == 2):
-    #                     if ex.__name__ not in s.exercises_session1:
-    #                         chosen_exercises.append(ex)
-    #                 else:  # s.sessionNumber==3:
-    #                     if ex.__name__ not in s.exercises_session1 and ex not in s.exercises_session2:
-    #                         chosen_exercises.append(ex)
-    #     print(chosen_exercises)
-    #     #s.rep = random.randint(9, 12)
-    #     s.rep=6
-    #     print("number of repetition" + str(s.rep))
-    #     return chosen_exercises
-    #
-    #     # TAB2 and TBA3 - chose exercise
-    #
-    # def TBA2And3_exercise(self):
-    #     # exercise chosen:
-    #     chosen_exercises = []
-    #     while len(chosen_exercises) < s.exercies_amount:
-    #         if (s.whichExercise_Q2 == 'Right'):
-    #             ex = random.choice(s.right_exercise_names)
-    #             #if ex not in chosen_exercises and ex.__name__ not in s.exercises_session1 and ex.__name__ not in s.exercises_session2:
-    #             if ex not in chosen_exercises:
-    #                 chosen_exercises.append(ex)
-    #         elif (s.whichExercise_Q2 == 'Left'):
-    #             ex = random.choice(s.left_exercise_names)
-    #             #if ex not in chosen_exercises and ex.__name__ not in s.exercises_session1 and ex.__name__ not in s.exercises_session2:
-    #             if ex not in chosen_exercises:
-    #                 chosen_exercises.append(ex)
-    #         else:  # no problem - need to fix that it want be the sem exercise as pervious session
-    #             ex = random.choice(s.Two_hands_exercise_names)
-    #             if ex not in chosen_exercises and ex.__name__ not in s.exercises_session1 and ex.__name__ not in s.exercises_session2:
-    #                 chosen_exercises.append(ex)
-    #     print(chosen_exercises)
-    #     print("number of repetition" + str(s.rep))
-    #     return chosen_exercises
 
     #run exercise
     def run_exercise(self, exercise, exercise_name):
@@ -286,14 +273,8 @@ class PoppyRobot(threading.Thread):
             s.req_exercise = exercise.__name__
         print(s.rep)
         print("Poppy class - run_exercise function " + str(exercise.number) + str(exercise_name))
-        #if (exercise_name != "hello" and exercise_name != "helloShort" and exercise_name!="" and s.rep!=1):
         if (exercise.number != "hello" and exercise_name!="" and s.rep!=1):
-            # _____voice____:
             print("inside")
-            # purposeTBA = [exercise.why, exercise_name]
-            # filePurpose = 'comb_purpose_' + str(s.subjectNum) + "_" + str(exercise.number)
-            # print(filePurpose)
-            # s.tts.combainedAudio(purposeTBA, filePurpose)
             s.tts.say_wait(exercise.why)
             s.tts.say_wait(exercise_name)
             print("after purpose")
@@ -301,22 +282,13 @@ class PoppyRobot(threading.Thread):
                 begin = 'beginExRep'
             else:
                 begin = 'beginExFor'
-            # if (s.TBALevel!=1 and s.weight == 'Weights'):
-            #     weights = 'withWeights'
-            # else:
-            #     weights = ""
-            # processTBA = [begin, str(s.rep) + exercise.count, weights]
-            # fileProcess = 'comb_process_' + str(s.subjectNum) + "_" + str(exercise.number)
-            # s.tts.combainedAudio(processTBA, fileProcess)
             s.tts.say_wait(begin)
             s.tts.say_wait(str(s.rep) + exercise.count)
             s.tts.say_wait(s.weight)
             print("after process")
-            # time.sleep(3) #for the camera - TOCHECK
         else:
             s.tts.say_wait(exercise_name)
         exercise()  # the function of the current exercise.
-        #if (exercise_name != "hello" and exercise_name != "helloShort"):
         if (exercise.number!='hello'):
             s.req_exercise = ""
             if (s.rep == 1):
@@ -327,7 +299,7 @@ class PoppyRobot(threading.Thread):
                     s.tts.say_wait(s.str_to_say)
                 else:
                     print("__________")
-                    if (s.TBALevel == 3 and s.demo == False):
+                    if (s.TBALevel == 3):
                         print("next")
                         s.screen.switch_frame(nextTime)
                         s.tts.say_wait('nextTimeSucc')

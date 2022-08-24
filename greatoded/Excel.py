@@ -99,13 +99,13 @@ def wf_QA():
     s.worksheet = s.excel_workbook.add_worksheet(name)
     s.worksheet.write(0, 1, "Q1")
     s.worksheet.write(0, 2, "Q2")
-    s.worksheet.write(0, 3, "Q3")
+    #s.worksheet.write(0, 3, "Q3")
     row = 1
     col = 1
     for i in s.Q_answer:
         s.worksheet.write(row, col, i[0])  # q1 answer
         s.worksheet.write(row, col + 1, i[1])  # q2 answer
-        s.worksheet.write(row, col + 2, i[2])  # q3 answer
+        #s.worksheet.write(row, col + 2, i[2])  # q3 answer
         row += 1
 
 

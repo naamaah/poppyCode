@@ -352,13 +352,6 @@ class Q3_page(tk.Frame):
         button_a.pack()
         button_a.place(height=150, width=350, x=320, y=190)
 
-        # image_b = Image.open(s.pic_path + 'Q3_b.jpg')
-        # self.photo_image_b = ImageTk.PhotoImage(image_b)
-        # button_b = tk.Button(image=self.photo_image_b, command=self.on_click_b)
-        # button_b["border"] = 0
-        # button_b.pack()
-        # button_b.place(height=150, width=350, x=520, y=190)
-
         image_c = Image.open(s.pic_path+'Q3_c.jpg')
         self.photo_image_c = ImageTk.PhotoImage(image_c)
         button_c= tk.Button(image=self.photo_image_c, command=self.on_click_c)
@@ -369,7 +362,8 @@ class Q3_page(tk.Frame):
     def on_click_a(self):
         print("q3-a - (GUI class)")
         s.Q3_answer = 'a'
-        s.whichExercise_Q3 = 'Weights'
+        #s.whichExercise_Q3 = 'Weights'
+        s.weight = 'withWeights'
         mylist = ['Q3-a']
         excel_path = s.general_path+'data_shik.csv'
         with open(excel_path, "ab") as f:
@@ -377,20 +371,11 @@ class Q3_page(tk.Frame):
             savetxt(f, mylist, fmt='%s')
         s.screen.switch_frame(BlankPage)
 
-    def on_click_b(self):
-        print("q3-b - (GUI class)")
-        s.Q3_answer = 'b'
-        mylist = ['Q3-b']
-        excel_path = s.general_path + 'data_shik.csv'
-        with open(excel_path, "ab") as f:
-            f.write(b"\n")
-            savetxt(f, mylist, fmt='%s')
-        s.screen.switch_frame(BlankPage)
 
     def on_click_c(self):
         print("q3-c - (GUI class)")
         s.Q3_answer = 'c'
-        s.whichExercise_Q3 = 'No Weights'
+        #s.whichExercise_Q3 = 'No Weights'
         mylist = ['Q3-c']
         excel_path = s.general_path + 'data_shik.csv'
         with open(excel_path, "ab") as f:
@@ -423,7 +408,7 @@ class Q1_New_page(tk.Frame):
         button_b.pack()
         button_b.place(height=150, width=350, x=520, y=190)
 
-        image_c = Image.open(s.pic_path+'q1_New_c.jpg')
+        image_c = Image.open(s.pic_path+'q1_New_c2.jpg')
         self.photo_image_c = ImageTk.PhotoImage(image_c)
         button_c= tk.Button(image=self.photo_image_c, command=self.on_click_c)
         button_c["border"] = 0
