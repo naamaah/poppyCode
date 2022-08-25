@@ -1012,6 +1012,8 @@ class Camera(threading.Thread):
                 s.screen.switch_frame(ThreeMoreToGO)
             elif(s.rep-s.current_count==2+1):
                 s.screen.switch_frame(TwoMoreToGO)
+            elif (s.rep - s.current_count == 1 + 1):
+                s.screen.switch_frame(OneMoreToGO)
         print ("say " + str(counter))
         return (counter)
 

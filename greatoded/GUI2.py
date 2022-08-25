@@ -44,10 +44,34 @@ class ExercisePage(tk.Frame):
         self.photo_image = ImageTk.PhotoImage(image) #self. - for keeping the photo in memory so it will be shown
         tk.Label(self, image = self.photo_image).pack()
 
+class questionsDuringExplainPage(tk.Frame):
+    def __init__(self, master):
+        tk.Frame.__init__(self, master)
+        image = Image.open(s.pic_path+'questionsduringexplainhigh.jpg')
+        self.photo_image = ImageTk.PhotoImage(image) #self. - for keeping the photo in memory so it will be shown
+        tk.Label(self, image = self.photo_image).pack()
+
 class ExamplePage(tk.Frame):
     def __init__(self, master):
         tk.Frame.__init__(self, master)
         image = Image.open(s.pic_path+'example.jpg')
+        self.photo_image = ImageTk.PhotoImage(image) #self. - for keeping the photo in memory so it will be shown
+        tk.Label(self, image = self.photo_image).pack()
+
+class FinishDemoPage(tk.Frame):
+    def __init__(self, master):
+        tk.Frame.__init__(self, master)
+        image = Image.open(s.pic_path + 'exampleDone.jpg')
+        self.photo_image = ImageTk.PhotoImage(image) #self. - for keeping the photo in memory so it will be shown
+        tk.Label(self, image = self.photo_image).pack()
+
+class exerciseExplainPage(tk.Frame):
+    def __init__(self, master):
+        tk.Frame.__init__(self, master)
+        if s.female==True:
+            image = Image.open(s.pic_path + 'exerciseExplainF.jpg')
+        else:
+            image = Image.open(s.pic_path + 'exerciseExplain.jpg')
         self.photo_image = ImageTk.PhotoImage(image) #self. - for keeping the photo in memory so it will be shown
         tk.Label(self, image = self.photo_image).pack()
 
@@ -65,6 +89,13 @@ class nextTime(tk.Frame):
             image = Image.open(s.pic_path + 'nextTime.jpg')
         else:
             image = Image.open(s.pic_path + 'nextTimeFemale.jpg')
+        self.photo_image = ImageTk.PhotoImage(image) #self. - for keeping the photo in memory so it will be shown
+        tk.Label(self, image = self.photo_image).pack()
+
+class OneMoreToGO(tk.Frame):
+    def __init__(self, master):
+        tk.Frame.__init__(self, master)
+        image = Image.open(s.pic_path + '1More.jpg')
         self.photo_image = ImageTk.PhotoImage(image) #self. - for keeping the photo in memory so it will be shown
         tk.Label(self, image = self.photo_image).pack()
 
@@ -194,6 +225,13 @@ class feedback_relax(tk.Frame):
 #             f.write(b"\n")
 #             savetxt(f, mylist, fmt='%s')
 #         s.screen.switch_frame(BlankPage)
+
+class questionBeginPage(tk.Frame):
+    def __init__(self, master):
+        tk.Frame.__init__(self, master)
+        image = Image.open(s.pic_path + 'questionBegin.jpg')
+        self.photo_image = ImageTk.PhotoImage(image) #self. - for keeping the photo in memory so it will be shown
+        tk.Label(self, image = self.photo_image).pack()
 
 class Q1_page(tk.Frame):
     def __init__(self, master):
@@ -352,7 +390,7 @@ class Q3_page(tk.Frame):
         button_a.pack()
         button_a.place(height=150, width=350, x=320, y=190)
 
-        image_c = Image.open(s.pic_path+'Q3_c.jpg')
+        image_c = Image.open(s.pic_path+'q2_new_b.jpg')
         self.photo_image_c = ImageTk.PhotoImage(image_c)
         button_c= tk.Button(image=self.photo_image_c, command=self.on_click_c)
         button_c["border"] = 0
@@ -382,6 +420,23 @@ class Q3_page(tk.Frame):
             f.write(b"\n")
             savetxt(f, mylist, fmt='%s')
         s.screen.switch_frame(BlankPage)
+
+class ThankForAnswerBeginPage(tk.Frame):
+    def __init__(self, master):
+        tk.Frame.__init__(self, master)
+        image = Image.open(s.pic_path + 'ThanksBegin.jpg')
+        self.photo_image = ImageTk.PhotoImage(image) #self. - for keeping the photo in memory so it will be shown
+        tk.Label(self, image = self.photo_image).pack()
+
+class questionDuringPage(tk.Frame):
+    def __init__(self, master):
+        tk.Frame.__init__(self, master)
+        if (s.female==True):
+            image = Image.open(s.pic_path + 'questionDuringF.jpg')
+        else:
+            image = Image.open(s.pic_path + 'questionDuringM.jpg')
+        self.photo_image = ImageTk.PhotoImage(image) #self. - for keeping the photo in memory so it will be shown
+        tk.Label(self, image = self.photo_image).pack()
 
 class Q1_New_page(tk.Frame):
     def __init__(self, master):
@@ -494,6 +549,12 @@ class Q2_New_page(tk.Frame):
             savetxt(f, mylist, fmt='%s')
         s.screen.switch_frame(BlankPage)
 
+class ThanksDuringPage(tk.Frame):
+    def __init__(self, master):
+        tk.Frame.__init__(self, master)
+        image = Image.open(s.pic_path + 'ThanksDuring.jpg')
+        self.photo_image = ImageTk.PhotoImage(image) #self. - for keeping the photo in memory so it will be shown
+        tk.Label(self, image = self.photo_image).pack()
 
 class StartPage(tk.Frame):
     def __init__(self, master):

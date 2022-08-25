@@ -28,7 +28,7 @@ class TTS():
         This function make the robot say whatever there is in the file - play the audio (paralelly)
         :return: audio
         '''
-        if (str_to_say!="" and str_to_say!='15'):
+        if (str_to_say!=""):
             print("say_wait function - (tts class) " + str_to_say)
             mixer.init()
             fileName=s.audio_path+str_to_say+'.wav'

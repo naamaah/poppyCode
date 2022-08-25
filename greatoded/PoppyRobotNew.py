@@ -7,7 +7,9 @@ import time
 import threading
 import random
 from GUI2 import StartPage, weightExPage, TryAgainPage, BlankPage, GoodbyePage, ExercisePage, lastquestion, shutdown_win,\
-    Q1_page, Q2_page, Q3_page,Q1_New_page,Q2_New_page, ExamplePage, WellDonePage, ExcellentPage, VeryGoodPage, Winnergreat, robotverygood, ExercisePage, nextTime, TwoMoreToGO, ThreeMoreToGO, FourMoreToGO
+    questionsDuringExplainPage, questionBeginPage, Q1_page, Q2_page, Q3_page,ThankForAnswerBeginPage, questionDuringPage, Q1_New_page,Q2_New_page, ThanksDuringPage, \
+    ExamplePage,FinishDemoPage,exerciseExplainPage,  WellDonePage, ExcellentPage, VeryGoodPage, Winnergreat, robotverygood, ExercisePage,\
+    nextTime, OneMoreToGO, TwoMoreToGO, ThreeMoreToGO, FourMoreToGO
 from datetime import date,datetime
 import numpy as np
 from numpy import savetxt
@@ -47,22 +49,30 @@ class PoppyRobot(threading.Thread):
     # talk after say hello and before begin the exercises
     def say_before_exercises(self, chosen_exercises):
         print("say_before_exercises")
+        s.screen.switch_frame(exerciseExplainPage)
         s.tts.say_wait("exerciseExplain")
         if (s.TBALevel == 3):# TBALevel 3
             self.QuestionBegin()
             self.demo_high(chosen_exercises)
+        elif(s.TBALevel == 2):
+            s.screen.switch_frame(questionsDuringExplainPage)
+            s.tts.say_wait("QuestionsDuringExplainHigh")
+            self.demo_high(chosen_exercises)
+
 
     def QuestionBegin(self):
         # QA part
+        s.screen.switch_frame(questionBeginPage)
         s.tts.say_wait("Answer to Question")
         s.tts.say_no_wait("Q1")
         s.screen.switch_frame(Q1_page)
         while (s.Q1_answer == None):  # wait for participant to answer Q1
             continue
-        s.tts.say_no_wait("Q3")
+        s.tts.say_no_wait("Q2New")
         s.screen.switch_frame(Q3_page)
         while (s.Q3_answer == None):  # wait for participant to answer Q3
             continue
+        s.screen.switch_frame(ThankForAnswerBeginPage)
         s.tts.say_wait("Thanks for answer")
         # QA information data
         if (s.Q1_answer == 'a'):
@@ -92,7 +102,7 @@ class PoppyRobot(threading.Thread):
     def demo_high(self,chosen_exercises):
         print("make an exmaple of each exercise")
         s.screen.switch_frame(ExamplePage)
-        s.tts.say_wait('ExplainTBAHigh')
+        s.tts.say_wait('DemoTBAHigh')
         tempRep = s.rep
         s.rep = 1
         count = 1
@@ -106,17 +116,24 @@ class PoppyRobot(threading.Thread):
                 exercise_name = getattr(e, "instructions")
                 self.run_exercise(e, exercise_name)
             count = count + 1
+        s.screen.switch_frame(FinishDemoPage)
+        s.tts.say_wait('FinishDemo')
         s.rep = tempRep
         s.demo = False
 
 
     def all_exercise_run(self):
         print("Poppy class - all_exercise_run function")
+        # s.Two_hands_exercise_names = [self.raise_arms_horizontally, self.bend_elbows,
+        #                         self.raise_arms_forward_static,
+        #                         self.open_arms_bend_elbows, self.raise_arms_forward,
+        #                         self.open_arms_and_forward,
+        #                         self.open_hands_and_raise_up, self.open_and_close_arms_90, self.raise_arms_forward_turn]
         s.Two_hands_exercise_names = [self.raise_arms_horizontally, self.bend_elbows,
-                                self.raise_arms_forward_static,
-                                self.open_arms_bend_elbows, self.raise_arms_forward,
-                                self.open_arms_and_forward,
-                                self.open_hands_and_raise_up, self.open_and_close_arms_90, self.raise_arms_forward_turn]
+                                      self.raise_arms_forward_static,
+                                      self.open_arms_bend_elbows, self.raise_arms_forward,
+                                      self.open_arms_and_forward,
+                                    self.open_and_close_arms_90]
         chosen_exercises = self.fun_chosen_exercises()
         # say and demo for TBA 3
         self.say_before_exercises(chosen_exercises)
@@ -150,74 +167,55 @@ class PoppyRobot(threading.Thread):
             print("exercise number", countEx)
             if (s.TBALevel==3):
                 self.changeRepTBA3Original()
+            elif (s.TBALevel==2):
+                if countEx == 3: #after finished ex 3
+                    self.QuestionDuring()
+                if (countEx<3):
+                    self.changeRepTBA3Original() #the begging is the same only according to the preformance
+                else:
+                    if s.Q1_answer != 'c':
+                        self.changeRepAfterAnswerTBA2()
         self.finish_workout()
 
-            # if s.TBALevel != 1 and countEx==3:
-            #     s.tts.say_wait("QuestionsDuringEx")
-            #     print("QuestionsDuringEx")
-            #     s.screen.switch_frame(Q1_New_page)
-            #     print("Q1_New_page")
-            #     s.tts.say_wait('QuestionsRep') #Q1_New
-            #     while (s.Q1_answer == None):  # wait for participant to answer Q1
-            #         continue
-            #     s.screen.switch_frame(Q2_New_page)
-            #     print("Q2_New_page")
-            #     s.tts.say_wait('QuestionsWeight') #Q2_New
-            #     while (s.Q2_answer == None):  # wait for participant to answer Q2
-            #         continue
-            #     s.tts.say_wait("ThankGoBack")
-            #     if (s.TBALevel == 2):
-            #         self.changeRepTBA2()
-            # if (s.TBALevel == 3 and countEx >= 3):
-            #     self.changeRepTBA3()
+    def QuestionDuring(self):
+        s.screen.switch_frame(questionDuringPage)
+        s.tts.say_wait("QuestionsDuringEx")
+        print("QuestionsDuringEx")
+        s.screen.switch_frame(Q1_New_page)
+        print("Q1_New_page")
+        s.tts.say_wait('QuestionsRep')  # Q1_New
+        while (s.Q1_answer == None):  # wait for participant to answer Q1
+            continue
+        s.screen.switch_frame(Q2_New_page)
+        print("Q2_New_page")
+        s.tts.say_wait('QuestionsWeight')  # Q2_New
+        while (s.Q2_answer == None):  # wait for participant to answer Q2
+            continue
+        s.screen.switch_frame(ThanksDuringPage)
+        s.tts.say_wait("ThanksDuring")
+        if s.Q1_answer == 'c':
+            s.tts.say_wait("HIghTheSame")
 
-
-    # def changeRepTBA2(self):
-    #     if s.Q2_answer=='b': #no weight
-    #         add=2
-    #         red=1
-    #         print("No Weight add")
-    #     else:
-    #         add=1
-    #         red=2
-    #         print("Weight add")
-    #
-    #     if s.Q1_answer=='a':
-    #         s.rep=s.rep+add
-    #     elif s.Q1_answer=='b':
-    #         s.rep = s.rep-red
-    #     print("New rep", s.rep)
-    #     if (s.rep<6):
-    #         s.rep=6
-    #     if (s.rep>14):
-    #         s.rep=14
-    # def changeRepTBA2(self):
-    #     if s.Q1_answer=='a':
-    #         s.rep=s.rep+1
-    #     elif s.Q1_answer=='b':
-    #         s.rep = s.rep-1
-    #     print("New rep", s.rep)
-    #     s.rep = min(14, s.rep)
-    #     s.rep = max(6, s.rep)
-    #     print("rep between 6-14", s.rep)
-
-    def changeRepTBA3(self):
-        if (s.success_exercise):
-            print("success", s.current_count / s.rep)
-            add = 2
-            red = 1
-        elif s.current_count/s.rep >=0.7:
-            print(">=0.7",s.current_count/s.rep)
-            add = 1
-            red = 1
-        else:
-            print("<0.7", s.current_count / s.rep)
-            add = 0
-            red = 2
-        if s.Q1_answer=='a':
-            s.rep=s.rep+add
-        elif s.Q1_answer=='b':
-            s.rep = s.rep-red
+    def changeRepAfterAnswerTBA2(self):
+        if s.Q1_answer != 'a': #add
+            if (s.success_exercise):
+                s.tts.say_wait("HighSuccessAdd")
+                s.rep = s.rep + 2
+            elif s.current_count / s.rep >= 0.7:
+                s.tts.say_wait("HighalmostSuccessAdd")
+                s.rep = s.rep + 1
+            else:
+                s.tts.say_wait("HighNoSuccessAdd")
+        else: #red
+            if (s.success_exercise):
+                s.tts.say_wait("HighSuccessRed")
+                s.rep = s.rep -1
+            elif s.current_count / s.rep >= 0.7:
+                s.tts.say_wait("HighalmostSuccessRed")
+                s.rep = s.rep - 2
+            else:
+                s.tts.say_wait("HighNoSuccessRed")
+                s.rep = s.rep - 2
         print("New rep", s.rep)
         s.rep = min(14, s.rep)
         s.rep = max(6, s.rep)
@@ -227,17 +225,18 @@ class PoppyRobot(threading.Thread):
         if (s.success_exercise):
             s.rep = s.rep + 2
             s.rep = min(14, s.rep)
-            print(str(s.rep) + "s.rep+2")
+            print(str(s.rep) + "HighSuccss-.rep+2")
+            s.tts.say_wait("HighSuccess")
         elif (s.current_count == s.rep - 1 and s.chance == False):
             s.chance = True  # dont change the rep, give the user one more try
-            print(str(s.rep) + "chance")
+            print(str(s.rep) + "HighSecondChance")
+            s.tts.say_wait("HighSecondChance")
         else:
             s.rep = s.rep - int(math.ceil(s.rep - s.current_count) / 2)
-            print(str(s.rep) + "round")
+            print(str(s.rep) + "round - HighFailure")
+            s.tts.say_wait("HighFailure")
         if (s.rep < 6):
             s.rep = 6
-
-
 
     def init_robot(self):
         print("Poppy class - init_robot function")
@@ -299,10 +298,11 @@ class PoppyRobot(threading.Thread):
                     s.tts.say_wait(s.str_to_say)
                 else:
                     print("__________")
-                    if (s.TBALevel == 3):
+                    if (s.TBALevel == 3 or s.TBALevel==2):
                         print("next")
                         s.screen.switch_frame(nextTime)
-                        s.tts.say_wait('nextTimeSucc')
+                        if (s.Q1_answer == 'c' and s.TBALevel==2):
+                            s.tts.say_wait('nextTimeSucc')
 
 
     def random_encouragement(self):
