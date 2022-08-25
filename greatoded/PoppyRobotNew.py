@@ -41,7 +41,6 @@ class PoppyRobot(threading.Thread):
         self.init_robot()
         print("finished init")
         print("hello wave, introduction - (Poppy class)")
-        s.req_exercise="hello_waving" #for the camera
         self.run_exercise(self.hello_waving, "hello"+s.robotNumber) # the robot wave+the name of the hello according to the robot number
         self.all_exercise_run()
         print("done poppy")
@@ -137,6 +136,7 @@ class PoppyRobot(threading.Thread):
         chosen_exercises = self.fun_chosen_exercises()
         # say and demo for TBA 3
         self.say_before_exercises(chosen_exercises)
+        s.req_exercise="hello_waving" #for the camera
         s.waved = False
         s.str_to_say = 'ready wave'
         s.tts.say_no_wait(s.str_to_say)
@@ -168,13 +168,13 @@ class PoppyRobot(threading.Thread):
             if (s.TBALevel==3):
                 self.changeRepTBA3Original()
             elif (s.TBALevel==2):
-                if countEx == 3: #after finished ex 3
-                    self.QuestionDuring()
                 if (countEx<3):
                     self.changeRepTBA3Original() #the begging is the same only according to the preformance
                 else:
                     if s.Q1_answer != 'c':
                         self.changeRepAfterAnswerTBA2()
+                if countEx == 3: #after finished ex 3
+                    self.QuestionDuring()
         self.finish_workout()
 
     def QuestionDuring(self):
@@ -297,7 +297,6 @@ class PoppyRobot(threading.Thread):
                     s.str_to_say = self.random_encouragement()
                     s.tts.say_wait(s.str_to_say)
                 else:
-                    print("__________")
                     if (s.TBALevel == 3 or s.TBALevel==2):
                         print("next")
                         s.screen.switch_frame(nextTime)

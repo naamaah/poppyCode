@@ -1004,7 +1004,7 @@ class Camera(threading.Thread):
         counter = counter + 1
         s.str_to_say=str(counter)
         s.tts.say_wait(s.str_to_say)
-        if (s.TBALevel==3): # half way
+        if (s.TBALevel==3 or s.TBALevel==2): # half way
             print("_____")
             if (s.rep-s.current_count==4+1):
                 s.screen.switch_frame(FourMoreToGO)
