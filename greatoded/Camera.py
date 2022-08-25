@@ -8,7 +8,8 @@ from Joint import joint
 import time
 import math
 import random
-from GUI2 import WellDonePage, ExcellentPage, VeryGoodPage, Winnergreat, robotverygood, ExercisePage, nextTime, TwoMoreToGO, ThreeMoreToGO, FourMoreToGO\
+from GUI2 import WellDonePage, ExcellentPage, VeryGoodPage, Winnergreat, robotverygood, ExercisePage,\
+    nextTime,OneMoreToGO, TwoMoreToGO, ThreeMoreToGO, FourMoreToGO\
     # feedback_elbow, feedback_head, feedback_relax
 import Excel
 from datetime import datetime
