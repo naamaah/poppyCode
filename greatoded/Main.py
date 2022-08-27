@@ -20,7 +20,7 @@ import threading
 
 if __name__ == '__main__':
     # Settings for exercises - to change every run of the code!!!!
-    s.robotNumber = "2"
+    s.robotNumber = "1"
     language = 'Hebrew'
     gender = 'Female'
     #gender = 'Male'
@@ -28,13 +28,13 @@ if __name__ == '__main__':
         s.female = True
     else:
         s.female=False
-    s.isCamera=False #False - No camera, True- there is camera
+    s.isCamera=True #False - No camera, True- there is camera
     s.isRobot=False #False - simulator, True- real robot
     # TBA
     s.subjectNum = random.randint(0, 1200)
     s.sessionNumber = 1
     s.TBALevel=2 #1-Low, 2-highNew, 3-HighOriginal
-    s.exercies_amount=4
+    s.exercies_amount=6
 
     #permenent - no need to change!
     s.realsense_path = R'C:\git\poppyCode\greatoded\nuitrack\Examples\nuitrack_console_sample\out\build\x64-Debug\nuitrack_console_sample.exe'
@@ -50,11 +50,12 @@ if __name__ == '__main__':
     s.rep=6 # Number of repetitions for exercises - the robot doing and the user need to do - update in the code
     s.req_exercise = ""
     s.str_to_say = ""
-    s.exercises_session1=[]
-    s.exercises_session2=[]
+    # s.exercises_session1=[]
+    # s.exercises_session2=[]
     s.chance=False
     s.current_count=0 #save the last repetition of the user.
     s.demo=True #in the beggining is demonstration TBA3
+    s.finish_exercise=False
     s.Q1_answer = None
     s.Q2_answer = None
     s.Q3_answer = None
@@ -102,5 +103,5 @@ if __name__ == '__main__':
     # s.pickWeights = False
     # s.clickedTryAgain = False
     # s.cogGame = False
-    # s.numberOfWorkout=0
+
 

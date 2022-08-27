@@ -18,11 +18,11 @@ def create_workbook():
     # worksheet_name = str(s.subjectNum)+"_"+str(current_time.day) + "." + str(current_time.month) + "_" + str(current_time.hour) + "." + \
     #                  str(current_time.minute) + "." + str(current_time.second) + ".xlsx"
     # create a folder for the subjectNumber - in the folder will be all the excel data
-    folder_path = s.excel_path + str(s.subjectNum)
+    folder_path = s.excel_path + str(s.subjectNum)+"_robot"+s.robotNumber
     print(folder_path)
     if (s.sessionNumber == 1):
         os.mkdir(folder_path)
-    worksheet_name = str(s.subjectNum) + "_" + str(s.sessionNumber) + ".xlsx"
+    worksheet_name = str(s.subjectNum) + "_" + str(s.sessionNumber)+"_" + str(s.TBALevel) + ".xlsx"
     s.excel_workbook = xlsxwriter.Workbook(folder_path + "/" + worksheet_name)
     s.ex_list = []
     s.Q_answer = []

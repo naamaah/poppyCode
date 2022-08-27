@@ -72,7 +72,7 @@ class PoppyRobot(threading.Thread):
         while (s.Q3_answer == None):  # wait for participant to answer Q3
             continue
         s.screen.switch_frame(ThankForAnswerBeginPage)
-        s.tts.say_wait("Thanks for answer")
+        s.tts.say_wait("AnswerExplainHigh")
         # QA information data
         if (s.Q1_answer == 'a'):
             if (s.weight == 'withWeights'):
@@ -95,7 +95,7 @@ class PoppyRobot(threading.Thread):
             else:
                 s.rep = 14
         s.Q_answer.append([s.Q1_answer, s.Q3_answer])
-        s.Q_answer.append([s.rep, s.whichExercise_Q3])
+        s.Q_answer.append([s.rep, s.weight])
         Excel.wf_QA()
 
     def demo_high(self,chosen_exercises):
@@ -129,7 +129,6 @@ class PoppyRobot(threading.Thread):
         #                         self.open_arms_and_forward,
         #                         self.open_hands_and_raise_up, self.open_and_close_arms_90, self.raise_arms_forward_turn]
         s.Two_hands_exercise_names = [self.raise_arms_horizontally, self.bend_elbows,
-                                      self.raise_arms_forward_static,
                                       self.open_arms_bend_elbows, self.raise_arms_forward,
                                       self.open_arms_and_forward,
                                     self.open_and_close_arms_90]
@@ -165,16 +164,20 @@ class PoppyRobot(threading.Thread):
             self.run_exercise(e, exercise_name)
             countEx=countEx+1
             print("exercise number", countEx)
-            if (s.TBALevel==3):
-                self.changeRepTBA3Original()
-            elif (s.TBALevel==2):
-                if (countEx<3):
-                    self.changeRepTBA3Original() #the begging is the same only according to the preformance
-                else:
-                    if s.Q1_answer != 'c':
-                        self.changeRepAfterAnswerTBA2()
-                if countEx == 3: #after finished ex 3
-                    self.QuestionDuring()
+            if countEx==s.exercies_amount:
+                print("finished exercises")
+                continue
+            else:
+                if (s.TBALevel==3):
+                    self.changeRepTBA3Original()
+                elif (s.TBALevel==2):
+                    if (countEx<=3):
+                        self.changeRepTBA3Original() #the begging is the same only according to the preformance
+                    else:
+                        if s.Q1_answer != 'c':
+                            self.changeRepAfterAnswerTBA2()
+                    if countEx == 3: #after finished ex 3
+                        self.QuestionDuring()
         self.finish_workout()
 
     def QuestionDuring(self):
@@ -184,6 +187,7 @@ class PoppyRobot(threading.Thread):
         s.screen.switch_frame(Q1_New_page)
         print("Q1_New_page")
         s.tts.say_wait('QuestionsRep')  # Q1_New
+        s.tts.say_wait('currentex_'+str(s.rep))
         while (s.Q1_answer == None):  # wait for participant to answer Q1
             continue
         s.screen.switch_frame(Q2_New_page)
@@ -195,10 +199,17 @@ class PoppyRobot(threading.Thread):
         s.tts.say_wait("ThanksDuring")
         if s.Q1_answer == 'c':
             s.tts.say_wait("HIghTheSame")
+        elif s.Q1_answer == 'a':
+            s.rep=s.rep+1
+        else:
+            s.rep = s.rep - 1
+        s.Q_answer.append([s.Q1_answer, s.Q2_answer])
+        s.Q_answer.append([s.rep, s.weight])
+        Excel.wf_QA()
 
     def changeRepAfterAnswerTBA2(self):
-        if s.Q1_answer != 'a': #add
-            if (s.success_exercise):
+        if s.Q1_answer == 'a': #add
+            if (s.success_exercise or s.current_count>=s.rep):
                 s.tts.say_wait("HighSuccessAdd")
                 s.rep = s.rep + 2
             elif s.current_count / s.rep >= 0.7:
@@ -207,7 +218,7 @@ class PoppyRobot(threading.Thread):
             else:
                 s.tts.say_wait("HighNoSuccessAdd")
         else: #red
-            if (s.success_exercise):
+            if (s.success_exercise or s.current_count>=s.rep):
                 s.tts.say_wait("HighSuccessRed")
                 s.rep = s.rep -1
             elif s.current_count / s.rep >= 0.7:
@@ -222,7 +233,7 @@ class PoppyRobot(threading.Thread):
         print("rep between 6-14", s.rep)
 
     def changeRepTBA3Original(self):
-        if (s.success_exercise):
+        if (s.success_exercise or s.current_count>=s.rep):
             s.rep = s.rep + 2
             s.rep = min(14, s.rep)
             print(str(s.rep) + "HighSuccss-.rep+2")
@@ -267,6 +278,7 @@ class PoppyRobot(threading.Thread):
         print("_______________")
         print(s.rep)
         s.success_exercise = False
+        s.finish_exercise = False
         s.current_count=0
         if (s.rep != 1):
             s.req_exercise = exercise.__name__
@@ -288,12 +300,14 @@ class PoppyRobot(threading.Thread):
         else:
             s.tts.say_wait(exercise_name)
         exercise()  # the function of the current exercise.
+        s.finish_exercise = True
+        print("-----finish_exercise------"+str(s.current_count)+"The number of rep of the user")
         if (exercise.number!='hello'):
             s.req_exercise = ""
             if (s.rep == 1):
                 time.sleep(0.5)
             else:
-                if (s.success_exercise):
+                if (s.success_exercise or s.current_count>=s.rep):
                     s.str_to_say = self.random_encouragement()
                     s.tts.say_wait(s.str_to_say)
                 else:

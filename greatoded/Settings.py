@@ -6,8 +6,6 @@ def __init__():
     global isMediaPipe
     global isRobot
 
-    #to understand
-    global numberOfWorkout
     global exercies_amount
 
     global audio_path
@@ -29,8 +27,8 @@ def __init__():
     # global whichExercise_Q1
     global whichExercise_Q2
 
-    global exercises_session1
-    global exercises_session2
+    # global exercises_session1
+    # global exercises_session2
     # global exercises_session3
     global all_exercise_names
     global right_exercise_names
@@ -47,6 +45,7 @@ def __init__():
     global chance
     global demo #for when the TBA3 finished the demonstration
     global finish_workout #True if finished the workout
+    global finish_exercise
 
     global tts
     global req_exercise # for camera

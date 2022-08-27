@@ -798,7 +798,7 @@ class feedback_relax(tk.Frame):
 class GoodbyePage(tk.Frame):
     def __init__(self, master):
         tk.Frame.__init__(self, master)
-        image = Image.open(s.pic_path+'Goodbye'+s.robotNumber+'.jpg')
+        image = Image.open(s.pic_path+'goodbye'+s.robotNumber+'.jpg')
         self.photo_image = ImageTk.PhotoImage(image)
         tk.Label(self, image=self.photo_image).pack()
 class shutdown_win(tk.Frame):

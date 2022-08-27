@@ -321,7 +321,7 @@ class Camera(threading.Thread):
                              left_height]
                 print (right_height)
                 print (left_height)
-                if (right_height < 100.0) & (left_height < 100.0):
+                if (right_height < 80.0) & (left_height < 80.0):
                     up_time_counter = up_time_counter + (time.time() - last_time)
                     if(cntr<s.rep): #7
                         cntr=cntr+1
@@ -1005,17 +1005,17 @@ class Camera(threading.Thread):
         counter = counter + 1
         s.str_to_say=str(counter)
         s.tts.say_wait(s.str_to_say)
-        if (s.TBALevel==3 or s.TBALevel==2): # half way
-            print("_____")
-            if (s.rep-s.current_count==4+1):
+        print("say " + str(counter))
+        if (s.finish_exercise==False and s.TBALevel==3 or s.TBALevel==2): # half way
+            print("_____moretogoPages")
+            if (s.finish_exercise==False and s.rep-s.current_count==4+1):
                 s.screen.switch_frame(FourMoreToGO)
-            elif(s.rep-s.current_count==3+1):
+            elif(s.finish_exercise==False and s.rep-s.current_count==3+1):
                 s.screen.switch_frame(ThreeMoreToGO)
-            elif(s.rep-s.current_count==2+1):
+            elif(s.finish_exercise==False and s.rep-s.current_count==2+1):
                 s.screen.switch_frame(TwoMoreToGO)
-            elif (s.rep - s.current_count == 1 + 1):
+            elif(s.finish_exercise==False and s.rep - s.current_count==1+1):
                 s.screen.switch_frame(OneMoreToGO)
-        print ("say " + str(counter))
         return (counter)
 
     def run(self):
@@ -1036,8 +1036,9 @@ if __name__ == '__main__':
     s.rep = 4
     language = 'Hebrew'
     gender = 'Female'
-    s.subjectNum=23
-    s.sessionNumber=2
+    s.robotNumber="1"
+    s.subjectNum=28
+    s.sessionNumber=1
     s.TBALevel=1
     #for the robot path
     #s.realsense_path = "C:\\Users\\owner\\Documents\\nuitrack-sdk-master\\Examples\\nuitrack_console_sample\\out\\build\\x64-Debug\\nuitrack_console_sample.exe"
@@ -1066,7 +1067,7 @@ if __name__ == '__main__':
     #number 3:
     # s.req_exercise="bend_elbows"
     #number 4- more checking!
-    #s.req_exercise="raise_arms_forward_static"
+    s.req_exercise="raise_arms_forward_static"
     #number 5:
     #s.req_exercise="raise_arms_bend_elbows"
     #number 6 - more checking!
@@ -1080,7 +1081,7 @@ if __name__ == '__main__':
     #s.req_exercise = "raise_right_arm_forward"
     #s.req_exercise = "raise_left_arm_forward"
     # number 9:
-    s.req_exercise = "raise_arms_90_and_up"
+    #s.req_exercise = "raise_arms_90_and_up"
     # number=10
     #s.req_exercise='raise_left_arm_and_lean_dynmic'
     # number 11:

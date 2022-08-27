@@ -99,13 +99,15 @@ if __name__ == '__main__':
     s.general_path=R'C:/Git/poppyCode/greatoded/'
     s.audio_path = s.general_path + 'audioFiles/' + language + '/' + gender + '/'
     tts = TTS()
+    for i in range(6,15):
+        tts.say_wait('currentex_'+str(i))
     # tts.try2()
     # a1 = 'ForBicep'
     # a2='raise right and forward'
     # a3 =""
     # audioList=[a1,a2,a3]
     # tts.combainedAudio(audioList,"NaamaTry3")
-    tts.say_wait('15')
+    #tts.say_wait('15')
     # tts.say_wait('ForIntensive')
     # tts.say_wait('beginExRep')
     # tts.say_wait('6')
