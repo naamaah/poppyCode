@@ -13,7 +13,7 @@ import Settings as s #Global settings variables
 import simulator
 # import threading
 # import os
-from GUI2 import Screen, FullScreenApp
+from GUI import Screen, FullScreenApp
 import Excel as excel
 import pandas as pd
 import threading
@@ -29,7 +29,7 @@ if __name__ == '__main__':
     else:
         s.female=False
     s.isCamera=True #False - No camera, True- there is camera
-    s.isRobot=False #False - simulator, True- real robot
+    s.isRobot=True #False - simulator, True- real robot
     # TBA
     s.subjectNum = random.randint(0, 1200)
     s.sessionNumber = 1
@@ -62,6 +62,7 @@ if __name__ == '__main__':
     s.whichExercise_Q2 = None
     s.whichExercise_Q3 = None
     s.weight=""
+    s.Q_rep=None
 
     if (s.isCamera==True):
         s.camera = Camera()

@@ -6,8 +6,8 @@ import Settings as s
 import time
 import threading
 import random
-from GUI2 import StartPage, weightExPage, TryAgainPage, BlankPage, GoodbyePage, ExercisePage, lastquestion, shutdown_win,\
-    questionsDuringExplainPage, questionBeginPage, Q1_page, Q2_page, Q3_page,ThankForAnswerBeginPage, questionDuringPage, Q1_New_page,Q2_New_page, ThanksDuringPage, \
+from GUI import StartPage, weightExPage, TryAgainPage, BlankPage, GoodbyePage, ExercisePage, lastquestion, shutdown_win,\
+    questionsDuringExplainPage, questionBeginPage, Q1_page, Q2_page, Q3_page,ThankForAnswerBeginPage, questionDuringPage, Q1_New_page,Q_repNumber_New_page, Q2_New_page, ThanksDuringPage, \
     ExamplePage,FinishDemoPage,exerciseExplainPage,  WellDonePage, ExcellentPage, VeryGoodPage, Winnergreat, robotverygood, ExercisePage,\
     nextTime, OneMoreToGO, TwoMoreToGO, ThreeMoreToGO, FourMoreToGO
 from datetime import date,datetime
@@ -55,8 +55,8 @@ class PoppyRobot(threading.Thread):
             self.demo_high(chosen_exercises)
         elif(s.TBALevel == 2):
             s.screen.switch_frame(questionsDuringExplainPage)
-            s.tts.say_wait("QuestionsDuringExplainHigh")
-            self.demo_high(chosen_exercises)
+            s.tts.say_wait("QuestionsDuringExplainHighNew")
+            #self.demo_high(chosen_exercises)
 
 
     def QuestionBegin(self):
@@ -176,7 +176,7 @@ class PoppyRobot(threading.Thread):
                     else:
                         if s.Q1_answer != 'c':
                             self.changeRepAfterAnswerTBA2()
-                    if countEx == 3: #after finished ex 3
+                    if countEx == 1: #after finished ex 3
                         self.QuestionDuring()
         self.finish_workout()
 
@@ -187,8 +187,13 @@ class PoppyRobot(threading.Thread):
         s.screen.switch_frame(Q1_New_page)
         print("Q1_New_page")
         s.tts.say_wait('QuestionsRep')  # Q1_New
-        s.tts.say_wait('currentex_'+str(s.rep))
+        #s.tts.say_wait('currentex_'+str(s.rep))
         while (s.Q1_answer == None):  # wait for participant to answer Q1
+            continue
+        if s.Q1_answer == 'c':
+            s.tts.say_no_wait('repNumberChose')  # CHOSE THE NUMBER OF REP DURING THE NEXT SESSION
+            s.screen.switch_frame(Q_repNumber_New_page)
+        while (s.Q_rep == None):  # wait for participant to answer Q_rep
             continue
         s.screen.switch_frame(Q2_New_page)
         print("Q2_New_page")
@@ -246,8 +251,8 @@ class PoppyRobot(threading.Thread):
             s.rep = s.rep - int(math.ceil(s.rep - s.current_count) / 2)
             print(str(s.rep) + "round - HighFailure")
             s.tts.say_wait("HighFailure")
-        if (s.rep < 6):
-            s.rep = 6
+        if (s.rep < 4): #for student change to 6
+            s.rep = 4
 
     def init_robot(self):
         print("Poppy class - init_robot function")
@@ -299,6 +304,9 @@ class PoppyRobot(threading.Thread):
             print("after process")
         else:
             s.tts.say_wait(exercise_name)
+        if (exercise.number != 'hello'):
+            rnd=random.randint(1, 4)
+            s.tts.say_wait("begin"+str(rnd)+"CurrEx")
         exercise()  # the function of the current exercise.
         s.finish_exercise = True
         print("-----finish_exercise------"+str(s.current_count)+"The number of rep of the user")

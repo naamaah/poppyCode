@@ -21,6 +21,7 @@ def __init__():
     global Q1_answer
     global Q2_answer
     global weight
+    global Q_rep
 
     global Q3_answer
     # global pickWeights  # True - q3-q or maybe q3-c.
@@ -45,7 +46,7 @@ def __init__():
     global chance
     global demo #for when the TBA3 finished the demonstration
     global finish_workout #True if finished the workout
-    global finish_exercise
+    global finish_exercise #boolean for specific exercise.
 
     global tts
     global req_exercise # for camera

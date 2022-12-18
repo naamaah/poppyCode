@@ -120,112 +120,6 @@ class FourMoreToGO(tk.Frame):
         self.photo_image = ImageTk.PhotoImage(image) #self. - for keeping the photo in memory so it will be shown
         tk.Label(self, image = self.photo_image).pack()
 
-# class Relax_Page_ber(tk.Frame):
-#     def __init__(self, master):
-#         tk.Frame.__init__(self, master)
-#         image = Image.open(s.pic_path+'bend_elbows_relax.jpg')
-#         self.photo_image = ImageTk.PhotoImage(image) #self. - for keeping the photo in memory so it will be shown
-#         tk.Label(self, image = self.photo_image).pack()
-# class relax_thr(tk.Frame):
-#     def __init__(self, master):
-#         tk.Frame.__init__(self, master)
-#         image = Image.open(s.pic_path+'turn_head_right.jpg')
-#         self.photo_image = ImageTk.PhotoImage(image) #self. - for keeping the photo in memory so it will be shown
-#         tk.Label(self, image = self.photo_image).pack()
-# class relax_thl(tk.Frame):
-#     def __init__(self, master):
-#         tk.Frame.__init__(self, master)
-#         image = Image.open(s.pic_path+'turn_head_left.jpg')
-#         self.photo_image = ImageTk.PhotoImage(image)  # self. - for keeping the photo in memory so it will be shown
-#         tk.Label(self, image=self.photo_image).pack()
-# class relax_thd(tk.Frame):
-#     def __init__(self, master):
-#         tk.Frame.__init__(self, master)
-#         image = Image.open(s.pic_path+'turn_head_down.jpg')
-#         self.photo_image = ImageTk.PhotoImage(image)  # self. - for keeping the photo in memory so it will be shown
-#         tk.Label(self, image=self.photo_image).pack()
-# class teeth(tk.Frame):
-#     def __init__(self, master):
-#         tk.Frame.__init__(self, master)
-#         image = Image.open(s.pic_path+'teeth.jpg')
-#         self.photo_image = ImageTk.PhotoImage(image)  # self. - for keeping the photo in memory so it will be shown
-#         tk.Label(self, image=self.photo_image).pack()
-# class eyes(tk.Frame):
-#     def __init__(self, master):
-#         tk.Frame.__init__(self, master)
-#         image = Image.open(s.pic_path+'eyes.jpg')
-#         self.photo_image = ImageTk.PhotoImage(image)  # self. - for keeping the photo in memory so it will be shown
-#         tk.Label(self, image=self.photo_image).pack()
-# class eyebrows(tk.Frame):
-#     def __init__(self, master):
-#         tk.Frame.__init__(self, master)
-#         image = Image.open(s.pic_path+'eyebrows.jpg')
-#         self.photo_image = ImageTk.PhotoImage(image)  # self. - for keeping the photo in memory so it will be shown
-#         tk.Label(self, image=self.photo_image).pack()
-# class smile(tk.Frame):
-#     def __init__(self, master):
-#         tk.Frame.__init__(self, master)
-#         image = Image.open(s.pic_path+'smile.jpg')
-#         self.photo_image = ImageTk.PhotoImage(image)  # self. - for keeping the photo in memory so it will be shown
-#         tk.Label(self, image=self.photo_image).pack()
-"""
-class feedback_relax(tk.Frame):
-    def __init__(self, master):
-        tk.Frame.__init__(self, master)
-        image = Image.open(s.pic_path+'feedback_relax.jpg')
-        self.photo_image = ImageTk.PhotoImage(image)  # self. - for keeping the photo in memory so it will be shown
-        tk.Label(self, image=self.photo_image).pack()
-"""
-# class begin_page(tk.Frame):
-#     def __init__(self, master):
-#         tk.Frame.__init__(self, master)
-#         if(s.female==False):
-#             image1 = Image.open(s.pic_path+'begin_page.jpg')
-#         else:
-#             image1 = Image.open(s.pic_path+'begin_page_female.png')
-#         self.photo_image1 = ImageTk.PhotoImage(image1)
-#         self.background_label = tk.Label(image=self.photo_image1)
-#         self.background_label.pack()
-#
-#         image2 = Image.open(s.pic_path+'physicaltraining.jpg')
-#         self.photo_image2 = ImageTk.PhotoImage(image2)
-#
-#         button2= tk.Button(image=self.photo_image2, command=self.on_click_right)
-#         button2["border"] = 0
-#         button2.pack()
-#         button2.place(height=310, width=300, x=663, y=180)
-#
-#         image3 = Image.open(s.pic_path+'relax.jpg')
-#         self.photo_image3 = ImageTk.PhotoImage(image3)
-#         button2= tk.Button(image=self.photo_image3, command=self.on_click_left)
-#         button2["border"] = 0
-#         button2.pack()
-#         button2.place(height=310, width=300, x=62, y=180)
-#
-#
-#     def on_click_right(self):
-#         print("image clicked - (GUI class)")
-#         s.relax = False
-#         mylist = ['physical training']
-#         excel_path = s.general_path+'data_shik.csv'
-#         with open(excel_path, "ab") as f:
-#             f.write(b"\n")
-#             savetxt(f, mylist, fmt='%s')
-#         s.screen.switch_frame(BlankPage)
-#
-#     def on_click_left(self):
-#         print("image clicked - (GUI class)")
-#         s.relax=True
-#         now = datetime.now()
-#         dt_t = str(date.today())
-#         td_t = str(now.strftime("%H:%M:%S"))
-#         mylist = [dt_t,td_t,'Relaxation mode']
-#         excel_path = s.general_path+'data_shik.csv'
-#         with open(excel_path, "ab") as f:
-#             f.write(b"\n")
-#             savetxt(f, mylist, fmt='%s')
-#         s.screen.switch_frame(BlankPage)
-
 class questionBeginPage(tk.Frame):
     def __init__(self, master):
         tk.Frame.__init__(self, master)
@@ -276,41 +170,21 @@ class Q1_page(tk.Frame):
     def on_click_a(self):
         print("q1-a - (GUI class)")
         s.Q1_answer = 'a'
-        mylist = ['Q1-a']
-        # excel_path = s.general_path+'data_shik.csv'
-        # with open(excel_path, "ab") as f:
-        #     f.write(b"\n")
-        #     savetxt(f, mylist, fmt='%s')
         s.screen.switch_frame(BlankPage)
 
     def on_click_b(self):
         print("q1-b - (GUI class)")
         s.Q1_answer = 'b'
-        mylist = ['Q1-b']
-        # excel_path = s.general_path + 'data_shik.csv'
-        # with open(excel_path, "ab") as f:
-        #     f.write(b"\n")
-        #     savetxt(f, mylist, fmt='%s')
         s.screen.switch_frame(BlankPage)
 
     def on_click_c(self):
         print("q1-c - (GUI class)")
         s.Q1_answer = 'c'
-        mylist = ['Q1-c']
-        # excel_path = s.general_path + 'data_shik.csv'
-        # with open(excel_path, "ab") as f:
-        #     f.write(b"\n")
-        #     savetxt(f, mylist, fmt='%s')
         s.screen.switch_frame(BlankPage)
 
     def on_click_d(self):
         print("q1-d - (GUI class)")
         s.Q1_answer = 'd'
-        mylist = ['Q1-d']
-        # excel_path = s.general_path + 'data_shik.csv'
-        # with open(excel_path, "ab") as f:
-        #     f.write(b"\n")
-        #     savetxt(f, mylist, fmt='%s')
         s.screen.switch_frame(BlankPage)
 
 class Q2_page(tk.Frame):
@@ -346,33 +220,18 @@ class Q2_page(tk.Frame):
         print("q2-a - (GUI class)")
         s.Q2_answer = 'a'
         s.whichExercise_Q2 = 'Right'
-        mylist = ['Q2-a']
-        # excel_path = s.general_path+'data_shik.csv'
-        # with open(excel_path, "ab") as f:
-        #     f.write(b"\n")
-        #     savetxt(f, mylist, fmt='%s')
         s.screen.switch_frame(BlankPage)
 
     def on_click_b(self):
         print("q2-b - (GUI class)")
         s.Q2_answer = 'b'
         s.whichExercise_Q2 = 'Left'
-        mylist = ['Q2-b']
-        # excel_path = s.general_path + 'data_shik.csv'
-        # with open(excel_path, "ab") as f:
-        #     f.write(b"\n")
-        #     savetxt(f, mylist, fmt='%s')
         s.screen.switch_frame(BlankPage)
 
     def on_click_c(self):
         print("q2-c - (GUI class)")
         s.Q2_answer = 'c'
         s.whichExercise_Q2 = 'All'
-        mylist = ['Q2-c']
-        # excel_path = s.general_path + 'data_shik.csv'
-        # with open(excel_path, "ab") as f:
-        #     f.write(b"\n")
-        #     savetxt(f, mylist, fmt='%s')
         s.screen.switch_frame(BlankPage)
 
 class Q3_page(tk.Frame):
@@ -402,11 +261,6 @@ class Q3_page(tk.Frame):
         s.Q3_answer = 'a'
         #s.whichExercise_Q3 = 'Weights'
         s.weight = 'withWeights'
-        mylist = ['Q3-a']
-        # excel_path = s.general_path+'data_shik.csv'
-        # with open(excel_path, "ab") as f:
-        #     f.write(b"\n")
-        #     savetxt(f, mylist, fmt='%s')
         s.screen.switch_frame(BlankPage)
 
 
@@ -414,11 +268,6 @@ class Q3_page(tk.Frame):
         print("q3-c - (GUI class)")
         s.Q3_answer = 'c'
         #s.whichExercise_Q3 = 'No Weights'
-        mylist = ['Q3-c']
-        # excel_path = s.general_path + 'data_shik.csv'
-        # with open(excel_path, "ab") as f:
-        #     f.write(b"\n")
-        #     savetxt(f, mylist, fmt='%s')
         s.screen.switch_frame(BlankPage)
 
 class ThankForAnswerBeginPage(tk.Frame):
@@ -437,6 +286,80 @@ class questionDuringPage(tk.Frame):
             image = Image.open(s.pic_path + 'questionDuringM.jpg')
         self.photo_image = ImageTk.PhotoImage(image) #self. - for keeping the photo in memory so it will be shown
         tk.Label(self, image = self.photo_image).pack()
+
+class Q_repNumber_New_page(tk.Frame):
+    def __init__(self, master):
+        tk.Frame.__init__(self, master)
+        image1 = Image.open(s.pic_path + 'Q_repNumber.jpg')
+        self.photo_image1 = ImageTk.PhotoImage(image1)
+        self.background_label = tk.Label(image=self.photo_image1)
+        self.background_label.pack()
+
+        image_6 = Image.open(s.pic_path+'6rep.jpg')
+        self.photo_image_6 = ImageTk.PhotoImage(image_6)
+        button_6= tk.Button(image=self.photo_image_6, command=self.on_click_6)
+        button_6["border"] = 0
+        button_6.pack()
+        button_6.place(height=190, width=200, x=120, y=180)
+
+        image_8 = Image.open(s.pic_path+'8rep.jpg')
+        self.photo_image_8 = ImageTk.PhotoImage(image_8)
+        button_8= tk.Button(image=self.photo_image_8, command=self.on_click_8)
+        button_8["border"] = 0
+        button_8.pack()
+        button_8.place(height=190, width=200, x=420, y=180)
+
+        image_10 = Image.open(s.pic_path+'10rep.jpg')
+        self.photo_image_10 = ImageTk.PhotoImage(image_10)
+        button_10= tk.Button(image=self.photo_image_10, command=self.on_click_10)
+        button_10["border"] = 0
+        button_10.pack()
+        button_10.place(height=190, width=200, x=720, y=180)
+
+        image_12 = Image.open(s.pic_path+'12rep.jpg')
+        self.photo_image_12 = ImageTk.PhotoImage(image_12)
+        button_12= tk.Button(image=self.photo_image_12, command=self.on_click_12)
+        button_12["border"] = 0
+        button_12.pack()
+        button_12.place(height=190, width=200, x=270, y=410)
+
+        image_14 = Image.open(s.pic_path+'14rep.jpg')
+        self.photo_image_14 = ImageTk.PhotoImage(image_14)
+        button_14= tk.Button(image=self.photo_image_14, command=self.on_click_14)
+        button_14["border"] = 0
+        button_14.pack()
+        button_14.place(height=190, width=200, x=570, y=410)
+
+
+    def on_click_6(self):
+        print("qRep-6 - (GUI class)")
+        s.Q_rep=True
+        s.rep = 6
+        s.screen.switch_frame(BlankPage)
+
+    def on_click_8(self):
+        print("qRep-8 - (GUI class)")
+        s.Q_rep = True
+        s.rep = 8
+        s.screen.switch_frame(BlankPage)
+
+    def on_click_10(self):
+        print("qRep-10 - (GUI class)")
+        s.Q_rep = True
+        s.rep = 10
+        s.screen.switch_frame(BlankPage)
+
+    def on_click_12(self):
+        print("qRep-12 - (GUI class)")
+        s.Q_rep = True
+        s.rep = 12
+        s.screen.switch_frame(BlankPage)
+
+    def on_click_14(self):
+        print("qRep-14 - (GUI class)")
+        s.Q_rep = True
+        s.rep = 14
+        s.screen.switch_frame(BlankPage)
 
 class Q1_New_page(tk.Frame):
     def __init__(self, master):
@@ -474,33 +397,18 @@ class Q1_New_page(tk.Frame):
         print("q1-a - (GUI class)")
         s.Q1_answer = 'a'
         #s.whichExercise_Q2 = 'Right'
-        mylist = ['Q2-a']
-        # excel_path = s.general_path+'data_shik.csv'
-        # with open(excel_path, "ab") as f:
-        #     f.write(b"\n")
-        #     savetxt(f, mylist, fmt='%s')
         s.screen.switch_frame(BlankPage)
 
     def on_click_b(self):
         print("q1-b - (GUI class)")
         s.Q1_answer = 'b'
         #s.whichExercise_Q2 = 'Left'
-        mylist = ['Q2-b']
-        # excel_path = s.general_path + 'data_shik.csv'
-        # with open(excel_path, "ab") as f:
-        #     f.write(b"\n")
-        #     savetxt(f, mylist, fmt='%s')
         s.screen.switch_frame(BlankPage)
 
     def on_click_c(self):
         print("q1-c - (GUI class)")
         s.Q1_answer = 'c'
         # s.whichExercise_Q2 = 'All'
-        mylist = ['Q2-c']
-        # excel_path = s.general_path + 'data_shik.csv'
-        # with open(excel_path, "ab") as f:
-        #     f.write(b"\n")
-        #     savetxt(f, mylist, fmt='%s')
         s.screen.switch_frame(BlankPage)
 
 class Q2_New_page(tk.Frame):
@@ -532,21 +440,12 @@ class Q2_New_page(tk.Frame):
         print("q2-a - (GUI class)")
         s.Q2_answer = 'a'
         s.weight = 'withWeights'
-        mylist = ['Q3-a']
-        # excel_path = s.general_path+'data_shik.csv'
-        # with open(excel_path, "ab") as f:
-        #     f.write(b"\n")
-        #     savetxt(f, mylist, fmt='%s')
         s.screen.switch_frame(BlankPage)
 
     def on_click_b(self):
         print("q2-b - (GUI class)")
         s.Q2_answer = 'b'
         mylist = ['Q3-b']
-        # excel_path = s.general_path + 'data_shik.csv'
-        # with open(excel_path, "ab") as f:
-        #     f.write(b"\n")
-        #     savetxt(f, mylist, fmt='%s')
         s.screen.switch_frame(BlankPage)
 
 class ThanksDuringPage(tk.Frame):
@@ -630,18 +529,10 @@ class weight_check(tk.Frame):
         button2.place(height=330, width=395, x=65, y=200)
 
     def on_click_without(self):
-        # mylist = ['The weight is 0.5 KG']
-        # with open(s.general_path+"data_shik.csv", "ab") as f:
-        #     f.write(b"\n")
-        #     savetxt(f, mylist, fmt='%s')
         print("image clicked - (GUI class)")
         s.pickWeights = True
 
     def on_click_with(self):
-        # mylist = ['The weight is 1KG']
-        # with open(s.general_path+"data_shik.csv", "ab") as f:
-        #     f.write(b"\n")
-        #     savetxt(f, mylist, fmt='%s')
         print("image clicked - (GUI class)")
         s.pickWeights = True
 
@@ -707,10 +598,6 @@ class TryAgainPage(tk.Frame):
     def on_click_right(self):
         print("image clicked - (GUI class)")
         s.waved = True
-        # mylist = ['repeated', '1']
-        # with open(s.general_path+"data_shik.csv", "ab") as f:
-        #     f.write(b"\n")
-        #     savetxt(f, mylist, fmt='%s')
         s.screen.switch_frame(BlankPage)
 
     def on_click_left(self):
@@ -732,40 +619,28 @@ class VeryGoodPage(tk.Frame):
         image = Image.open(s.pic_path+'verygood.jpg')
         self.photo_image = ImageTk.PhotoImage(image)
         tk.Label(self, image=self.photo_image).pack()
-        mylist = ['success', '100']
-        with open(s.general_path+"data_shik.csv", "ab") as f:
-            f.write(b"\n")
-            savetxt(f, mylist, fmt='%s')
+
 class Winnergreat(tk.Frame):
     def __init__(self, master):
         tk.Frame.__init__(self, master)
         image = Image.open(s.pic_path+'Winnergreat.jpg')
         self.photo_image = ImageTk.PhotoImage(image)
         tk.Label(self, image=self.photo_image).pack()
-        mylist = ['success', '100']
-        with open(s.general_path+"data_shik.csv", "ab") as f:
-            f.write(b"\n")
-            savetxt(f, mylist, fmt='%s')
+
 class robotverygood(tk.Frame):
     def __init__(self, master):
         tk.Frame.__init__(self, master)
         image = Image.open(s.pic_path+'robotverygood.jpg')
         self.photo_image = ImageTk.PhotoImage(image)
         tk.Label(self, image=self.photo_image).pack()
-        mylist = ['success', '100']
-        with open(s.general_path+"data_shik.csv", "ab") as f:
-            f.write(b"\n")
-            savetxt(f, mylist, fmt='%s')
+
 class ExcellentPage(tk.Frame):
     def __init__(self, master):
         tk.Frame.__init__(self, master)
         image = Image.open(s.pic_path+'excellent.jpg')
         self.photo_image = ImageTk.PhotoImage(image)
         tk.Label(self, image=self.photo_image).pack()
-        mylist = ['success', '100']
-        with open(s.general_path+"data_shik.csv", "ab") as f:
-            f.write(b"\n")
-            savetxt(f, mylist, fmt='%s')
+
 class WellDonePage(tk.Frame):
     def __init__(self, master):
         tk.Frame.__init__(self, master)
@@ -773,10 +648,7 @@ class WellDonePage(tk.Frame):
         image = Image.open(s.pic_path+'welldone.jpg')
         self.photo_image = ImageTk.PhotoImage(image)
         tk.Label(self, image=self.photo_image).pack()
-        mylist = ['success', '100']
-        with open(s.general_path+"data_shik.csv", "ab") as f:
-            f.write(b"\n")
-            savetxt(f, mylist, fmt='%s')
+
 class feedback_elbow(tk.Frame):
     def __init__(self, master):
         tk.Frame.__init__(self, master)
@@ -840,9 +712,6 @@ class lastquestion_relax(tk.Frame):
     def on_click_right(self):
         print("image clicked - (GUI class)")
         mylist = ['physical training after relaxation']
-        with open(s.general_path+"data_shik.csv", "ab") as f:
-            f.write(b"\n")
-            savetxt(f, mylist, fmt='%s')
         s.relax = True
 
     def on_click_left(self):
@@ -899,13 +768,13 @@ class FullScreenApp(object):
 
 if __name__ == "__main__":
     #general_path = R'C:\Users\TEMP.NAAMA\Downloads\greatoded'
-    s.general_path = R'C:/Git/poppyCode/greatoded/'
+    s.general_path = R'C:/Git/poppyCode/Naama/'
     s.pic_path = s.general_path + 'Pictures/'
     s.robotNumber = "1"
     s.female = False
     s.screen = Screen()
     app = FullScreenApp(s.screen)
     s.screen.mainloop()
-    s.screen.switch_frame(Q1_New_page)
+    s.screen.switch_frame(Q_repNumber_New_page)
     print("switch")
     #s.screen.quit()

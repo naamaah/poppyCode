@@ -68,7 +68,7 @@ class CameraNew(threading.Thread):
     # input - joint data list ; output - joint object
     def createJoint(self, jointNumer, x, y, z):
         try:
-            new_joint = joint(jointNumer, x , y, z)
+            new_joint = joint(jointNumer,x ,y,z)
             return new_joint
         except:
             print("could not create new joint: list index out of range - (Camera class)")
@@ -167,24 +167,28 @@ class CameraNew(threading.Thread):
             s.req_exercise = ""
             return True
 
-    def exercise_three_joints(self, exercise_name, joint_num1, joint_num2, joint_num3, h_up_ub, d_up_lb, a_dw_lb, a_dw_ub, d_up_ub):
+    def exercise_three_joints(self, exercise_name, joint_num1, joint_num2, joint_num3, joint_num4, a1_up_lb, a1_up_ub,a1_dw_ub, a2_up_lb, a2_up_ub):
         print("inside" + exercise_name)
         flag = False
         counter = 0
-        list_joints = [[joint_num1, joint_num2, joint_num3]]
+        list_joints = [[joint_num1, joint_num2, joint_num3, joint_num4]]
         while (s.req_exercise == exercise_name):
             joints, frameNumber = self.getSkeletonData()
             joint1 = self.findJointData(joints, joint_num1)
             joint2 = self.findJointData(joints, joint_num2)
             joint3 = self.findJointData(joints, joint_num3)
-            if not joint1 or not joint2 or not joint3:
+            joint4 = self.findJointData(joints, joint_num4)
+            if not joint1 or not joint2 or not joint3 or not joint4:
                 continue
-            height = abs(joint1.y - joint3.y)
-            angle = self.calc_angle(joint2, joint3, joint1)
-            depth = abs(joint1.z - joint3.z)
-            new_entry = [joint1, joint2, joint3, height, angle, depth, frameNumber]
-            #print(frameNumber)
-            if (height < h_up_ub) & (depth > d_up_lb) & (not flag):
+            print(frameNumber)
+            print(joint1.joint_to_array())
+            print(joint2.joint_to_array())
+            print(joint3.joint_to_array())
+            angle1 = self.calc_angle(joint2, joint3, joint1)
+            angle2 = self.calc_angle(joint3, joint4, joint2)
+            new_entry = [joint1, joint2, joint3,  joint4, angle1, angle2, frameNumber]
+            print(angle1, angle2)
+            if (a1_up_lb< angle1 <= a1_up_ub) & (a2_up_lb< angle2 <= a2_up_ub) & (not flag):
                 print("up ", frameNumber)
                 counter = self.counting_flag(counter)
                 s.current_count = counter
@@ -192,7 +196,7 @@ class CameraNew(threading.Thread):
                 new_entry.append("up")
                 new_entry.append(counter)
                 flag = True
-            if (a_dw_lb < angle <= a_dw_ub) & (depth < d_up_ub) & flag:
+            if (angle1 <= a1_dw_ub) & flag:
                 print("down ", frameNumber)
                 new_entry.append("down")
                 flag = False
@@ -210,37 +214,38 @@ class CameraNew(threading.Thread):
             print("successd finish with " + exercise_name)
             return True
 
-    def exercise_six_joints(self, exercise_name, joint_r1, joint_r2, joint_r3, joint_l1, joint_l2, joint_l3,
-                            lh_up_ub, rh_up_ub, rd_up_lb, ld_up_lb, la_dw_lb, la_dw_ub, ra_dw_lb, ra_dw_ub, rd_dw_ub, ld_dw_ub):
+    def exercise_six_joints(self, exercise_name, joint_r1, joint_r2, joint_r3, joint_r4,joint_l1, joint_l2, joint_l3,joint_l4,
+                                    a1_up_lb, a1_up_ub,a1_dw_ub, a2_up_lb, a2_up_ub):
         flag = False
         counter = 0
-        list_joints = [[joint_r1, joint_r2, joint_r3, joint_l1, joint_l2, joint_l3]]
+        list_joints = [[joint_r1, joint_r2, joint_r3, joint_r4, joint_l1, joint_l2, joint_l3, joint_l4]]
         while (s.req_exercise == exercise_name):
             joints, frameNumber = self.getSkeletonData()
             jointr1 = self.findJointData(joints, joint_r1)
             jointr2 = self.findJointData(joints, joint_r2)
             jointr3 = self.findJointData(joints, joint_r3)
+            jointr4 = self.findJointData(joints, joint_r4)
             jointl1 = self.findJointData(joints, joint_l1)
             jointl2 = self.findJointData(joints, joint_l2)
             jointl3 = self.findJointData(joints, joint_l3)
-            if not jointr1 or not jointr2 or not jointr3 or not jointl1 or not jointl2 or not jointl3:
-                continue #back to the beggining of the loop
-            left_height = abs(jointl1.y - jointl3.y )
-            left_angle = self.calc_angle(jointl2, jointl1, jointl3)
-            left_depth = abs(jointl1.z - jointl3.z)
-            right_height = abs(jointr1.y - jointr3.y)
-            right_angle = self.calc_angle(jointr2, jointr1, jointr3)
-            right_depth = abs(jointr1.z - jointr3.z)
-            new_entry = [jointr1, jointr2, jointr3,jointl1, jointl2, jointl3,
-                         right_height, right_angle,right_depth,left_height, left_angle ,left_depth, frameNumber]
-            #print(frameNumber)
-            if (left_height < lh_up_ub) & (right_height < rh_up_ub) & (right_depth > rd_up_lb) & (left_depth > ld_up_lb) & (not flag):
+            jointl4 = self.findJointData(joints, joint_l4)
+            if not jointr1 or not jointr2 or not jointr3 or not jointr4 or not jointl1 or not jointl2 or not jointl3 or not jointl4:
+                continue  # back to the beggining of the loop
+            left_angle1 = self.calc_angle(jointl2, jointl1, jointl3)
+            right_angle1 = self.calc_angle(jointr2, jointr1, jointr3)
+            left_angle2 = self.calc_angle(jointl3, jointl4, jointl2)
+            right_angle2 = self.calc_angle(jointr3, jointr4, jointr2)
+            new_entry = [jointr1, jointr2, jointr3, jointr4, jointl1, jointl2, jointl3,jointl4,
+                        right_angle1,left_angle1, right_angle2,left_angle2,frameNumber]
+            # print(frameNumber)
+            if (a1_up_lb< right_angle1 <= a1_up_ub) & (a2_up_lb< right_angle2 <= a2_up_ub) &\
+                (a1_up_lb< left_angle1 <= a1_up_ub) & (a2_up_lb< left_angle2 <= a2_up_ub) & (not flag):
                 print("up ", frameNumber)
                 counter = self.counting_flag(counter)
                 s.current_count = counter
                 flag = True
                 new_entry.append("up")
-            if (la_dw_lb < left_angle < la_dw_ub) & (ra_dw_lb < right_angle < ra_dw_ub) & (right_depth < rd_dw_ub) & (left_depth < ld_dw_ub) & (flag):
+            if (right_angle1 <= a1_dw_ub) & (left_angle1 <= a1_dw_ub) &(flag):
                 print("down ", frameNumber)
                 flag = False
                 new_entry.append("down")
@@ -252,7 +257,7 @@ class CameraNew(threading.Thread):
                 break
             list_joints.append(new_entry)
         s.current_count = counter
-        print ("finish with" + str(counter) + "- (Camera class)")
+        print("finish with" + str(counter) + "- (Camera class)")
         Excel.wf_joints(exercise_name, list_joints)
         s.ex_list.append([exercise_name, counter, s.rep])
         if s.success_exercise:
@@ -265,15 +270,15 @@ class CameraNew(threading.Thread):
 
     # number=1R
     def raise_right_arm_horiz(self):
-        self.exercise_three_joints("raise_right_arm_horiz", "3", "12", "13", 100, 120,-1000, 55)
+        self.exercise_three_joints("raise_right_arm_horiz", "24", "12", "14","16", 80, 103,20, 165,190)
 
     # number=1L
     def raise_left_arm_horiz(self):
-        self.exercise_three_joints("raise_left_arm_horiz", "3", "6", "7",  100, 120, -1000, 55)
+        self.exercise_three_joints("raise_left_arm_horiz", "23", "11", "13","15" ,80, 103, 0, 20, 165,190)
 
     # number=2
     def raise_arms_horizontally(self):
-        self.exercise_six_joints("raise_arms_horizontally","3", "12", "13", "3", "6", "7", 90, 130, 0, 70)
+        self.exercise_six_joints("raise_arms_horizontally","24", "12", "14", "16","23", "11", "13","15",80, 103, 20, 165,190)
 
     # number=3
     def bend_elbows(self):
@@ -900,7 +905,8 @@ class CameraNew(threading.Thread):
         print("try to say in function")
         counter = counter + 1
         s.str_to_say=str(counter)
-        s.tts.say_wait(s.str_to_say)
+        #s.tts.say_wait(s.str_to_say)
+        s.tts.say_no_wait(s.str_to_say)
         print("say " + str(counter))
         if (s.finish_exercise==False and s.TBALevel==3 or s.TBALevel==2): # half way
             print("_____moretogoPages")
@@ -916,7 +922,7 @@ class CameraNew(threading.Thread):
 
 #for tests
 if __name__ == '__main__':
-    s.subjectNum="1000"
+    s.subjectNum="1003"
     s.robotNumber="1"
     s.sessionNumber=1
     s.TBALevel=1
@@ -934,12 +940,16 @@ if __name__ == '__main__':
     s.tts = TTS()
     s.waved = False
     s.finish_workout = False
+    s.finish_exercise = False
     s.success_exercise = False
     s.current_joint_list=pd.DataFrame()
     s.current_frame=0
     s.prev_frame = 0
     #already check web camera:
-    s.req_exercise= "hello_waving"
+    # s.req_exercise= "hello_waving"
+    # s.req_exercise = "raise_right_arm_horiz"
+    # s.req_exercise = "raise_left_arm_horiz"
+    s.req_exercise = "raise_arms_horizontally"
 
     #didnt check:
     # s.req_exercise = "raise_right_arm_forward"

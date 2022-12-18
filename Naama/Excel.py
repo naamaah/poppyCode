@@ -41,7 +41,7 @@ def wf_joints(ex_name, list_joints):
     frame_number = 1
 
     # first version
-    for l in range(0, len(list_joints)): #1-means the first data not contaion why? checking
+    for l in range(1, len(list_joints)): #1-means the first data not contaion why? checking
         row = 1
         s.worksheet.write(1, frame_number, frame_number)
         for j in list_joints[l]:
@@ -69,9 +69,7 @@ def wf_exercise():
         s.worksheet.write(row, col + 2, ex[2])  # the number the subject try todo
         row += 1
 
-"""
-Old TBA model - First experiment with students april 2022
-# write to execl file exercises names and the successful repetition number
+
 def wf_QA():
     name = "Data_session" + str(s.sessionNumber)
     s.worksheet = s.excel_workbook.add_worksheet(name)
@@ -86,7 +84,9 @@ def wf_QA():
         #s.worksheet.write(row, col + 2, i[2])  # q3 answer
         row += 1
 
-
+"""
+Old TBA model - First experiment with students april 2022
+# write to execl file exercises names and the successful repetition number
 def readFromExcelQA():
     print("insideQA")
     worksheet_name = str(s.subjectNum) + "_1" + ".xlsx"
