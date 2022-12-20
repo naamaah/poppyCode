@@ -28,8 +28,8 @@ class Detection (threading.Thread):
         with mp_pose.Pose(min_detection_confidence=0.7, min_tracking_confidence=0.5) as pose:
             landmarkes_data = pd.DataFrame()
             landmarkes_data_all = pd.DataFrame() #for test
-            #while cap.isOpened(): # testing only this class
-            while (not s.finish_workout): #for the all components
+            while cap.isOpened(): # testing only this class
+            #while (not s.finish_workout): #for the all components
                 success, image = cap.read()
                 image_width = cap.get(cv.CAP_PROP_FRAME_WIDTH)  # float `width`
                 image_height = cap.get(cv.CAP_PROP_FRAME_HEIGHT)  # float `height`

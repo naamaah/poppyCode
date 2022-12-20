@@ -176,7 +176,7 @@ class PoppyRobot(threading.Thread):
                     else:
                         if s.Q1_answer != 'c':
                             self.changeRepAfterAnswerTBA2()
-                    if countEx == 1: #after finished ex 3
+                    if countEx == 3: #after finished ex 3
                         self.QuestionDuring()
         self.finish_workout()
 
@@ -193,8 +193,8 @@ class PoppyRobot(threading.Thread):
         if s.Q1_answer == 'c':
             s.tts.say_no_wait('repNumberChose')  # CHOSE THE NUMBER OF REP DURING THE NEXT SESSION
             s.screen.switch_frame(Q_repNumber_New_page)
-        while (s.Q_rep == None):  # wait for participant to answer Q_rep
-            continue
+            while (s.Q_rep == None):  # wait for participant to answer Q_rep
+                continue
         s.screen.switch_frame(Q2_New_page)
         print("Q2_New_page")
         s.tts.say_wait('QuestionsWeight')  # Q2_New
@@ -206,8 +206,10 @@ class PoppyRobot(threading.Thread):
             s.tts.say_wait("HIghTheSame")
         elif s.Q1_answer == 'a':
             s.rep=s.rep+1
+            s.rep=min(14,s.rep)
         else:
-            s.rep = s.rep - 1
+            s.rep = s.rep-1
+            s.rep = max(4, s.rep)
         s.Q_answer.append([s.Q1_answer, s.Q2_answer])
         s.Q_answer.append([s.rep, s.weight])
         Excel.wf_QA()
@@ -215,44 +217,128 @@ class PoppyRobot(threading.Thread):
     def changeRepAfterAnswerTBA2(self):
         if s.Q1_answer == 'a': #add
             if (s.success_exercise or s.current_count>=s.rep):
-                s.tts.say_wait("HighSuccessAdd")
-                s.rep = s.rep + 2
+                if(s.rep==14):
+                    s.tts.say_wait("MaxRep")
+                else:
+                    s.rep = s.rep + 2
+                    s.rep = min(14,s.rep)
+                    s.tts.say_wait("HighSuccessAdd")
             elif s.current_count / s.rep >= 0.7:
-                s.tts.say_wait("HighalmostSuccessAdd")
-                s.rep = s.rep + 1
+                if (s.rep == 14):
+                    s.tts.say_wait("MaxRep")
+                else:
+                    s.rep = s.rep + 1
+                    s.rep = min(14,s.rep)
+                    s.tts.say_wait("HighalmostSuccessAdd")
             else:
                 s.tts.say_wait("HighNoSuccessAdd")
         else: #red
+            flagMin = False
+            if(s.rep==4):
+                flagMin=True
             if (s.success_exercise or s.current_count>=s.rep):
-                s.tts.say_wait("HighSuccessRed")
+                currentSay="HighSuccessRed"
+                #s.tts.say_wait("HighSuccessRed")
                 s.rep = s.rep -1
             elif s.current_count / s.rep >= 0.7:
-                s.tts.say_wait("HighalmostSuccessRed")
+                #s.tts.say_wait("HighalmostSuccessRed")
+                currentSay="HighalmostSuccessRed"
                 s.rep = s.rep - 2
             else:
-                s.tts.say_wait("HighNoSuccessRed")
+                #s.tts.say_wait("HighNoSuccessRed")
+                currentSay="HighNoSuccessRed"
                 s.rep = s.rep - 2
+            if (s.rep < 4 & flagMin):  # for student change to 6
+                s.rep = 4
+                s.tts.say_wait("MinRep")
+            else:
+                s.rep=max(4, s.rep)
+                s.tts.say_wait(currentSay)
         print("New rep", s.rep)
-        s.rep = min(14, s.rep)
-        s.rep = max(6, s.rep)
         print("rep between 6-14", s.rep)
+
+    # def changeRepAfterAnswerTBA2(self):
+    #     if s.Q1_answer == 'a': #add
+    #         if (s.success_exercise or s.current_count>=s.rep):
+    #             s.rep = s.rep + 2
+    #             if (s.rep > 14):
+    #                 s.rep = 14
+    #                 s.tts.say_wait("MaxRep")
+    #             else:
+    #                 s.tts.say_wait("HighSuccessAdd")
+    #         elif s.current_count / s.rep >= 0.7:
+    #             s.rep = s.rep + 1
+    #             if (s.rep > 14):
+    #                 s.rep = 14
+    #                 s.tts.say_wait("MaxRep")
+    #             else:
+    #                 s.tts.say_wait("HighalmostSuccessAdd")
+    #         else:
+    #             s.tts.say_wait("HighNoSuccessAdd")
+    #     else: #red
+    #         if (s.success_exercise or s.current_count>=s.rep):
+    #             currentSay="HighSuccessRed"
+    #             #s.tts.say_wait("HighSuccessRed")
+    #             s.rep = s.rep -1
+    #         elif s.current_count / s.rep >= 0.7:
+    #             #s.tts.say_wait("HighalmostSuccessRed")
+    #             currentSay="HighalmostSuccessRed"
+    #             s.rep = s.rep - 2
+    #         else:
+    #             #s.tts.say_wait("HighNoSuccessRed")
+    #             currentSay="HighNoSuccessRed"
+    #             s.rep = s.rep - 2
+    #         if (s.rep < 4):  # for student change to 6
+    #             s.rep = 4
+    #             s.tts.say_wait("MinRep")
+    #         else:
+    #             s.tts.say_wait(currentSay)
+    #     print("New rep", s.rep)
+    #     print("rep between 6-14", s.rep)
+
+    # def changeRepTBA3Original(self):
+    #     if (s.success_exercise or s.current_count>=s.rep):
+    #         s.rep = s.rep + 2
+    #         if (s.rep>14):
+    #             s.rep=14
+    #             s.tts.say_wait("MaxRep")
+    #         else:
+    #             s.tts.say_wait("HighSuccess")
+    #         print(str(s.rep) + "HighSuccss-.rep+2")
+    #     elif (s.current_count == s.rep - 1 and s.chance == False):
+    #         s.chance = True  # dont change the rep, give the user one more try
+    #         print(str(s.rep) + "HighSecondChance")
+    #         s.tts.say_wait("HighSecondChance")
+    #     else:
+    #         s.rep = s.rep - int(math.ceil(s.rep - s.current_count) / 2)
+    #         print(str(s.rep) + "round - HighFailure")
+    #         if (s.rep < 4): #for student change to 6
+    #             s.rep = 4
+    #             s.tts.say_wait("MinRep")
+    #         else:
+    #             s.tts.say_wait("HighFailure")
 
     def changeRepTBA3Original(self):
         if (s.success_exercise or s.current_count>=s.rep):
-            s.rep = s.rep + 2
-            s.rep = min(14, s.rep)
+            if (s.rep==14):
+                s.tts.say_wait("MaxRep")
+            else:
+                s.rep = s.rep + 2
+                s.rep=min(14,s.rep)
+                s.tts.say_wait("HighSuccess")
             print(str(s.rep) + "HighSuccss-.rep+2")
-            s.tts.say_wait("HighSuccess")
         elif (s.current_count == s.rep - 1 and s.chance == False):
             s.chance = True  # dont change the rep, give the user one more try
             print(str(s.rep) + "HighSecondChance")
             s.tts.say_wait("HighSecondChance")
         else:
-            s.rep = s.rep - int(math.ceil(s.rep - s.current_count) / 2)
-            print(str(s.rep) + "round - HighFailure")
-            s.tts.say_wait("HighFailure")
-        if (s.rep < 4): #for student change to 6
-            s.rep = 4
+            if (s.rep==4):
+                s.tts.say_wait("MinRep")
+            else:
+                s.rep = s.rep - int(math.ceil(s.rep - s.current_count) / 2)
+                print(str(s.rep) + "round - HighFailure")
+                s.rep=max(4,s.rep)
+                s.tts.say_wait("HighFailure")
 
     def init_robot(self):
         print("Poppy class - init_robot function")
